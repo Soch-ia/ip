@@ -77,7 +77,7 @@ ____________________________________________________________
 ____________________________________________________________
  Got it. I've added this task:
    [T][ ] revise notes
- Now you have 1 tasks in the list.
+ Now you have 1 task in the list.
 ____________________________________________________________
 ____________________________________________________________
  Oops — That task is not done yet, so there is nothing to unmark.
@@ -143,7 +143,7 @@ ____________________________________________________________
 ____________________________________________________________
  Got it. I've added this task:
    [T][ ] borrow book
- Now you have 1 tasks in the list.
+ Now you have 1 task in the list.
 ____________________________________________________________
 ____________________________________________________________
  Got it. I've added this task:
@@ -208,7 +208,7 @@ ____________________________________________________________
 ____________________________________________________________
  Got it. I've added this task:
    [T][ ] submit assignment
- Now you have 1 tasks in the list.
+ Now you have 1 task in the list.
 ____________________________________________________________
 ____________________________________________________________
  Nice! I've marked this task as done:
@@ -271,10 +271,10 @@ ____________________________________________________________
 ____________________________________________________________
  Got it. I've added this task:
    [T][ ] read chapter 3
- Now you have 1 tasks in the list.
+ Now you have 1 task in the list.
 ____________________________________________________________
 ____________________________________________________________
- Oops — I don't know that command yet. Try todo, deadline, event, list, mark, unmark, or bye.
+ Oops — I don't know that command yet. Try todo, deadline, event, list, mark, unmark, delete, or bye.
 ____________________________________________________________
 ____________________________________________________________
  Oops — A deadline needs /by. Try: deadline submit report /by Friday
@@ -311,6 +311,76 @@ ____________________________________________________________
  1.[T][ ] read chapter 3
  2.[D][ ] return book (by: Friday)
  3.[E][ ] group study (from: 2pm to: 4pm)
+____________________________________________________________
+____________________________________________________________
+Bye. Hope to see you again soon!
+____________________________________________________________
+```
+
+## Test case: Delete a task and renumber the list
+
+### Aim
+
+Verify that `delete` removes the selected task, reports its original completed status, updates the task count, and closes the numbering gap in a list backed by a dynamic collection.
+
+### Run command
+
+```sh
+javac src/main/java/*.java && java -cp src/main/java Rene
+```
+
+### Inputs
+
+```text
+todo read book
+deadline return book /by June 6th
+event project meeting /from Aug 6th 2pm /to 4pm
+mark 2
+delete 2
+list
+bye
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+ ____
+|  _ \ ___ _ __   ___
+| |_) / _ \ '_ \ / _ \
+|  _ <  __/ | | |  __/
+|_| \_\___|_| |_|\___|
+Hello! I'm Rene.
+What can I do for you?
+____________________________________________________________
+____________________________________________________________
+ Got it. I've added this task:
+   [T][ ] read book
+ Now you have 1 task in the list.
+____________________________________________________________
+____________________________________________________________
+ Got it. I've added this task:
+   [D][ ] return book (by: June 6th)
+ Now you have 2 tasks in the list.
+____________________________________________________________
+____________________________________________________________
+ Got it. I've added this task:
+   [E][ ] project meeting (from: Aug 6th 2pm to: 4pm)
+ Now you have 3 tasks in the list.
+____________________________________________________________
+____________________________________________________________
+ Nice! I've marked this task as done:
+   [D][X] return book (by: June 6th)
+____________________________________________________________
+____________________________________________________________
+ Noted. I've removed this task:
+   [D][X] return book (by: June 6th)
+ Now you have 2 tasks in the list.
+____________________________________________________________
+____________________________________________________________
+ Here are the tasks in your list:
+ 1.[T][ ] read book
+ 2.[E][ ] project meeting (from: Aug 6th 2pm to: 4pm)
 ____________________________________________________________
 ____________________________________________________________
 Bye. Hope to see you again soon!

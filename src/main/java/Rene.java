@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -5,7 +7,6 @@ import java.util.Scanner;
  */
 public class Rene {
     private static final String DIVIDER = "____________________________________________________________";
-    private static final int MAX_TASKS = 100;
 
     /**
      * Prints a greeting, stores task descriptions, and exits when the user enters {@code bye}.
@@ -25,8 +26,7 @@ public class Rene {
         System.out.println("What can I do for you?");
         System.out.println(DIVIDER);
 
-        Task[] tasks = new Task[MAX_TASKS];
-        int taskCount = 0;
+        List<Task> tasks = new ArrayList<>();
         Scanner scanner = new Scanner(System.in);
         while (scanner.hasNextLine()) {
             String command = scanner.nextLine();
@@ -40,19 +40,21 @@ public class Rene {
 
             try {
                 if (command.equals("list")) {
-                    printTasks(tasks, taskCount);
+                    printTasks(tasks);
                 } else if (isCommand(command, "mark")) {
-                    markTask(command, tasks, taskCount);
+                    markTask(command, tasks);
                 } else if (isCommand(command, "unmark")) {
-                    unmarkTask(command, tasks, taskCount);
+                    unmarkTask(command, tasks);
+                } else if (isCommand(command, "delete")) {
+                    deleteTask(command, tasks);
                 } else if (isCommand(command, "todo")) {
-                    taskCount = addTodo(command, tasks, taskCount);
+                    addTodo(command, tasks);
                 } else if (isCommand(command, "deadline")) {
-                    taskCount = addDeadline(command, tasks, taskCount);
+                    addDeadline(command, tasks);
                 } else if (isCommand(command, "event")) {
-                    taskCount = addEvent(command, tasks, taskCount);
+                    addEvent(command, tasks);
                 } else {
-                    throw new ReneException("I don't know that command yet. Try todo, deadline, event, list, mark, unmark, or bye.");
+                    throw new ReneException("I don't know that command yet. Try todo, deadline, event, list, mark, unmark, delete, or bye.");
                 }
             } catch (ReneException exception) {
                 System.out.println(" Oops — " + exception.getMessage());
@@ -75,16 +77,16 @@ public class Rene {
     /**
      * Creates a todo after validating its description.
      */
-    private static int addTodo(String command, Task[] tasks, int taskCount) throws ReneException {
+    private static void addTodo(String command, List<Task> tasks) throws ReneException {
         String description = command.substring("todo".length()).trim();
         requireText(description, "A todo needs a description. Try: todo read chapter 3");
-        return addTask(new Todo(description), tasks, taskCount);
+        addTask(new Todo(description), tasks);
     }
 
     /**
      * Creates a deadline after validating its description and due date.
      */
-    private static int addDeadline(String command, Task[] tasks, int taskCount) throws ReneException {
+    private static void addDeadline(String command, List<Task> tasks) throws ReneException {
         String details = command.substring("deadline".length()).trim();
         int byIndex = details.indexOf(" /by ");
         if (byIndex < 0) {
@@ -94,13 +96,13 @@ public class Rene {
         String by = details.substring(byIndex + " /by ".length()).trim();
         requireText(description, "A deadline needs a description before /by.");
         requireText(by, "A deadline needs a due date after /by.");
-        return addTask(new Deadline(description, by), tasks, taskCount);
+        addTask(new Deadline(description, by), tasks);
     }
 
     /**
      * Creates an event after validating its description, start, and end values.
      */
-    private static int addEvent(String command, Task[] tasks, int taskCount) throws ReneException {
+    private static void addEvent(String command, List<Task> tasks) throws ReneException {
         String details = command.substring("event".length()).trim();
         int fromIndex = details.indexOf(" /from ");
         int toIndex = details.indexOf(" /to ");
@@ -113,7 +115,7 @@ public class Rene {
         requireText(description, "An event needs a description before /from.");
         requireText(from, "An event needs a start time after /from.");
         requireText(to, "An event needs an end time after /to.");
-        return addTask(new Event(description, from, to), tasks, taskCount);
+        addTask(new Event(description, from, to), tasks);
     }
 
     /**
@@ -129,56 +131,57 @@ public class Rene {
      * Stores a task and prints confirmation together with the new task count.
      *
      * @param task the task to add
-     * @param tasks the array that stores all task types as {@link Task} objects
-     * @param taskCount the number of tasks currently stored
-     * @return the updated number of stored tasks
+     * @param tasks the dynamic list that stores all task types as {@link Task} objects
      */
-    private static int addTask(Task task, Task[] tasks, int taskCount) throws ReneException {
-        if (taskCount == MAX_TASKS) {
-            throw new ReneException("My task list is full. Please make room before adding another task.");
-        }
-        tasks[taskCount] = task;
-        int updatedTaskCount = taskCount + 1;
+    private static void addTask(Task task, List<Task> tasks) {
+        tasks.add(task);
         System.out.println(" Got it. I've added this task:");
         System.out.println("   " + task);
-        System.out.println(" Now you have " + updatedTaskCount + " tasks in the list.");
-        return updatedTaskCount;
+        printTaskCount(tasks.size());
     }
 
     /**
      * Prints every stored task with a number starting at one.
      *
-     * @param tasks the array that holds task descriptions
-     * @param taskCount the number of task descriptions currently stored
+     * @param tasks the dynamic list that holds task descriptions
      */
-    private static void printTasks(Task[] tasks, int taskCount) {
+    private static void printTasks(List<Task> tasks) {
         System.out.println(" Here are the tasks in your list:");
-        for (int index = 0; index < taskCount; index++) {
-            System.out.println(" " + (index + 1) + "." + tasks[index]);
+        for (int index = 0; index < tasks.size(); index++) {
+            System.out.println(" " + (index + 1) + "." + tasks.get(index));
         }
+    }
+
+    /**
+     * Prints the current task count with grammatically correct singular or plural wording.
+     *
+     * @param taskCount the number of tasks currently stored
+     */
+    private static void printTaskCount(int taskCount) {
+        String taskWord = taskCount == 1 ? "task" : "tasks";
+        System.out.println(" Now you have " + taskCount + " " + taskWord + " in the list.");
     }
 
     /**
      * Marks the task identified by a one-based task number as completed.
      *
      * @param command the full {@code mark} command entered by the user
-     * @param tasks the array that holds task descriptions and their completion status
-     * @param taskCount the number of tasks currently stored
+     * @param tasks the dynamic list that holds task descriptions and their completion status
      */
-    private static void markTask(String command, Task[] tasks, int taskCount) throws ReneException {
+    private static void markTask(String command, List<Task> tasks) throws ReneException {
         try {
             int taskNumber = Integer.parseInt(command.substring("mark".length()).trim());
             int taskIndex = taskNumber - 1;
-            if (taskIndex < 0 || taskIndex >= taskCount) {
+            if (taskIndex < 0 || taskIndex >= tasks.size()) {
                 throw new ReneException("That task number is not in the list yet.");
             }
-            if (tasks[taskIndex].isDone()) {
+            if (tasks.get(taskIndex).isDone()) {
                 throw new ReneException("That task is already done — no need to mark it twice.");
             }
 
-            tasks[taskIndex].markAsDone();
+            tasks.get(taskIndex).markAsDone();
             System.out.println(" Nice! I've marked this task as done:");
-            System.out.println("   " + tasks[taskIndex]);
+            System.out.println("   " + tasks.get(taskIndex));
         } catch (NumberFormatException exception) {
             throw new ReneException("Please give me a whole-number task position, like: mark 1");
         }
@@ -188,25 +191,47 @@ public class Rene {
      * Marks the task identified by a one-based task number as incomplete.
      *
      * @param command the full {@code unmark} command entered by the user
-     * @param tasks the array that holds task descriptions and their completion status
-     * @param taskCount the number of tasks currently stored
+     * @param tasks the dynamic list that holds task descriptions and their completion status
      */
-    private static void unmarkTask(String command, Task[] tasks, int taskCount) throws ReneException {
+    private static void unmarkTask(String command, List<Task> tasks) throws ReneException {
         try {
             int taskNumber = Integer.parseInt(command.substring("unmark".length()).trim());
             int taskIndex = taskNumber - 1;
-            if (taskIndex < 0 || taskIndex >= taskCount) {
+            if (taskIndex < 0 || taskIndex >= tasks.size()) {
                 throw new ReneException("That task number is not in the list yet.");
             }
-            if (!tasks[taskIndex].isDone()) {
+            if (!tasks.get(taskIndex).isDone()) {
                 throw new ReneException("That task is not done yet, so there is nothing to unmark.");
             }
 
-            tasks[taskIndex].unmarkAsDone();
+            tasks.get(taskIndex).unmarkAsDone();
             System.out.println(" OK, I've marked this task as not done yet:");
-            System.out.println("   " + tasks[taskIndex]);
+            System.out.println("   " + tasks.get(taskIndex));
         } catch (NumberFormatException exception) {
             throw new ReneException("Please give me a whole-number task position, like: unmark 1");
+        }
+    }
+
+    /**
+     * Removes the task identified by a one-based task number.
+     *
+     * @param command the full {@code delete} command entered by the user
+     * @param tasks the dynamic list that holds all tasks
+     */
+    private static void deleteTask(String command, List<Task> tasks) throws ReneException {
+        try {
+            int taskNumber = Integer.parseInt(command.substring("delete".length()).trim());
+            int taskIndex = taskNumber - 1;
+            if (taskIndex < 0 || taskIndex >= tasks.size()) {
+                throw new ReneException("That task number is not in the list yet.");
+            }
+
+            Task removedTask = tasks.remove(taskIndex);
+            System.out.println(" Noted. I've removed this task:");
+            System.out.println("   " + removedTask);
+            printTaskCount(tasks.size());
+        } catch (NumberFormatException exception) {
+            throw new ReneException("Please give me a whole-number task position, like: delete 1");
         }
     }
 }
