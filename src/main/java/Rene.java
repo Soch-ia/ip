@@ -39,18 +39,48 @@ public class Rene {
             }
 
             if (command.equals("list")) {
-                printTasks(tasks, taskCount);
+                printTasks(tasks, taskCount);dea
             } else if (command.startsWith("mark ")) {
                 markTask(command, tasks, taskCount);
             } else if (command.startsWith("unmark ")) {
                 unmarkTask(command, tasks, taskCount);
+            } else if (command.startsWith("todo ")) {
+                String description = command.substring("todo ".length());
+                taskCount = addTask(new Todo(description), tasks, taskCount);
+            } else if (command.startsWith("deadline ")) {
+                int byIndex = command.indexOf(" /by ");
+                String description = command.substring("deadline ".length(), byIndex);
+                String by = command.substring(byIndex + " /by ".length());
+                taskCount = addTask(new Deadline(description, by), tasks, taskCount);
+            } else if (command.startsWith("event ")) {
+                int fromIndex = command.indexOf(" /from ");
+                int toIndex = command.indexOf(" /to ");
+                String description = command.substring("event ".length(), fromIndex);
+                String from = command.substring(fromIndex + " /from ".length(), toIndex);
+                String to = command.substring(toIndex + " /to ".length());
+                taskCount = addTask(new Event(description, from, to), tasks, taskCount);
             } else {
-                tasks[taskCount] = new Task(command);
-                taskCount++;
-                System.out.println(" added: " + tasks[taskCount - 1]);
+                taskCount = addTask(new Todo(command), tasks, taskCount);
             }
             System.out.println(DIVIDER);
         }
+    }
+
+    /**
+     * Stores a task and prints confirmation together with the new task count.
+     *
+     * @param task the task to add
+     * @param tasks the array that stores all task types as {@link Task} objects
+     * @param taskCount the number of tasks currently stored
+     * @return the updated number of stored tasks
+     */
+    private static int addTask(Task task, Task[] tasks, int taskCount) {
+        tasks[taskCount] = task;
+        int updatedTaskCount = taskCount + 1;
+        System.out.println(" Got it. I've added this task:");
+        System.out.println("   " + task);
+        System.out.println(" Now you have " + updatedTaskCount + " tasks in the list.");
+        return updatedTaskCount;
     }
 
     /**

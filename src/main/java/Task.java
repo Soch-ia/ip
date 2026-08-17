@@ -1,7 +1,7 @@
 /**
- * Represents one task and whether it has been completed.
+ * Represents the shared description and completion status of a task.
  */
-public class Task {
+public abstract class Task {
     private final String description;
     private boolean isDone;
 
@@ -39,12 +39,19 @@ public class Task {
     }
 
     /**
+     * Returns the letter used to identify this task's type.
+     *
+     * @return the task type icon
+     */
+    protected abstract String getTypeIcon();
+
+    /**
      * Returns this task in the chatbot's display format.
      *
-     * @return the completion status followed by the task description
+     * @return the task type, completion status, and description
      */
     @Override
     public String toString() {
-        return "[" + getStatusIcon() + "] " + description;
+        return "[" + getTypeIcon() + "][" + getStatusIcon() + "] " + description;
     }
 }
