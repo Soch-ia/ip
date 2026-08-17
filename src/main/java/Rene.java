@@ -25,7 +25,7 @@ public class Rene {
         System.out.println("What can I do for you?");
         System.out.println(DIVIDER);
 
-        String[] tasks = new String[MAX_TASKS];
+        Task[] tasks = new Task[MAX_TASKS];
         int taskCount = 0;
         Scanner scanner = new Scanner(System.in);
         while (true) {
@@ -40,10 +40,14 @@ public class Rene {
 
             if (command.equals("list")) {
                 printTasks(tasks, taskCount);
+            } else if (command.startsWith("mark ")) {
+                markTask(command, tasks, taskCount);
+            } else if (command.startsWith("unmark ")) {
+                unmarkTask(command, tasks, taskCount);
             } else {
-                tasks[taskCount] = command;
+                tasks[taskCount] = new Task(command);
                 taskCount++;
-                System.out.println(" added: " + command);
+                System.out.println(" added: " + tasks[taskCount - 1]);
             }
             System.out.println(DIVIDER);
         }
@@ -55,9 +59,58 @@ public class Rene {
      * @param tasks the array that holds task descriptions
      * @param taskCount the number of task descriptions currently stored
      */
-    private static void printTasks(String[] tasks, int taskCount) {
+    private static void printTasks(Task[] tasks, int taskCount) {
+        System.out.println(" Here are the tasks in your list:");
         for (int index = 0; index < taskCount; index++) {
-            System.out.println(" " + (index + 1) + ". " + tasks[index]);
+            System.out.println(" " + (index + 1) + "." + tasks[index]);
+        }
+    }
+
+    /**
+     * Marks the task identified by a one-based task number as completed.
+     *
+     * @param command the full {@code mark} command entered by the user
+     * @param tasks the array that holds task descriptions and their completion status
+     * @param taskCount the number of tasks currently stored
+     */
+    private static void markTask(String command, Task[] tasks, int taskCount) {
+        try {
+            int taskNumber = Integer.parseInt(command.substring("mark ".length()));
+            int taskIndex = taskNumber - 1;
+            if (taskIndex < 0 || taskIndex >= taskCount) {
+                System.out.println(" Please enter a task number from the list.");
+                return;
+            }
+
+            tasks[taskIndex].markAsDone();
+            System.out.println(" Nice! I've marked this task as done:");
+            System.out.println("   " + tasks[taskIndex]);
+        } catch (NumberFormatException exception) {
+            System.out.println(" Please enter a valid task number.");
+        }
+    }
+
+    /**
+     * Marks the task identified by a one-based task number as incomplete.
+     *
+     * @param command the full {@code unmark} command entered by the user
+     * @param tasks the array that holds task descriptions and their completion status
+     * @param taskCount the number of tasks currently stored
+     */
+    private static void unmarkTask(String command, Task[] tasks, int taskCount) {
+        try {
+            int taskNumber = Integer.parseInt(command.substring("unmark ".length()));
+            int taskIndex = taskNumber - 1;
+            if (taskIndex < 0 || taskIndex >= taskCount) {
+                System.out.println(" Please enter a task number from the list.");
+                return;
+            }
+
+            tasks[taskIndex].unmarkAsDone();
+            System.out.println(" OK, I've marked this task as not done yet:");
+            System.out.println("   " + tasks[taskIndex]);
+        } catch (NumberFormatException exception) {
+            System.out.println(" Please enter a valid task number.");
         }
     }
 }
