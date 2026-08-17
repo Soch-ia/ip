@@ -3,7 +3,7 @@
  */
 public abstract class Task {
     private final String description;
-    private boolean isDone;
+    private TaskStatus status;
 
     /**
      * Creates an incomplete task with the given description.
@@ -12,7 +12,7 @@ public abstract class Task {
      */
     public Task(String description) {
         this.description = description;
-        this.isDone = false;
+        this.status = TaskStatus.NOT_DONE;
     }
 
     /**
@@ -21,7 +21,7 @@ public abstract class Task {
      * @return {@code X} when completed, or a space when incomplete
      */
     public String getStatusIcon() {
-        return isDone ? "X" : " ";
+        return status.getIcon();
     }
 
     /**
@@ -30,29 +30,29 @@ public abstract class Task {
      * @return {@code true} if this task is marked as done
      */
     public boolean isDone() {
-        return isDone;
+        return status == TaskStatus.DONE;
     }
 
     /**
      * Marks this task as completed.
      */
     public void markAsDone() {
-        isDone = true;
+        status = TaskStatus.DONE;
     }
 
     /**
      * Marks this task as incomplete.
      */
     public void unmarkAsDone() {
-        isDone = false;
+        status = TaskStatus.NOT_DONE;
     }
 
     /**
-     * Returns the letter used to identify this task's type.
+     * Returns the type of this task.
      *
-     * @return the task type icon
+     * @return the task type
      */
-    protected abstract String getTypeIcon();
+    protected abstract TaskType getTaskType();
 
     /**
      * Returns this task in the chatbot's display format.
@@ -61,6 +61,6 @@ public abstract class Task {
      */
     @Override
     public String toString() {
-        return "[" + getTypeIcon() + "][" + getStatusIcon() + "] " + description;
+        return "[" + getTaskType().getIcon() + "][" + getStatusIcon() + "] " + description;
     }
 }

@@ -32,29 +32,27 @@ public class Rene {
             String command = scanner.nextLine();
             System.out.println(DIVIDER);
 
-            if (command.equals("bye")) {
+            CommandType commandType = CommandType.fromInput(command);
+            if (command.equals(CommandType.BYE.getKeyword())) {
                 System.out.println("Bye. Hope to see you again soon!");
                 System.out.println(DIVIDER);
                 break;
             }
 
             try {
-                if (command.equals("list")) {
-                    printTasks(tasks);
-                } else if (isCommand(command, "mark")) {
-                    markTask(command, tasks);
-                } else if (isCommand(command, "unmark")) {
-                    unmarkTask(command, tasks);
-                } else if (isCommand(command, "delete")) {
-                    deleteTask(command, tasks);
-                } else if (isCommand(command, "todo")) {
-                    addTodo(command, tasks);
-                } else if (isCommand(command, "deadline")) {
-                    addDeadline(command, tasks);
-                } else if (isCommand(command, "event")) {
-                    addEvent(command, tasks);
-                } else {
+                if (commandType == null) {
                     throw new ReneException("I don't know that command yet. Try todo, deadline, event, list, mark, unmark, delete, or bye.");
+                }
+                switch (commandType) {
+                case LIST -> printTasks(tasks);
+                case MARK -> markTask(command, tasks);
+                case UNMARK -> unmarkTask(command, tasks);
+                case DELETE -> deleteTask(command, tasks);
+                case TODO -> addTodo(command, tasks);
+                case DEADLINE -> addDeadline(command, tasks);
+                case EVENT -> addEvent(command, tasks);
+                case BYE -> throw new ReneException(
+                        "I don't know that command yet. Try todo, deadline, event, list, mark, unmark, delete, or bye.");
                 }
             } catch (ReneException exception) {
                 System.out.println(" Oops — " + exception.getMessage());
@@ -64,21 +62,10 @@ public class Rene {
     }
 
     /**
-     * Checks whether a line is a command by itself or followed by a space and arguments.
-     *
-     * @param command the line entered by the user
-     * @param keyword the command keyword to check
-     * @return whether the line starts with the complete command keyword
-     */
-    private static boolean isCommand(String command, String keyword) {
-        return command.equals(keyword) || command.startsWith(keyword + " ");
-    }
-
-    /**
      * Creates a todo after validating its description.
      */
     private static void addTodo(String command, List<Task> tasks) throws ReneException {
-        String description = command.substring("todo".length()).trim();
+        String description = command.substring(CommandType.TODO.getKeyword().length()).trim();
         requireText(description, "A todo needs a description. Try: todo read chapter 3");
         addTask(new Todo(description), tasks);
     }
@@ -87,13 +74,14 @@ public class Rene {
      * Creates a deadline after validating its description and due date.
      */
     private static void addDeadline(String command, List<Task> tasks) throws ReneException {
-        String details = command.substring("deadline".length()).trim();
-        int byIndex = details.indexOf(" /by ");
+        String details = command.substring(CommandType.DEADLINE.getKeyword().length()).trim();
+        String byMarker = ArgumentMarker.BY.getText();
+        int byIndex = details.indexOf(byMarker);
         if (byIndex < 0) {
             throw new ReneException("A deadline needs /by. Try: deadline submit report /by Friday");
         }
         String description = details.substring(0, byIndex).trim();
-        String by = details.substring(byIndex + " /by ".length()).trim();
+        String by = details.substring(byIndex + byMarker.length()).trim();
         requireText(description, "A deadline needs a description before /by.");
         requireText(by, "A deadline needs a due date after /by.");
         addTask(new Deadline(description, by), tasks);
@@ -103,15 +91,17 @@ public class Rene {
      * Creates an event after validating its description, start, and end values.
      */
     private static void addEvent(String command, List<Task> tasks) throws ReneException {
-        String details = command.substring("event".length()).trim();
-        int fromIndex = details.indexOf(" /from ");
-        int toIndex = details.indexOf(" /to ");
+        String details = command.substring(CommandType.EVENT.getKeyword().length()).trim();
+        String fromMarker = ArgumentMarker.FROM.getText();
+        String toMarker = ArgumentMarker.TO.getText();
+        int fromIndex = details.indexOf(fromMarker);
+        int toIndex = details.indexOf(toMarker);
         if (fromIndex < 0 || toIndex < 0 || toIndex < fromIndex) {
             throw new ReneException("An event needs /from and /to. Try: event study group /from 2pm /to 4pm");
         }
         String description = details.substring(0, fromIndex).trim();
-        String from = details.substring(fromIndex + " /from ".length(), toIndex).trim();
-        String to = details.substring(toIndex + " /to ".length()).trim();
+        String from = details.substring(fromIndex + fromMarker.length(), toIndex).trim();
+        String to = details.substring(toIndex + toMarker.length()).trim();
         requireText(description, "An event needs a description before /from.");
         requireText(from, "An event needs a start time after /from.");
         requireText(to, "An event needs an end time after /to.");
@@ -170,7 +160,7 @@ public class Rene {
      */
     private static void markTask(String command, List<Task> tasks) throws ReneException {
         try {
-            int taskNumber = Integer.parseInt(command.substring("mark".length()).trim());
+            int taskNumber = Integer.parseInt(command.substring(CommandType.MARK.getKeyword().length()).trim());
             int taskIndex = taskNumber - 1;
             if (taskIndex < 0 || taskIndex >= tasks.size()) {
                 throw new ReneException("That task number is not in the list yet.");
@@ -195,7 +185,7 @@ public class Rene {
      */
     private static void unmarkTask(String command, List<Task> tasks) throws ReneException {
         try {
-            int taskNumber = Integer.parseInt(command.substring("unmark".length()).trim());
+            int taskNumber = Integer.parseInt(command.substring(CommandType.UNMARK.getKeyword().length()).trim());
             int taskIndex = taskNumber - 1;
             if (taskIndex < 0 || taskIndex >= tasks.size()) {
                 throw new ReneException("That task number is not in the list yet.");
@@ -220,7 +210,7 @@ public class Rene {
      */
     private static void deleteTask(String command, List<Task> tasks) throws ReneException {
         try {
-            int taskNumber = Integer.parseInt(command.substring("delete".length()).trim());
+            int taskNumber = Integer.parseInt(command.substring(CommandType.DELETE.getKeyword().length()).trim());
             int taskIndex = taskNumber - 1;
             if (taskIndex < 0 || taskIndex >= tasks.size()) {
                 throw new ReneException("That task number is not in the list yet.");
