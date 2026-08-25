@@ -13,7 +13,7 @@ public enum ArgumentMarker {
     /**
      * Creates a command-field marker.
      *
-     * @param text the exact text used to separate the command fields
+     * @param text the exact text used to separate the command fields.
      */
     ArgumentMarker(String text) {
         this.text = text;
@@ -22,7 +22,7 @@ public enum ArgumentMarker {
     /**
      * Returns the text of this command-field marker.
      *
-     * @return the marker text
+     * @return the marker text.
      */
     public String getText() {
         return text;

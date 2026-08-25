@@ -16,8 +16,8 @@ public class Deadline extends Task {
     /**
      * Creates an incomplete deadline task.
      *
-     * @param description the text describing the task
-     * @param by the date by which the task must be completed
+     * @param description the text describing the task.
+     * @param by the date by which the task must be completed.
      */
     public Deadline(String description, LocalDate by) {
         super(description);
@@ -32,7 +32,7 @@ public class Deadline extends Task {
     /**
      * Returns the date by which this task must be completed.
      *
-     * @return the deadline value
+     * @return the deadline value.
      */
     public LocalDate getBy() {
         return by;
@@ -41,7 +41,7 @@ public class Deadline extends Task {
     /**
      * Returns the deadline in the chatbot's display format.
      *
-     * @return the basic task details followed by the deadline
+     * @return the basic task details followed by the deadline.
      */
     @Override
     public String toString() {

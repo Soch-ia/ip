@@ -21,7 +21,7 @@ public class TaskList {
     /**
      * Creates a task list containing the supplied tasks.
      *
-     * @param tasks the initial tasks
+     * @param tasks the initial tasks.
      */
     public TaskList(List<Task> tasks) {
         this.tasks = new ArrayList<>(tasks);
@@ -30,7 +30,7 @@ public class TaskList {
     /**
      * Adds a task to the end of the list.
      *
-     * @param task the task to add
+     * @param task the task to add.
      */
     public void add(Task task) {
         tasks.add(task);
@@ -39,9 +39,9 @@ public class TaskList {
     /**
      * Marks a task as completed.
      *
-     * @param taskNumber the one-based position of the task
-     * @return the task whose status changed
-     * @throws ReneException if the task number is invalid or the task is already done
+     * @param taskNumber the one-based position of the task.
+     * @return the task whose status changed.
+     * @throws ReneException if the task number is invalid or the task is already done.
      */
     public Task mark(int taskNumber) throws ReneException {
         Task task = getByTaskNumber(taskNumber);
@@ -56,9 +56,9 @@ public class TaskList {
     /**
      * Marks a task as incomplete.
      *
-     * @param taskNumber the one-based position of the task
-     * @return the task whose status changed
-     * @throws ReneException if the task number is invalid or the task is already incomplete
+     * @param taskNumber the one-based position of the task.
+     * @return the task whose status changed.
+     * @throws ReneException if the task number is invalid or the task is already incomplete.
      */
     public Task unmark(int taskNumber) throws ReneException {
         Task task = getByTaskNumber(taskNumber);
@@ -73,9 +73,9 @@ public class TaskList {
     /**
      * Removes a task from the list.
      *
-     * @param taskNumber the one-based position of the task
-     * @return the removed task
-     * @throws ReneException if the task number is invalid
+     * @param taskNumber the one-based position of the task.
+     * @return the removed task.
+     * @throws ReneException if the task number is invalid.
      */
     public Task remove(int taskNumber) throws ReneException {
         int taskIndex = getTaskIndex(taskNumber);
@@ -85,7 +85,7 @@ public class TaskList {
     /**
      * Returns a snapshot of the tasks in their current order.
      *
-     * @return an unmodifiable copy of the task list
+     * @return an unmodifiable copy of the task list.
      */
     public List<Task> getTasks() {
         return List.copyOf(tasks);
@@ -94,7 +94,7 @@ public class TaskList {
     /**
      * Returns the number of tasks in the list.
      *
-     * @return the task count
+     * @return the task count.
      */
     public int size() {
         return tasks.size();
@@ -103,7 +103,7 @@ public class TaskList {
     /**
      * Returns whether the list contains no tasks.
      *
-     * @return {@code true} if the list is empty
+     * @return {@code true} if the list is empty.
      */
     public boolean isEmpty() {
         return tasks.isEmpty();

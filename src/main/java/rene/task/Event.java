@@ -10,9 +10,9 @@ public class Event extends Task {
     /**
      * Creates an incomplete event task.
      *
-     * @param description the text describing the task
-     * @param from the event's starting date or time
-     * @param to the event's ending date or time
+     * @param description the text describing the task.
+     * @param from the event's starting date or time.
+     * @param to the event's ending date or time.
      */
     public Event(String description, String from, String to) {
         super(description);
@@ -28,7 +28,7 @@ public class Event extends Task {
     /**
      * Returns the event's starting date or time.
      *
-     * @return the event start value
+     * @return the event start value.
      */
     public String getFrom() {
         return from;
@@ -37,7 +37,7 @@ public class Event extends Task {
     /**
      * Returns the event's ending date or time.
      *
-     * @return the event end value
+     * @return the event end value.
      */
     public String getTo() {
         return to;
@@ -46,7 +46,7 @@ public class Event extends Task {
     /**
      * Returns the event in the chatbot's display format.
      *
-     * @return the basic task details followed by the start and end values
+     * @return the basic task details followed by the start and end values.
      */
     @Override
     public String toString() {

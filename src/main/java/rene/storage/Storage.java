@@ -26,7 +26,7 @@ public class Storage {
     /**
      * Creates storage that reads from and writes to the given file.
      *
-     * @param filePath the path of the task data file
+     * @param filePath the path of the task data file.
      */
     public Storage(Path filePath) {
         this.filePath = filePath;
@@ -35,8 +35,8 @@ public class Storage {
     /**
      * Loads all saved tasks, creating an empty data file first when necessary.
      *
-     * @return the tasks reconstructed from the data file
-     * @throws ReneException if the file cannot be read or contains invalid data
+     * @return the tasks reconstructed from the data file.
+     * @throws ReneException if the file cannot be read or contains invalid data.
      */
     public List<Task> loadTasks() throws ReneException {
         try {
@@ -58,8 +58,8 @@ public class Storage {
     /**
      * Replaces the data file contents with the current task list.
      *
-     * @param tasks the tasks to save
-     * @throws ReneException if the file cannot be written
+     * @param tasks the tasks to save.
+     * @throws ReneException if the file cannot be written.
      */
     public void saveTasks(List<Task> tasks) throws ReneException {
         List<String> lines = new ArrayList<>();
@@ -98,11 +98,11 @@ public class Storage {
                 + FIELD_SEPARATOR + task.getDescription();
 
         return switch (task.getTaskType()) {
-        case TODO -> basicFields;
-        case DEADLINE -> basicFields + FIELD_SEPARATOR + ((Deadline) task).getBy();
-        case EVENT -> basicFields
-                + FIELD_SEPARATOR + ((Event) task).getFrom()
-                + FIELD_SEPARATOR + ((Event) task).getTo();
+            case TODO -> basicFields;
+            case DEADLINE -> basicFields + FIELD_SEPARATOR + ((Deadline) task).getBy();
+            case EVENT -> basicFields
+                    + FIELD_SEPARATOR + ((Event) task).getFrom()
+                    + FIELD_SEPARATOR + ((Event) task).getTo();
         };
     }
 
@@ -116,10 +116,10 @@ public class Storage {
         }
 
         Task task = switch (fields[0]) {
-        case "T" -> parseTodo(fields, lineNumber);
-        case "D" -> parseDeadline(fields, lineNumber);
-        case "E" -> parseEvent(fields, lineNumber);
-        default -> throw invalidData(lineNumber);
+            case "T" -> parseTodo(fields, lineNumber);
+            case "D" -> parseDeadline(fields, lineNumber);
+            case "E" -> parseEvent(fields, lineNumber);
+            default -> throw invalidData(lineNumber);
         };
 
         if (fields[1].equals("1")) {

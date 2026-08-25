@@ -18,7 +18,7 @@ public enum CommandType {
     /**
      * Creates a command type with its input keyword.
      *
-     * @param keyword the word that begins this command
+     * @param keyword the word that begins this command.
      */
     CommandType(String keyword) {
         this.keyword = keyword;
@@ -27,7 +27,7 @@ public enum CommandType {
     /**
      * Returns the command word entered by the user.
      *
-     * @return the command keyword
+     * @return the command keyword.
      */
     public String getKeyword() {
         return keyword;
@@ -36,8 +36,8 @@ public enum CommandType {
     /**
      * Returns whether this command occupies the whole line or is followed by arguments.
      *
-     * @param input the line entered by the user
-     * @return whether the input begins with this complete command keyword
+     * @param input the line entered by the user.
+     * @return whether the input begins with this complete command keyword.
      */
     public boolean matches(String input) {
         return input.equals(keyword) || input.startsWith(keyword + " ");
@@ -46,8 +46,8 @@ public enum CommandType {
     /**
      * Finds the command type represented by an input line.
      *
-     * @param input the line entered by the user
-     * @return the matching command type, or {@code null} when none matches
+     * @param input the line entered by the user.
+     * @return the matching command type, or {@code null} when none matches.
      */
     public static CommandType fromInput(String input) {
         for (CommandType commandType : values()) {
