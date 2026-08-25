@@ -1,3 +1,5 @@
+package rene.task;
+
 /**
  * Represents a task that takes place between a start and end date or time.
  */
@@ -19,7 +21,7 @@ public class Event extends Task {
     }
 
     @Override
-    protected TaskType getTaskType() {
+    public TaskType getTaskType() {
         return TaskType.EVENT;
     }
 

@@ -1,3 +1,5 @@
+package rene.exception;
+
 /**
  * Represents an error caused by a command that Rene cannot process.
  */

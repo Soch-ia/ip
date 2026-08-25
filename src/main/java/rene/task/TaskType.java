@@ -1,3 +1,5 @@
+package rene.task;
+
 /**
  * Represents the supported task categories and their display icons.
  */

@@ -1,3 +1,5 @@
+package rene.task;
+
 /**
  * Represents whether a task has been completed.
  */

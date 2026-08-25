@@ -1,5 +1,9 @@
+package rene.task;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import rene.exception.ReneException;
 
 /**
  * Manages the tasks in Rene's current task list.

@@ -1,4 +1,15 @@
+package rene;
+
 import java.nio.file.Path;
+
+import rene.command.CommandType;
+import rene.command.ParsedCommand;
+import rene.command.Parser;
+import rene.exception.ReneException;
+import rene.storage.Storage;
+import rene.task.Task;
+import rene.task.TaskList;
+import rene.ui.Ui;
 
 /**
  * Starts and coordinates the Rene chatbot application.
