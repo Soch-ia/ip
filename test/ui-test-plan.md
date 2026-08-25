@@ -53,7 +53,7 @@ javac src/main/java/*.java && rm -f _temp/ui-test-persistence.txt && java -cp sr
 
 ```text
 todo read book
-deadline return book /by June 6th
+deadline return book /by 2026-06-06
 event project meeting /from Aug 6th 2pm /to 4pm
 mark 2
 unmark 2
@@ -81,7 +81,7 @@ ____________________________________________________________
 ____________________________________________________________
 ____________________________________________________________
  Got it. I've added this task:
-   [D][ ] return book (by: June 6th)
+   [D][ ] return book (by: Jun 6 2026)
  Now you have 2 tasks in the list.
 ____________________________________________________________
 ____________________________________________________________
@@ -91,11 +91,11 @@ ____________________________________________________________
 ____________________________________________________________
 ____________________________________________________________
  Nice! I've marked this task as done:
-   [D][X] return book (by: June 6th)
+   [D][X] return book (by: Jun 6 2026)
 ____________________________________________________________
 ____________________________________________________________
  OK, I've marked this task as not done yet:
-   [D][ ] return book (by: June 6th)
+   [D][ ] return book (by: Jun 6 2026)
 ____________________________________________________________
 ____________________________________________________________
  Nice! I've marked this task as done:
@@ -145,7 +145,7 @@ What can I do for you?
 ____________________________________________________________
 ____________________________________________________________
  Here are the tasks in your list:
- 1.[D][ ] return book (by: June 6th)
+ 1.[D][ ] return book (by: Jun 6 2026)
  2.[E][X] project meeting (from: Aug 6th 2pm to: 4pm)
 ____________________________________________________________
 ____________________________________________________________
@@ -225,7 +225,7 @@ ____________________________________________________________
 
 ### Aim
 
-Verify that todos, deadlines, and events are stored polymorphically and displayed with their type-specific details. Also verify that date and time values are kept as strings.
+Verify that todos, deadlines, and events are stored polymorphically and displayed with their type-specific details.
 
 ### Run command
 
@@ -237,9 +237,9 @@ javac src/main/java/*.java && rm -f _temp/ui-test-data.txt && java -cp src/main/
 
 ```text
 todo borrow book
-deadline return book /by Sunday
+deadline return book /by 2026-08-30
 event project meeting /from Mon 2pm /to 4pm
-deadline do homework /by no idea :-p
+deadline do homework /by 2026-09-01
 list
 bye
 ```
@@ -263,7 +263,7 @@ ____________________________________________________________
 ____________________________________________________________
 ____________________________________________________________
  Got it. I've added this task:
-   [D][ ] return book (by: Sunday)
+   [D][ ] return book (by: Aug 30 2026)
  Now you have 2 tasks in the list.
 ____________________________________________________________
 ____________________________________________________________
@@ -273,15 +273,15 @@ ____________________________________________________________
 ____________________________________________________________
 ____________________________________________________________
  Got it. I've added this task:
-   [D][ ] do homework (by: no idea :-p)
+   [D][ ] do homework (by: Sep 1 2026)
  Now you have 4 tasks in the list.
 ____________________________________________________________
 ____________________________________________________________
  Here are the tasks in your list:
  1.[T][ ] borrow book
- 2.[D][ ] return book (by: Sunday)
+ 2.[D][ ] return book (by: Aug 30 2026)
  3.[E][ ] project meeting (from: Mon 2pm to: 4pm)
- 4.[D][ ] do homework (by: no idea :-p)
+ 4.[D][ ] do homework (by: Sep 1 2026)
 ____________________________________________________________
 ____________________________________________________________
 Bye. Hope to see you again soon!
@@ -358,7 +358,7 @@ todo
 todo read chapter 3
 blah
 deadline return book
-deadline return book /by Friday
+deadline return book /by 2026-08-28
 event group study /from 2pm /to 4pm
 event movie /from 7pm
 mark nope
@@ -393,11 +393,11 @@ ____________________________________________________________
  Oops — I don't know that command yet. Try todo, deadline, event, list, mark, unmark, delete, or bye.
 ____________________________________________________________
 ____________________________________________________________
- Oops — A deadline needs /by. Try: deadline submit report /by Friday
+ Oops — A deadline needs /by. Try: deadline submit report /by 2026-08-31
 ____________________________________________________________
 ____________________________________________________________
  Got it. I've added this task:
-   [D][ ] return book (by: Friday)
+   [D][ ] return book (by: Aug 28 2026)
  Now you have 2 tasks in the list.
 ____________________________________________________________
 ____________________________________________________________
@@ -425,7 +425,7 @@ ____________________________________________________________
 ____________________________________________________________
  Here are the tasks in your list:
  1.[T][ ] read chapter 3
- 2.[D][ ] return book (by: Friday)
+ 2.[D][ ] return book (by: Aug 28 2026)
  3.[E][ ] group study (from: 2pm to: 4pm)
 ____________________________________________________________
 ____________________________________________________________
@@ -449,7 +449,7 @@ javac src/main/java/*.java && rm -f _temp/ui-test-data.txt && java -cp src/main/
 
 ```text
 todo read book
-deadline return book /by June 6th
+deadline return book /by 2026-06-06
 event project meeting /from Aug 6th 2pm /to 4pm
 delete 1
 mark 1
@@ -476,7 +476,7 @@ ____________________________________________________________
 ____________________________________________________________
 ____________________________________________________________
  Got it. I've added this task:
-   [D][ ] return book (by: June 6th)
+   [D][ ] return book (by: Jun 6 2026)
  Now you have 2 tasks in the list.
 ____________________________________________________________
 ____________________________________________________________
@@ -492,11 +492,11 @@ ____________________________________________________________
 ____________________________________________________________
 ____________________________________________________________
  Nice! I've marked this task as done:
-   [D][X] return book (by: June 6th)
+   [D][X] return book (by: Jun 6 2026)
 ____________________________________________________________
 ____________________________________________________________
  Here are the tasks in your list:
- 1.[D][X] return book (by: June 6th)
+ 1.[D][X] return book (by: Jun 6 2026)
  2.[E][ ] project meeting (from: Aug 6th 2pm to: 4pm)
 ____________________________________________________________
 ____________________________________________________________
@@ -623,6 +623,75 @@ ____________________________________________________________
 ____________________________________________________________
  Here are the tasks in your list:
  1.[T][ ] keep this task
+____________________________________________________________
+____________________________________________________________
+Bye. Hope to see you again soon!
+____________________________________________________________
+```
+
+## Test case: Parse and reject deadline dates
+
+### Aim
+
+Verify that deadlines accept real ISO dates, display readable dates, and reject impossible or incorrectly formatted dates.
+
+### Run command
+
+```sh
+javac src/main/java/*.java && rm -f _temp/ui-test-deadline-dates.txt && java -cp src/main/java Rene _temp/ui-test-deadline-dates.txt
+```
+
+### Inputs
+
+```text
+deadline leap day /by 2024-02-29
+deadline year end /by 2026-12-31
+deadline impossible /by 2026-02-29
+deadline invalid month /by 2026-13-01
+deadline wrong format /by 31-12-2026
+deadline short date /by 2026-2-3
+list
+bye
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+ ____
+|  _ \ ___ _ __   ___
+| |_) / _ \ '_ \ / _ \
+|  _ <  __/ | | |  __/
+|_| \_\___|_| |_|\___|
+Hello! I'm Rene.
+What can I do for you?
+____________________________________________________________
+____________________________________________________________
+ Got it. I've added this task:
+   [D][ ] leap day (by: Feb 29 2024)
+ Now you have 1 task in the list.
+____________________________________________________________
+____________________________________________________________
+ Got it. I've added this task:
+   [D][ ] year end (by: Dec 31 2026)
+ Now you have 2 tasks in the list.
+____________________________________________________________
+____________________________________________________________
+ Oops — A deadline needs a valid date in yyyy-MM-dd format. Try: deadline submit report /by 2026-08-31
+____________________________________________________________
+____________________________________________________________
+ Oops — A deadline needs a valid date in yyyy-MM-dd format. Try: deadline submit report /by 2026-08-31
+____________________________________________________________
+____________________________________________________________
+ Oops — A deadline needs a valid date in yyyy-MM-dd format. Try: deadline submit report /by 2026-08-31
+____________________________________________________________
+____________________________________________________________
+ Oops — A deadline needs a valid date in yyyy-MM-dd format. Try: deadline submit report /by 2026-08-31
+____________________________________________________________
+____________________________________________________________
+ Here are the tasks in your list:
+ 1.[D][ ] leap day (by: Feb 29 2024)
+ 2.[D][ ] year end (by: Dec 31 2026)
 ____________________________________________________________
 ____________________________________________________________
 Bye. Hope to see you again soon!

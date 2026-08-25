@@ -1,4 +1,6 @@
 import java.nio.file.Path;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -93,13 +95,20 @@ public class Rene {
         String byMarker = ArgumentMarker.BY.getText();
         int byIndex = details.indexOf(byMarker);
         if (byIndex < 0) {
-            throw new ReneException("A deadline needs /by. Try: deadline submit report /by Friday");
+            throw new ReneException("A deadline needs /by. Try: deadline submit report /by 2026-08-31");
         }
         String description = details.substring(0, byIndex).trim();
-        String by = details.substring(byIndex + byMarker.length()).trim();
+        String byText = details.substring(byIndex + byMarker.length()).trim();
         requireText(description, "A deadline needs a description before /by.");
-        requireText(by, "A deadline needs a due date after /by.");
-        addTask(new Deadline(description, by), tasks, storage);
+        requireText(byText, "A deadline needs a due date after /by.");
+        try {
+            LocalDate by = LocalDate.parse(byText);
+            addTask(new Deadline(description, by), tasks, storage);
+        } catch (DateTimeParseException exception) {
+            throw new ReneException(
+                    "A deadline needs a valid date in yyyy-MM-dd format. "
+                            + "Try: deadline submit report /by 2026-08-31");
+        }
     }
 
     /**
