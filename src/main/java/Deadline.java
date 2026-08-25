@@ -21,6 +21,15 @@ public class Deadline extends Task {
     }
 
     /**
+     * Returns the date or time by which this task must be completed.
+     *
+     * @return the deadline value
+     */
+    public String getBy() {
+        return by;
+    }
+
+    /**
      * Returns the deadline in the chatbot's display format.
      *
      * @return the basic task details followed by the deadline
