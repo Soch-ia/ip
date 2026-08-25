@@ -2,6 +2,8 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -136,7 +138,11 @@ public class Storage {
         requireFieldCount(fields, 4, lineNumber);
         requireNonBlank(fields[2], lineNumber);
         requireNonBlank(fields[3], lineNumber);
-        return new Deadline(fields[2], fields[3]);
+        try {
+            return new Deadline(fields[2], LocalDate.parse(fields[3]));
+        } catch (DateTimeParseException exception) {
+            throw invalidData(lineNumber);
+        }
     }
 
     /**
