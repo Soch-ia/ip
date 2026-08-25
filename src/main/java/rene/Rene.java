@@ -16,6 +16,9 @@ import rene.ui.Ui;
  */
 public class Rene {
     private static final Path DEFAULT_DATA_FILE = Path.of("data", "rene.txt");
+    private static final String UNKNOWN_COMMAND_MESSAGE =
+            "I don't know that command yet. Try todo, deadline, event, list, mark, unmark, "
+                    + "delete, find, or bye.";
 
     private final Parser parser;
     private final Storage storage;
@@ -87,9 +90,9 @@ public class Rene {
             case MARK -> markTask(command);
             case UNMARK -> unmarkTask(command);
             case DELETE -> deleteTask(command);
+            case FIND -> findTasks(command);
             case TODO, DEADLINE, EVENT -> addTask(parser.parseTask(command));
-            case BYE -> throw new ReneException(
-                    "I don't know that command yet. Try todo, deadline, event, list, mark, unmark, delete, or bye.");
+            case BYE -> throw new ReneException(UNKNOWN_COMMAND_MESSAGE);
         }
     }
 
@@ -127,6 +130,19 @@ public class Rene {
         Task task = tasks.remove(parser.parseTaskNumber(command));
         saveTasks();
         ui.showTaskDeleted(task, tasks.size(), !tasks.isEmpty());
+    }
+
+    /**
+     * Displays tasks whose descriptions contain the supplied keyword.
+     *
+     * @param command the find command containing the search keyword.
+     * @throws ReneException if the command does not contain a keyword.
+     */
+    private void findTasks(ParsedCommand command) throws ReneException {
+        if (command.argument().isEmpty()) {
+            throw new ReneException("A find command needs a keyword. Try: find book");
+        }
+        ui.showMatchingTasks(tasks.find(command.argument()));
     }
 
     /**

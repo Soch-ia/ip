@@ -390,7 +390,7 @@ ____________________________________________________________
  Now you have 1 task in the list.
 ____________________________________________________________
 ____________________________________________________________
- Oops — I don't know that command yet. Try todo, deadline, event, list, mark, unmark, delete, or bye.
+ Oops — I don't know that command yet. Try todo, deadline, event, list, mark, unmark, delete, find, or bye.
 ____________________________________________________________
 ____________________________________________________________
  Oops — A deadline needs /by. Try: deadline submit report /by 2026-08-31
@@ -427,6 +427,88 @@ ____________________________________________________________
  1.[T][ ] read chapter 3
  2.[D][ ] return book (by: Aug 28 2026)
  3.[E][ ] group study (from: 2pm to: 4pm)
+____________________________________________________________
+____________________________________________________________
+Bye. Hope to see you again soon!
+____________________________________________________________
+```
+
+## Test case: Find tasks by description
+
+### Aim
+
+Verify that find searches task descriptions case-insensitively, preserves matching task details and status,
+reports no matches cleanly, and rejects a missing keyword.
+
+### Run command
+
+```sh
+./gradlew --quiet classes && rm -f _temp/ui-test-find.txt && java -cp build/classes/java/main rene.Rene _temp/ui-test-find.txt
+```
+
+### Inputs
+
+```text
+todo read book
+deadline return BOOK /by 2026-06-06
+event project meeting /from library /to home
+mark 1
+find book
+find PROJECT
+find 2026
+find missing
+find
+bye
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+ ____
+|  _ \ ___ _ __   ___
+| |_) / _ \ '_ \ / _ \
+|  _ <  __/ | | |  __/
+|_| \_\___|_| |_|\___|
+Hello! I'm Rene.
+What can I do for you?
+____________________________________________________________
+____________________________________________________________
+ Got it. I've added this task:
+   [T][ ] read book
+ Now you have 1 task in the list.
+____________________________________________________________
+____________________________________________________________
+ Got it. I've added this task:
+   [D][ ] return BOOK (by: Jun 6 2026)
+ Now you have 2 tasks in the list.
+____________________________________________________________
+____________________________________________________________
+ Got it. I've added this task:
+   [E][ ] project meeting (from: library to: home)
+ Now you have 3 tasks in the list.
+____________________________________________________________
+____________________________________________________________
+ Nice! I've marked this task as done:
+   [T][X] read book
+____________________________________________________________
+____________________________________________________________
+ Here are the matching tasks in your list:
+ 1.[T][X] read book
+ 2.[D][ ] return BOOK (by: Jun 6 2026)
+____________________________________________________________
+____________________________________________________________
+ Here are the matching tasks in your list:
+ 1.[E][ ] project meeting (from: library to: home)
+____________________________________________________________
+____________________________________________________________
+ Here are the matching tasks in your list:
+____________________________________________________________
+____________________________________________________________
+ Here are the matching tasks in your list:
+____________________________________________________________
+____________________________________________________________
+ Oops — A find command needs a keyword. Try: find book
 ____________________________________________________________
 ____________________________________________________________
 Bye. Hope to see you again soon!

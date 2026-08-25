@@ -5,6 +5,9 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.time.LocalDate;
+import java.util.List;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -70,5 +73,26 @@ class TaskListTest {
     void getTasks_returnedSnapshotCannotModifyTaskList() {
         assertThrows(UnsupportedOperationException.class, () -> tasks.getTasks().clear());
         assertEquals(2, tasks.size());
+    }
+
+    @Test
+    void find_mixedCaseKeyword_returnsDescriptionMatchesInOriginalOrder() {
+        tasks.add(new Todo("read BOOK"));
+        tasks.add(new Deadline("return Book", LocalDate.of(2026, 8, 31)));
+
+        List<Task> matches = tasks.find("bOoK");
+
+        assertEquals(2, matches.size());
+        assertEquals("read BOOK", matches.get(0).getDescription());
+        assertEquals("return Book", matches.get(1).getDescription());
+    }
+
+    @Test
+    void find_keywordOnlyInTaskMetadata_doesNotMatch() {
+        tasks.add(new Deadline("submit report", LocalDate.of(2026, 8, 31)));
+
+        List<Task> matches = tasks.find("2026");
+
+        assertTrue(matches.isEmpty());
     }
 }

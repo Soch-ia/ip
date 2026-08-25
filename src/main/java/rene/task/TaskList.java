@@ -2,6 +2,7 @@ package rene.task;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import rene.exception.ReneException;
 
@@ -89,6 +90,23 @@ public class TaskList {
      */
     public List<Task> getTasks() {
         return List.copyOf(tasks);
+    }
+
+    /**
+     * Returns tasks whose descriptions contain a keyword, ignoring letter case.
+     *
+     * @param keyword the text to search for in task descriptions.
+     * @return the matching tasks in their original order.
+     */
+    public List<Task> find(String keyword) {
+        String normalizedKeyword = keyword.toLowerCase(Locale.ROOT);
+        List<Task> matchingTasks = new ArrayList<>();
+        for (Task task : tasks) {
+            if (task.getDescription().toLowerCase(Locale.ROOT).contains(normalizedKeyword)) {
+                matchingTasks.add(task);
+            }
+        }
+        return matchingTasks;
     }
 
     /**

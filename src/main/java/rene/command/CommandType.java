@@ -14,6 +14,8 @@ public enum CommandType {
     UNMARK("unmark"),
     /** Removes a task. */
     DELETE("delete"),
+    /** Finds tasks whose descriptions contain a keyword. */
+    FIND("find"),
     /** Adds a task without a date or time. */
     TODO("todo"),
     /** Adds a task with a due date. */
