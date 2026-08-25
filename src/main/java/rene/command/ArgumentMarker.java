@@ -4,8 +4,11 @@ package rene.command;
  * Represents fixed markers that separate fields in task-creation commands.
  */
 public enum ArgumentMarker {
+    /** Separates a deadline description from its due date. */
     BY(" /by "),
+    /** Separates an event description from its start value. */
     FROM(" /from "),
+    /** Separates an event's start value from its end value. */
     TO(" /to ");
 
     private final String text;

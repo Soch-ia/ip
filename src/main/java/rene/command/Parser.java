@@ -17,6 +17,12 @@ public class Parser {
             "I don't know that command yet. Try todo, deadline, event, list, mark, unmark, delete, or bye.";
 
     /**
+     * Creates a parser for Rene's supported command syntax.
+     */
+    public Parser() {
+    }
+
+    /**
      * Identifies the command type and separates its argument from its keyword.
      *
      * @param input the complete line entered by the user

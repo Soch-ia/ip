@@ -4,8 +4,11 @@ package rene.task;
  * Represents the supported task categories and their display icons.
  */
 public enum TaskType {
+    /** Identifies a task without an attached date or time. */
     TODO("T"),
+    /** Identifies a task with a due date. */
     DEADLINE("D"),
+    /** Identifies a task with a start and end value. */
     EVENT("E");
 
     private final String icon;
