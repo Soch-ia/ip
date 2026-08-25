@@ -11,7 +11,7 @@ Verify that the chatbot greets the user and exits with its farewell message.
 ### Run command
 
 ```sh
-rm -rf _temp/ui-test-classes && mkdir -p _temp/ui-test-classes && javac -d _temp/ui-test-classes $(rg --files src/main/java -g '*.java') && rm -f _temp/ui-test-data.txt && java -cp _temp/ui-test-classes rene.Rene _temp/ui-test-data.txt
+./gradlew --quiet classes && rm -f _temp/ui-test-data.txt && java -cp build/classes/java/main rene.Rene _temp/ui-test-data.txt
 ```
 
 ### Inputs
@@ -46,7 +46,7 @@ Verify that Rene saves todos, deadlines, events, and completion status for a lat
 ### Run command
 
 ```sh
-rm -rf _temp/ui-test-classes && mkdir -p _temp/ui-test-classes && javac -d _temp/ui-test-classes $(rg --files src/main/java -g '*.java') && rm -f _temp/ui-test-persistence.txt && java -cp _temp/ui-test-classes rene.Rene _temp/ui-test-persistence.txt
+./gradlew --quiet classes && rm -f _temp/ui-test-persistence.txt && java -cp build/classes/java/main rene.Rene _temp/ui-test-persistence.txt
 ```
 
 ### Inputs
@@ -121,7 +121,7 @@ Verify that Rene reloads every saved task and its completion status when the app
 ### Run command
 
 ```sh
-rm -rf _temp/ui-test-classes && mkdir -p _temp/ui-test-classes && javac -d _temp/ui-test-classes $(rg --files src/main/java -g '*.java') && java -cp _temp/ui-test-classes rene.Rene _temp/ui-test-persistence.txt; ui_status=$?; rm -f _temp/ui-test-persistence.txt; exit $ui_status
+./gradlew --quiet classes && java -cp build/classes/java/main rene.Rene _temp/ui-test-persistence.txt; ui_status=$?; rm -f _temp/ui-test-persistence.txt; exit $ui_status
 ```
 
 ### Inputs
@@ -162,7 +162,7 @@ Verify that marking a completed task and unmarking an incomplete task are reject
 ### Run command
 
 ```sh
-rm -rf _temp/ui-test-classes && mkdir -p _temp/ui-test-classes && javac -d _temp/ui-test-classes $(rg --files src/main/java -g '*.java') && rm -f _temp/ui-test-data.txt && java -cp _temp/ui-test-classes rene.Rene _temp/ui-test-data.txt
+./gradlew --quiet classes && rm -f _temp/ui-test-data.txt && java -cp build/classes/java/main rene.Rene _temp/ui-test-data.txt
 ```
 
 ### Inputs
@@ -230,7 +230,7 @@ Verify that todos, deadlines, and events are stored polymorphically and displaye
 ### Run command
 
 ```sh
-rm -rf _temp/ui-test-classes && mkdir -p _temp/ui-test-classes && javac -d _temp/ui-test-classes $(rg --files src/main/java -g '*.java') && rm -f _temp/ui-test-data.txt && java -cp _temp/ui-test-classes rene.Rene _temp/ui-test-data.txt
+./gradlew --quiet classes && rm -f _temp/ui-test-data.txt && java -cp build/classes/java/main rene.Rene _temp/ui-test-data.txt
 ```
 
 ### Inputs
@@ -297,7 +297,7 @@ Verify that completion status changes preserve the todo type marker.
 ### Run command
 
 ```sh
-rm -rf _temp/ui-test-classes && mkdir -p _temp/ui-test-classes && javac -d _temp/ui-test-classes $(rg --files src/main/java -g '*.java') && rm -f _temp/ui-test-data.txt && java -cp _temp/ui-test-classes rene.Rene _temp/ui-test-data.txt
+./gradlew --quiet classes && rm -f _temp/ui-test-data.txt && java -cp build/classes/java/main rene.Rene _temp/ui-test-data.txt
 ```
 
 ### Inputs
@@ -348,7 +348,7 @@ Verify that invalid commands are reported through ReneException, and that later 
 ### Run command
 
 ```sh
-rm -rf _temp/ui-test-classes && mkdir -p _temp/ui-test-classes && javac -d _temp/ui-test-classes $(rg --files src/main/java -g '*.java') && rm -f _temp/ui-test-data.txt && java -cp _temp/ui-test-classes rene.Rene _temp/ui-test-data.txt
+./gradlew --quiet classes && rm -f _temp/ui-test-data.txt && java -cp build/classes/java/main rene.Rene _temp/ui-test-data.txt
 ```
 
 ### Inputs
@@ -442,7 +442,7 @@ Verify that deleting the first task renumbers the remaining tasks and that `mark
 ### Run command
 
 ```sh
-rm -rf _temp/ui-test-classes && mkdir -p _temp/ui-test-classes && javac -d _temp/ui-test-classes $(rg --files src/main/java -g '*.java') && rm -f _temp/ui-test-data.txt && java -cp _temp/ui-test-classes rene.Rene _temp/ui-test-data.txt
+./gradlew --quiet classes && rm -f _temp/ui-test-data.txt && java -cp build/classes/java/main rene.Rene _temp/ui-test-data.txt
 ```
 
 ### Inputs
@@ -513,7 +513,7 @@ Verify that deleting the only task empties the list and prevents later mark, unm
 ### Run command
 
 ```sh
-rm -rf _temp/ui-test-classes && mkdir -p _temp/ui-test-classes && javac -d _temp/ui-test-classes $(rg --files src/main/java -g '*.java') && rm -f _temp/ui-test-delete-only.txt && java -cp _temp/ui-test-classes rene.Rene _temp/ui-test-delete-only.txt
+./gradlew --quiet classes && rm -f _temp/ui-test-delete-only.txt && java -cp build/classes/java/main rene.Rene _temp/ui-test-delete-only.txt
 ```
 
 ### Inputs
@@ -576,7 +576,7 @@ Verify that nonnumeric, zero, negative, and out-of-range delete positions are re
 ### Run command
 
 ```sh
-rm -rf _temp/ui-test-classes && mkdir -p _temp/ui-test-classes && javac -d _temp/ui-test-classes $(rg --files src/main/java -g '*.java') && rm -f _temp/ui-test-invalid-delete.txt && java -cp _temp/ui-test-classes rene.Rene _temp/ui-test-invalid-delete.txt
+./gradlew --quiet classes && rm -f _temp/ui-test-invalid-delete.txt && java -cp build/classes/java/main rene.Rene _temp/ui-test-invalid-delete.txt
 ```
 
 ### Inputs
@@ -638,7 +638,7 @@ Verify that deadlines accept real ISO dates, display readable dates, and reject 
 ### Run command
 
 ```sh
-rm -rf _temp/ui-test-classes && mkdir -p _temp/ui-test-classes && javac -d _temp/ui-test-classes $(rg --files src/main/java -g '*.java') && rm -f _temp/ui-test-deadline-dates.txt && java -cp _temp/ui-test-classes rene.Rene _temp/ui-test-deadline-dates.txt
+./gradlew --quiet classes && rm -f _temp/ui-test-deadline-dates.txt && java -cp build/classes/java/main rene.Rene _temp/ui-test-deadline-dates.txt
 ```
 
 ### Inputs
