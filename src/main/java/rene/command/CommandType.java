@@ -4,13 +4,21 @@ package rene.command;
  * Represents a command accepted by the chatbot and its input keyword.
  */
 public enum CommandType {
+    /** Exits the application. */
     BYE("bye"),
+    /** Displays all tasks. */
     LIST("list"),
+    /** Marks a task as completed. */
     MARK("mark"),
+    /** Marks a task as incomplete. */
     UNMARK("unmark"),
+    /** Removes a task. */
     DELETE("delete"),
+    /** Adds a task without a date or time. */
     TODO("todo"),
+    /** Adds a task with a due date. */
     DEADLINE("deadline"),
+    /** Adds a task with a start and end value. */
     EVENT("event");
 
     private final String keyword;
