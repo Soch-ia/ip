@@ -87,9 +87,10 @@ public class Rene {
         case MARK -> markTask(command);
         case UNMARK -> unmarkTask(command);
         case DELETE -> deleteTask(command);
+        case FIND -> findTasks(command);
         case TODO, DEADLINE, EVENT -> addTask(parser.parseTask(command));
         case BYE -> throw new ReneException(
-                "I don't know that command yet. Try todo, deadline, event, list, mark, unmark, delete, or bye.");
+                "I don't know that command yet. Try todo, deadline, event, list, mark, unmark, delete, find, or bye.");
         }
     }
 
@@ -127,6 +128,19 @@ public class Rene {
         Task task = tasks.remove(parser.parseTaskNumber(command));
         saveTasks();
         ui.showTaskDeleted(task, tasks.size(), !tasks.isEmpty());
+    }
+
+    /**
+     * Displays tasks whose descriptions contain the supplied keyword.
+     *
+     * @param command The find command containing the search keyword.
+     * @throws ReneException If the command does not contain a keyword.
+     */
+    private void findTasks(ParsedCommand command) throws ReneException {
+        if (command.argument().isEmpty()) {
+            throw new ReneException("A find command needs a keyword. Try: find book");
+        }
+        ui.showMatchingTasks(tasks.find(command.argument()));
     }
 
     /**
