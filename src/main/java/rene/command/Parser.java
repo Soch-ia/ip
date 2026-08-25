@@ -25,9 +25,9 @@ public class Parser {
     /**
      * Identifies the command type and separates its argument from its keyword.
      *
-     * @param input the complete line entered by the user
-     * @return the parsed command
-     * @throws ReneException if the command keyword is not recognized
+     * @param input the complete line entered by the user.
+     * @return the parsed command.
+     * @throws ReneException if the command keyword is not recognized.
      */
     public ParsedCommand parse(String input) throws ReneException {
         CommandType commandType = CommandType.fromInput(input);
@@ -42,25 +42,25 @@ public class Parser {
     /**
      * Creates a task from a parsed task-creation command.
      *
-     * @param command a todo, deadline, or event command
-     * @return the task described by the command
-     * @throws ReneException if a required task detail is absent or invalid
+     * @param command a todo, deadline, or event command.
+     * @return the task described by the command.
+     * @throws ReneException if a required task detail is absent or invalid.
      */
     public Task parseTask(ParsedCommand command) throws ReneException {
         return switch (command.type()) {
-        case TODO -> parseTodo(command.argument());
-        case DEADLINE -> parseDeadline(command.argument());
-        case EVENT -> parseEvent(command.argument());
-        default -> throw new ReneException(UNKNOWN_COMMAND_MESSAGE);
+            case TODO -> parseTodo(command.argument());
+            case DEADLINE -> parseDeadline(command.argument());
+            case EVENT -> parseEvent(command.argument());
+            default -> throw new ReneException(UNKNOWN_COMMAND_MESSAGE);
         };
     }
 
     /**
      * Returns the one-based task number supplied to a task-list command.
      *
-     * @param command a mark, unmark, or delete command
-     * @return the supplied task number
-     * @throws ReneException if the argument is not a whole number
+     * @param command a mark, unmark, or delete command.
+     * @return the supplied task number.
+     * @throws ReneException if the argument is not a whole number.
      */
     public int parseTaskNumber(ParsedCommand command) throws ReneException {
         try {

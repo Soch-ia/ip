@@ -28,7 +28,7 @@ public class Ui {
     /**
      * Returns whether another command is available from the user.
      *
-     * @return {@code true} if another line can be read
+     * @return {@code true} if another line can be read.
      */
     public boolean hasNextCommand() {
         return scanner.hasNextLine();
@@ -37,7 +37,7 @@ public class Ui {
     /**
      * Reads the next command entered by the user.
      *
-     * @return the complete command line
+     * @return the complete command line.
      */
     public String readCommand() {
         return scanner.nextLine();
@@ -46,7 +46,7 @@ public class Ui {
     /**
      * Displays Rene's greeting and any problem encountered while loading tasks.
      *
-     * @param loadingError the loading error to display, or {@code null} when loading succeeded
+     * @param loadingError the loading error to display, or {@code null} when loading succeeded.
      */
     public void showWelcome(String loadingError) {
         showDivider();
@@ -70,7 +70,7 @@ public class Ui {
     /**
      * Displays a user-friendly command or storage error.
      *
-     * @param message the explanation to display
+     * @param message the explanation to display.
      */
     public void showError(String message) {
         System.out.println(" Oops — " + message);
@@ -79,8 +79,8 @@ public class Ui {
     /**
      * Displays confirmation that a task was added.
      *
-     * @param task the added task
-     * @param taskCount the resulting task count
+     * @param task the added task.
+     * @param taskCount the resulting task count.
      */
     public void showTaskAdded(Task task, int taskCount) {
         System.out.println(" Got it. I've added this task:");
@@ -91,7 +91,7 @@ public class Ui {
     /**
      * Displays all supplied tasks with one-based numbers.
      *
-     * @param tasks the tasks to display
+     * @param tasks the tasks to display.
      */
     public void showTasks(List<Task> tasks) {
         System.out.println(" Here are the tasks in your list:");
@@ -103,7 +103,7 @@ public class Ui {
     /**
      * Displays confirmation that a task was marked as completed.
      *
-     * @param task the updated task
+     * @param task the updated task.
      */
     public void showTaskMarked(Task task) {
         System.out.println(" Nice! I've marked this task as done:");
@@ -113,7 +113,7 @@ public class Ui {
     /**
      * Displays confirmation that a task was marked as incomplete.
      *
-     * @param task the updated task
+     * @param task the updated task.
      */
     public void showTaskUnmarked(Task task) {
         System.out.println(" OK, I've marked this task as not done yet:");
@@ -123,9 +123,9 @@ public class Ui {
     /**
      * Displays confirmation that a task was removed.
      *
-     * @param task the removed task
-     * @param taskCount the resulting task count
-     * @param tasksWereRenumbered whether any tasks remain and received new display numbers
+     * @param task the removed task.
+     * @param taskCount the resulting task count.
+     * @param tasksWereRenumbered whether any tasks remain and received new display numbers.
      */
     public void showTaskDeleted(Task task, int taskCount, boolean tasksWereRenumbered) {
         System.out.println(" Noted. I've removed this task:");

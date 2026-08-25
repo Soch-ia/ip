@@ -26,7 +26,7 @@ public class Rene {
     /**
      * Creates a Rene application backed by the specified task data file.
      *
-     * @param dataFile the path of the task data file
+     * @param dataFile the path of the task data file.
      */
     public Rene(Path dataFile) {
         parser = new Parser();
@@ -71,7 +71,7 @@ public class Rene {
     /**
      * Starts Rene using the default data file or an optional override.
      *
-     * @param args an optional first argument that overrides the task data file path
+     * @param args an optional first argument that overrides the task data file path.
      */
     public static void main(String[] args) {
         Path dataFile = args.length == 0 ? DEFAULT_DATA_FILE : Path.of(args[0]);
@@ -83,13 +83,13 @@ public class Rene {
      */
     private void execute(ParsedCommand command) throws ReneException {
         switch (command.type()) {
-        case LIST -> ui.showTasks(tasks.getTasks());
-        case MARK -> markTask(command);
-        case UNMARK -> unmarkTask(command);
-        case DELETE -> deleteTask(command);
-        case TODO, DEADLINE, EVENT -> addTask(parser.parseTask(command));
-        case BYE -> throw new ReneException(
-                "I don't know that command yet. Try todo, deadline, event, list, mark, unmark, delete, or bye.");
+            case LIST -> ui.showTasks(tasks.getTasks());
+            case MARK -> markTask(command);
+            case UNMARK -> unmarkTask(command);
+            case DELETE -> deleteTask(command);
+            case TODO, DEADLINE, EVENT -> addTask(parser.parseTask(command));
+            case BYE -> throw new ReneException(
+                    "I don't know that command yet. Try todo, deadline, event, list, mark, unmark, delete, or bye.");
         }
     }
 
