@@ -1,3 +1,5 @@
+package rene.command;
+
 /**
  * Represents a recognized command and the text supplied after its keyword.
  *

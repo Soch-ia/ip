@@ -1,3 +1,5 @@
+package rene.command;
+
 /**
  * Represents a command accepted by the chatbot and its input keyword.
  */

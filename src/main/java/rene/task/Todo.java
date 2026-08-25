@@ -1,3 +1,5 @@
+package rene.task;
+
 /**
  * Represents a task without an attached date or time.
  */
@@ -12,7 +14,7 @@ public class Todo extends Task {
     }
 
     @Override
-    protected TaskType getTaskType() {
+    public TaskType getTaskType() {
         return TaskType.TODO;
     }
 }

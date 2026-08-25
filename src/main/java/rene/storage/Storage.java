@@ -1,3 +1,5 @@
+package rene.storage;
+
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -6,6 +8,12 @@ import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
+
+import rene.exception.ReneException;
+import rene.task.Deadline;
+import rene.task.Event;
+import rene.task.Task;
+import rene.task.Todo;
 
 /**
  * Loads tasks from a text file and saves task-list changes to that file.

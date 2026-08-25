@@ -1,3 +1,5 @@
+package rene.task;
+
 /**
  * Represents the shared description and completion status of a task.
  */
@@ -61,7 +63,7 @@ public abstract class Task {
      *
      * @return the task type
      */
-    protected abstract TaskType getTaskType();
+    public abstract TaskType getTaskType();
 
     /**
      * Returns this task in the chatbot's display format.

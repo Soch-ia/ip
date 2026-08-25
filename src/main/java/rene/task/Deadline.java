@@ -1,3 +1,5 @@
+package rene.task;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
@@ -23,7 +25,7 @@ public class Deadline extends Task {
     }
 
     @Override
-    protected TaskType getTaskType() {
+    public TaskType getTaskType() {
         return TaskType.DEADLINE;
     }
 

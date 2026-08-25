@@ -1,3 +1,5 @@
+package rene.command;
+
 /**
  * Represents fixed markers that separate fields in task-creation commands.
  */
