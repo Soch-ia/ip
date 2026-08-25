@@ -105,6 +105,7 @@ ____________________________________________________________
  Noted. I've removed this task:
    [T][ ] read book
  Now you have 2 tasks in the list.
+ The remaining tasks have been renumbered.
 ____________________________________________________________
 ____________________________________________________________
 Bye. Hope to see you again soon!
@@ -432,11 +433,11 @@ Bye. Hope to see you again soon!
 ____________________________________________________________
 ```
 
-## Test case: Delete a task and renumber the list
+## Test case: Mark after deleting the first task
 
 ### Aim
 
-Verify that `delete` removes the selected task, reports its original completed status, updates the task count, and closes the numbering gap in a list backed by a dynamic collection.
+Verify that deleting the first task renumbers the remaining tasks and that `mark 1` marks the new first task rather than the removed task.
 
 ### Run command
 
@@ -450,8 +451,8 @@ javac src/main/java/*.java && rm -f _temp/ui-test-data.txt && java -cp src/main/
 todo read book
 deadline return book /by June 6th
 event project meeting /from Aug 6th 2pm /to 4pm
-mark 2
-delete 2
+delete 1
+mark 1
 list
 bye
 ```
@@ -484,18 +485,144 @@ ____________________________________________________________
  Now you have 3 tasks in the list.
 ____________________________________________________________
 ____________________________________________________________
+ Noted. I've removed this task:
+   [T][ ] read book
+ Now you have 2 tasks in the list.
+ The remaining tasks have been renumbered.
+____________________________________________________________
+____________________________________________________________
  Nice! I've marked this task as done:
    [D][X] return book (by: June 6th)
 ____________________________________________________________
 ____________________________________________________________
+ Here are the tasks in your list:
+ 1.[D][X] return book (by: June 6th)
+ 2.[E][ ] project meeting (from: Aug 6th 2pm to: 4pm)
+____________________________________________________________
+____________________________________________________________
+Bye. Hope to see you again soon!
+____________________________________________________________
+```
+
+## Test case: Reject commands for a deleted only task
+
+### Aim
+
+Verify that deleting the only task empties the list and prevents later mark, unmark, and delete commands from accessing it.
+
+### Run command
+
+```sh
+javac src/main/java/*.java && rm -f _temp/ui-test-delete-only.txt && java -cp src/main/java Rene _temp/ui-test-delete-only.txt
+```
+
+### Inputs
+
+```text
+todo only task
+delete 1
+mark 1
+unmark 1
+delete 1
+list
+bye
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+ ____
+|  _ \ ___ _ __   ___
+| |_) / _ \ '_ \ / _ \
+|  _ <  __/ | | |  __/
+|_| \_\___|_| |_|\___|
+Hello! I'm Rene.
+What can I do for you?
+____________________________________________________________
+____________________________________________________________
+ Got it. I've added this task:
+   [T][ ] only task
+ Now you have 1 task in the list.
+____________________________________________________________
+____________________________________________________________
  Noted. I've removed this task:
-   [D][X] return book (by: June 6th)
- Now you have 2 tasks in the list.
+   [T][ ] only task
+ Now you have 0 tasks in the list.
+____________________________________________________________
+____________________________________________________________
+ Oops — That task number is not in the list yet.
+____________________________________________________________
+____________________________________________________________
+ Oops — That task number is not in the list yet.
+____________________________________________________________
+____________________________________________________________
+ Oops — That task number is not in the list yet.
 ____________________________________________________________
 ____________________________________________________________
  Here are the tasks in your list:
- 1.[T][ ] read book
- 2.[E][ ] project meeting (from: Aug 6th 2pm to: 4pm)
+____________________________________________________________
+____________________________________________________________
+Bye. Hope to see you again soon!
+____________________________________________________________
+```
+
+## Test case: Reject invalid delete positions
+
+### Aim
+
+Verify that nonnumeric, zero, negative, and out-of-range delete positions are rejected without removing a task.
+
+### Run command
+
+```sh
+javac src/main/java/*.java && rm -f _temp/ui-test-invalid-delete.txt && java -cp src/main/java Rene _temp/ui-test-invalid-delete.txt
+```
+
+### Inputs
+
+```text
+todo keep this task
+delete nope
+delete 0
+delete -1
+delete 2
+list
+bye
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+ ____
+|  _ \ ___ _ __   ___
+| |_) / _ \ '_ \ / _ \
+|  _ <  __/ | | |  __/
+|_| \_\___|_| |_|\___|
+Hello! I'm Rene.
+What can I do for you?
+____________________________________________________________
+____________________________________________________________
+ Got it. I've added this task:
+   [T][ ] keep this task
+ Now you have 1 task in the list.
+____________________________________________________________
+____________________________________________________________
+ Oops — Please give me a whole-number task position, like: delete 1
+____________________________________________________________
+____________________________________________________________
+ Oops — That task number is not in the list yet.
+____________________________________________________________
+____________________________________________________________
+ Oops — That task number is not in the list yet.
+____________________________________________________________
+____________________________________________________________
+ Oops — That task number is not in the list yet.
+____________________________________________________________
+____________________________________________________________
+ Here are the tasks in your list:
+ 1.[T][ ] keep this task
 ____________________________________________________________
 ____________________________________________________________
 Bye. Hope to see you again soon!

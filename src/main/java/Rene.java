@@ -239,6 +239,9 @@ public class Rene {
             System.out.println(" Noted. I've removed this task:");
             System.out.println("   " + removedTask);
             printTaskCount(tasks.size());
+            if (!tasks.isEmpty()) {
+                System.out.println(" The remaining tasks have been renumbered.");
+            }
         } catch (NumberFormatException exception) {
             throw new ReneException("Please give me a whole-number task position, like: delete 1");
         }
