@@ -11,7 +11,7 @@ Verify that the chatbot greets the user and exits with its farewell message.
 ### Run command
 
 ```sh
-javac src/main/java/*.java && java -cp src/main/java Rene
+javac src/main/java/*.java && rm -f _temp/ui-test-data.txt && java -cp src/main/java Rene _temp/ui-test-data.txt
 ```
 
 ### Inputs
@@ -37,6 +37,121 @@ Bye. Hope to see you again soon!
 ____________________________________________________________
 ```
 
+## Test case: Save tasks for the next session
+
+### Aim
+
+Verify that Rene saves todos, deadlines, events, and completion status for a later application session.
+
+### Run command
+
+```sh
+javac src/main/java/*.java && rm -f _temp/ui-test-persistence.txt && java -cp src/main/java Rene _temp/ui-test-persistence.txt
+```
+
+### Inputs
+
+```text
+todo read book
+deadline return book /by June 6th
+event project meeting /from Aug 6th 2pm /to 4pm
+mark 2
+unmark 2
+mark 3
+delete 1
+bye
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+ ____
+|  _ \ ___ _ __   ___
+| |_) / _ \ '_ \ / _ \
+|  _ <  __/ | | |  __/
+|_| \_\___|_| |_|\___|
+Hello! I'm Rene.
+What can I do for you?
+____________________________________________________________
+____________________________________________________________
+ Got it. I've added this task:
+   [T][ ] read book
+ Now you have 1 task in the list.
+____________________________________________________________
+____________________________________________________________
+ Got it. I've added this task:
+   [D][ ] return book (by: June 6th)
+ Now you have 2 tasks in the list.
+____________________________________________________________
+____________________________________________________________
+ Got it. I've added this task:
+   [E][ ] project meeting (from: Aug 6th 2pm to: 4pm)
+ Now you have 3 tasks in the list.
+____________________________________________________________
+____________________________________________________________
+ Nice! I've marked this task as done:
+   [D][X] return book (by: June 6th)
+____________________________________________________________
+____________________________________________________________
+ OK, I've marked this task as not done yet:
+   [D][ ] return book (by: June 6th)
+____________________________________________________________
+____________________________________________________________
+ Nice! I've marked this task as done:
+   [E][X] project meeting (from: Aug 6th 2pm to: 4pm)
+____________________________________________________________
+____________________________________________________________
+ Noted. I've removed this task:
+   [T][ ] read book
+ Now you have 2 tasks in the list.
+____________________________________________________________
+____________________________________________________________
+Bye. Hope to see you again soon!
+____________________________________________________________
+```
+
+## Test case: Load tasks from the previous session
+
+### Aim
+
+Verify that Rene reloads every saved task and its completion status when the application starts again.
+
+### Run command
+
+```sh
+javac src/main/java/*.java && java -cp src/main/java Rene _temp/ui-test-persistence.txt; ui_status=$?; rm -f _temp/ui-test-persistence.txt; exit $ui_status
+```
+
+### Inputs
+
+```text
+list
+bye
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+ ____
+|  _ \ ___ _ __   ___
+| |_) / _ \ '_ \ / _ \
+|  _ <  __/ | | |  __/
+|_| \_\___|_| |_|\___|
+Hello! I'm Rene.
+What can I do for you?
+____________________________________________________________
+____________________________________________________________
+ Here are the tasks in your list:
+ 1.[D][ ] return book (by: June 6th)
+ 2.[E][X] project meeting (from: Aug 6th 2pm to: 4pm)
+____________________________________________________________
+____________________________________________________________
+Bye. Hope to see you again soon!
+____________________________________________________________
+```
+
 ## Test case: Reject repeated status changes
 
 ### Aim
@@ -46,7 +161,7 @@ Verify that marking a completed task and unmarking an incomplete task are reject
 ### Run command
 
 ```sh
-javac src/main/java/*.java && java -cp src/main/java Rene
+javac src/main/java/*.java && rm -f _temp/ui-test-data.txt && java -cp src/main/java Rene _temp/ui-test-data.txt
 ```
 
 ### Inputs
@@ -114,7 +229,7 @@ Verify that todos, deadlines, and events are stored polymorphically and displaye
 ### Run command
 
 ```sh
-javac src/main/java/*.java && java -cp src/main/java Rene
+javac src/main/java/*.java && rm -f _temp/ui-test-data.txt && java -cp src/main/java Rene _temp/ui-test-data.txt
 ```
 
 ### Inputs
@@ -181,7 +296,7 @@ Verify that completion status changes preserve the todo type marker.
 ### Run command
 
 ```sh
-javac src/main/java/*.java && java -cp src/main/java Rene
+javac src/main/java/*.java && rm -f _temp/ui-test-data.txt && java -cp src/main/java Rene _temp/ui-test-data.txt
 ```
 
 ### Inputs
@@ -232,7 +347,7 @@ Verify that invalid commands are reported through ReneException, and that later 
 ### Run command
 
 ```sh
-javac src/main/java/*.java && java -cp src/main/java Rene
+javac src/main/java/*.java && rm -f _temp/ui-test-data.txt && java -cp src/main/java Rene _temp/ui-test-data.txt
 ```
 
 ### Inputs
@@ -326,7 +441,7 @@ Verify that `delete` removes the selected task, reports its original completed s
 ### Run command
 
 ```sh
-javac src/main/java/*.java && java -cp src/main/java Rene
+javac src/main/java/*.java && rm -f _temp/ui-test-data.txt && java -cp src/main/java Rene _temp/ui-test-data.txt
 ```
 
 ### Inputs
