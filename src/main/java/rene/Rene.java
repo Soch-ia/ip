@@ -93,6 +93,7 @@ public class Rene {
             case FIND -> findTasks(command);
             case TODO, DEADLINE, EVENT -> addTask(parser.parseTask(command));
             case BYE -> throw new ReneException(UNKNOWN_COMMAND_MESSAGE);
+            default -> throw new ReneException(UNKNOWN_COMMAND_MESSAGE);
         }
     }
 
