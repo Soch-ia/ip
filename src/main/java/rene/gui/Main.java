@@ -29,8 +29,8 @@ public class Main extends Application {
 
         stage.setScene(new Scene(mainWindow));
         stage.setTitle("Rene");
-        stage.setMinWidth(420);
-        stage.setMinHeight(600);
+        stage.setMinWidth(480);
+        stage.setMinHeight(640);
         stage.show();
     }
 }

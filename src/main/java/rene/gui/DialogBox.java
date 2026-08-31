@@ -15,13 +15,17 @@ import javafx.scene.layout.HBox;
  * Displays one user or Rene message in the conversation.
  */
 public class DialogBox extends HBox {
+    private static final String USER_AVATAR = "Y";
     private static final String USER_NAME = "You";
-    private static final String RENE_NAME = "R";
+    private static final String RENE_AVATAR = "R";
+    private static final String RENE_NAME = "Rene";
 
     @FXML
     private Label messageLabel;
     @FXML
     private Label avatarLabel;
+    @FXML
+    private Label senderLabel;
 
     /**
      * Loads a reusable dialog box from FXML and supplies its text.
@@ -48,7 +52,8 @@ public class DialogBox extends HBox {
      */
     public static DialogBox getUserDialog(String message) {
         DialogBox dialogBox = new DialogBox(message);
-        dialogBox.avatarLabel.setText(USER_NAME);
+        dialogBox.avatarLabel.setText(USER_AVATAR);
+        dialogBox.senderLabel.setText(USER_NAME);
         dialogBox.getStyleClass().add("user-dialog");
         return dialogBox;
     }
@@ -61,7 +66,8 @@ public class DialogBox extends HBox {
      */
     public static DialogBox getReneDialog(String message) {
         DialogBox dialogBox = new DialogBox(message);
-        dialogBox.avatarLabel.setText(RENE_NAME);
+        dialogBox.avatarLabel.setText(RENE_AVATAR);
+        dialogBox.senderLabel.setText(RENE_NAME);
         dialogBox.getStyleClass().add("rene-dialog");
         dialogBox.flip();
         return dialogBox;
