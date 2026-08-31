@@ -10,6 +10,8 @@ import rene.task.Task;
  */
 public class Ui {
     private static final String DIVIDER = "____________________________________________________________";
+    private static final String GREETING = "Hello! I'm Rene.\nWhat can I do for you?";
+    private static final String GOODBYE = "Bye. Hope to see you again soon!";
     private static final String BANNER = " ____\n"
             + "|  _ \\ ___ _ __   ___\n"
             + "| |_) / _ \\ '_ \\ / _ \\\n"
@@ -51,8 +53,7 @@ public class Ui {
     public void showWelcome(String loadingError) {
         showDivider();
         System.out.println(BANNER);
-        System.out.println("Hello! I'm Rene.");
-        System.out.println("What can I do for you?");
+        System.out.println(GREETING);
         showDivider();
         if (loadingError != null) {
             showError(loadingError);
@@ -64,7 +65,7 @@ public class Ui {
      * Displays the farewell message.
      */
     public void showGoodbye() {
-        System.out.println("Bye. Hope to see you again soon!");
+        System.out.println(formatGoodbye());
     }
 
     /**
@@ -73,84 +74,119 @@ public class Ui {
      * @param message the explanation to display.
      */
     public void showError(String message) {
-        System.out.println(" Oops — " + message);
+        System.out.println(formatError(message));
     }
 
     /**
-     * Displays confirmation that a task was added.
+     * Displays a response formatted by this UI.
+     *
+     * @param response the complete response to display.
+     */
+    public void showResponse(String response) {
+        System.out.println(response);
+    }
+
+    /**
+     * Formats Rene's greeting and any problem encountered while loading tasks.
+     *
+     * @param loadingError the loading error, or {@code null} when loading succeeded.
+     * @return the greeting suitable for a graphical UI.
+     */
+    public String formatWelcome(String loadingError) {
+        if (loadingError == null) {
+            return GREETING;
+        }
+        return GREETING + "\n\n" + formatError(loadingError).trim();
+    }
+
+    /**
+     * Formats the farewell response.
+     *
+     * @return the farewell response.
+     */
+    public String formatGoodbye() {
+        return GOODBYE;
+    }
+
+    /**
+     * Formats a user-friendly command or storage error.
+     *
+     * @param message the explanation to include.
+     * @return the formatted error response.
+     */
+    public String formatError(String message) {
+        return " Oops — " + message;
+    }
+
+    /**
+     * Formats confirmation that a task was added.
      *
      * @param task the added task.
      * @param taskCount the resulting task count.
+     * @return the formatted confirmation.
      */
-    public void showTaskAdded(Task task, int taskCount) {
-        System.out.println(" Got it. I've added this task:");
-        System.out.println("   " + task);
-        showTaskCount(taskCount);
+    public String formatTaskAdded(Task task, int taskCount) {
+        return " Got it. I've added this task:\n"
+                + "   " + task + "\n"
+                + formatTaskCount(taskCount);
     }
 
     /**
-     * Displays all supplied tasks with one-based numbers.
+     * Formats all supplied tasks with one-based numbers.
      *
-     * @param tasks the tasks to display.
+     * @param tasks the tasks to include.
+     * @return the formatted task list.
      */
-    public void showTasks(List<Task> tasks) {
-        System.out.println(" Here are the tasks in your list:");
-        showNumberedTasks(tasks);
+    public String formatTasks(List<Task> tasks) {
+        return formatNumberedTasks(" Here are the tasks in your list:", tasks);
     }
 
     /**
-     * Displays tasks that match a find command with one-based result numbers.
+     * Formats tasks that match a find command with one-based result numbers.
      *
-     * @param tasks the matching tasks to display.
+     * @param tasks the matching tasks to include.
+     * @return the formatted matching task list.
      */
-    public void showMatchingTasks(List<Task> tasks) {
-        System.out.println(" Here are the matching tasks in your list:");
-        showNumberedTasks(tasks);
+    public String formatMatchingTasks(List<Task> tasks) {
+        return formatNumberedTasks(" Here are the matching tasks in your list:", tasks);
     }
 
     /**
-     * Displays supplied tasks with one-based numbers.
-     */
-    private void showNumberedTasks(List<Task> tasks) {
-        for (int index = 0; index < tasks.size(); index++) {
-            System.out.println(" " + (index + 1) + "." + tasks.get(index));
-        }
-    }
-
-    /**
-     * Displays confirmation that a task was marked as completed.
+     * Formats confirmation that a task was marked as completed.
      *
      * @param task the updated task.
+     * @return the formatted confirmation.
      */
-    public void showTaskMarked(Task task) {
-        System.out.println(" Nice! I've marked this task as done:");
-        System.out.println("   " + task);
+    public String formatTaskMarked(Task task) {
+        return " Nice! I've marked this task as done:\n   " + task;
     }
 
     /**
-     * Displays confirmation that a task was marked as incomplete.
+     * Formats confirmation that a task was marked as incomplete.
      *
      * @param task the updated task.
+     * @return the formatted confirmation.
      */
-    public void showTaskUnmarked(Task task) {
-        System.out.println(" OK, I've marked this task as not done yet:");
-        System.out.println("   " + task);
+    public String formatTaskUnmarked(Task task) {
+        return " OK, I've marked this task as not done yet:\n   " + task;
     }
 
     /**
-     * Displays confirmation that a task was removed.
+     * Formats confirmation that a task was removed.
      *
      * @param task the removed task.
      * @param taskCount the resulting task count.
      * @param tasksWereRenumbered whether any tasks remain and received new display numbers.
+     * @return the formatted confirmation.
      */
-    public void showTaskDeleted(Task task, int taskCount, boolean tasksWereRenumbered) {
-        System.out.println(" Noted. I've removed this task:");
-        System.out.println("   " + task);
-        showTaskCount(taskCount);
+    public String formatTaskDeleted(Task task, int taskCount, boolean tasksWereRenumbered) {
+        String response = " Noted. I've removed this task:\n"
+                + "   " + task + "\n"
+                + formatTaskCount(taskCount);
         if (tasksWereRenumbered) {
-            System.out.println(" The remaining tasks have been renumbered.");
+            response += "\n The remaining tasks have been renumbered.";
         }
+        return response;
     }
 
     /**
@@ -163,8 +199,23 @@ public class Ui {
     /**
      * Displays a task count with grammatically correct wording.
      */
-    private void showTaskCount(int taskCount) {
+    private String formatTaskCount(int taskCount) {
         String taskWord = taskCount == 1 ? "task" : "tasks";
-        System.out.println(" Now you have " + taskCount + " " + taskWord + " in the list.");
+        return " Now you have " + taskCount + " " + taskWord + " in the list.";
+    }
+
+    /**
+     * Formats supplied tasks with a heading and one-based numbers.
+     */
+    private String formatNumberedTasks(String heading, List<Task> tasks) {
+        StringBuilder response = new StringBuilder(heading);
+        for (int index = 0; index < tasks.size(); index++) {
+            response.append('\n')
+                    .append(' ')
+                    .append(index + 1)
+                    .append('.')
+                    .append(tasks.get(index));
+        }
+        return response.toString();
     }
 }
