@@ -126,9 +126,10 @@ public class Ui {
      * @return the formatted confirmation.
      */
     public String formatTaskAdded(Task task, int taskCount) {
-        return " Got it. I've added this task:\n"
-                + "   " + task + "\n"
-                + formatTaskCount(taskCount);
+        return formatLines(
+                " Got it. I've added this task:",
+                "   " + task,
+                formatTaskCount(taskCount));
     }
 
     /**
@@ -158,7 +159,9 @@ public class Ui {
      * @return the formatted confirmation.
      */
     public String formatTaskMarked(Task task) {
-        return " Nice! I've marked this task as done:\n   " + task;
+        return formatLines(
+                " Nice! I've marked this task as done:",
+                "   " + task);
     }
 
     /**
@@ -168,7 +171,9 @@ public class Ui {
      * @return the formatted confirmation.
      */
     public String formatTaskUnmarked(Task task) {
-        return " OK, I've marked this task as not done yet:\n   " + task;
+        return formatLines(
+                " OK, I've marked this task as not done yet:",
+                "   " + task);
     }
 
     /**
@@ -180,11 +185,12 @@ public class Ui {
      * @return the formatted confirmation.
      */
     public String formatTaskDeleted(Task task, int taskCount, boolean tasksWereRenumbered) {
-        String response = " Noted. I've removed this task:\n"
-                + "   " + task + "\n"
-                + formatTaskCount(taskCount);
+        String response = formatLines(
+                " Noted. I've removed this task:",
+                "   " + task,
+                formatTaskCount(taskCount));
         if (tasksWereRenumbered) {
-            response += "\n The remaining tasks have been renumbered.";
+            response = formatLines(response, " The remaining tasks have been renumbered.");
         }
         return response;
     }
@@ -202,6 +208,13 @@ public class Ui {
     private String formatTaskCount(int taskCount) {
         String taskWord = taskCount == 1 ? "task" : "tasks";
         return " Now you have " + taskCount + " " + taskWord + " in the list.";
+    }
+
+    /**
+     * Joins any number of response lines using the platform-independent newline used by the UI contract.
+     */
+    private String formatLines(String... lines) {
+        return String.join("\n", lines);
     }
 
     /**
