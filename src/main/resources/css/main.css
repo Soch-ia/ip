@@ -1,0 +1,67 @@
+.root {
+    -fx-background-color: #f4f1ea;
+    -fx-font-family: "Avenir Next", "Segoe UI", sans-serif;
+    -fx-font-size: 14px;
+}
+
+.scroll-pane,
+.scroll-pane > .viewport {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.dialog-container {
+    -fx-padding: 18px;
+    -fx-background-color: #f4f1ea;
+}
+
+.message-bubble {
+    -fx-padding: 11px 14px;
+    -fx-background-radius: 14px;
+    -fx-text-fill: #263238;
+}
+
+.rene-dialog .message-bubble {
+    -fx-background-color: #ffffff;
+}
+
+.user-dialog .message-bubble {
+    -fx-background-color: #d9efe7;
+}
+
+.avatar {
+    -fx-background-color: #24463d;
+    -fx-background-radius: 21px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #ffffff;
+}
+
+.user-dialog .avatar {
+    -fx-background-color: #c87349;
+    -fx-font-size: 11px;
+}
+
+.input-bar {
+    -fx-alignment: center;
+    -fx-padding: 14px;
+    -fx-background-color: #ffffff;
+    -fx-border-color: #ded9cf transparent transparent transparent;
+}
+
+.text-field {
+    -fx-background-color: #f4f1ea;
+    -fx-background-radius: 10px;
+    -fx-padding: 10px 12px;
+}
+
+.button {
+    -fx-background-color: #24463d;
+    -fx-background-radius: 10px;
+    -fx-font-weight: bold;
+    -fx-padding: 10px 18px;
+    -fx-text-fill: #ffffff;
+}
+
+.button:hover {
+    -fx-background-color: #315f53;
+}

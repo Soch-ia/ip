@@ -27,6 +27,13 @@ public class Rene {
     private final String loadingError;
 
     /**
+     * Creates a Rene application backed by the default task data file.
+     */
+    public Rene() {
+        this(DEFAULT_DATA_FILE);
+    }
+
+    /**
      * Creates a Rene application backed by the specified task data file.
      *
      * @param dataFile the path of the task data file.
@@ -63,7 +70,7 @@ public class Rene {
                     ui.showDivider();
                     break;
                 }
-                execute(command);
+                ui.showResponse(execute(command));
             } catch (ReneException exception) {
                 ui.showError(exception.getMessage());
             }
@@ -82,11 +89,38 @@ public class Rene {
     }
 
     /**
+     * Processes one command and returns Rene's response for a graphical UI.
+     *
+     * @param input the complete command entered by the user.
+     * @return Rene's response, including a friendly error for invalid input.
+     */
+    public String getResponse(String input) {
+        try {
+            ParsedCommand command = parser.parse(input);
+            if (command.type() == CommandType.BYE && command.argument().isEmpty()) {
+                return ui.formatGoodbye();
+            }
+            return execute(command);
+        } catch (ReneException exception) {
+            return ui.formatError(exception.getMessage());
+        }
+    }
+
+    /**
+     * Returns Rene's greeting and any error encountered while loading saved tasks.
+     *
+     * @return the greeting to show when a graphical UI opens.
+     */
+    public String getWelcomeMessage() {
+        return ui.formatWelcome(loadingError);
+    }
+
+    /**
      * Applies a parsed command to the task list.
      */
-    private void execute(ParsedCommand command) throws ReneException {
-        switch (command.type()) {
-            case LIST -> ui.showTasks(tasks.getTasks());
+    private String execute(ParsedCommand command) throws ReneException {
+        return switch (command.type()) {
+            case LIST -> ui.formatTasks(tasks.getTasks());
             case MARK -> markTask(command);
             case UNMARK -> unmarkTask(command);
             case DELETE -> deleteTask(command);
@@ -94,43 +128,43 @@ public class Rene {
             case TODO, DEADLINE, EVENT -> addTask(parser.parseTask(command));
             case BYE -> throw new ReneException(UNKNOWN_COMMAND_MESSAGE);
             default -> throw new ReneException(UNKNOWN_COMMAND_MESSAGE);
-        }
+        };
     }
 
     /**
      * Adds and persists a task before displaying confirmation.
      */
-    private void addTask(Task task) throws ReneException {
+    private String addTask(Task task) throws ReneException {
         tasks.add(task);
         saveTasks();
-        ui.showTaskAdded(task, tasks.size());
+        return ui.formatTaskAdded(task, tasks.size());
     }
 
     /**
      * Marks and persists a task before displaying confirmation.
      */
-    private void markTask(ParsedCommand command) throws ReneException {
+    private String markTask(ParsedCommand command) throws ReneException {
         Task task = tasks.mark(parser.parseTaskNumber(command));
         saveTasks();
-        ui.showTaskMarked(task);
+        return ui.formatTaskMarked(task);
     }
 
     /**
      * Unmarks and persists a task before displaying confirmation.
      */
-    private void unmarkTask(ParsedCommand command) throws ReneException {
+    private String unmarkTask(ParsedCommand command) throws ReneException {
         Task task = tasks.unmark(parser.parseTaskNumber(command));
         saveTasks();
-        ui.showTaskUnmarked(task);
+        return ui.formatTaskUnmarked(task);
     }
 
     /**
      * Deletes and persists a task before displaying confirmation.
      */
-    private void deleteTask(ParsedCommand command) throws ReneException {
+    private String deleteTask(ParsedCommand command) throws ReneException {
         Task task = tasks.remove(parser.parseTaskNumber(command));
         saveTasks();
-        ui.showTaskDeleted(task, tasks.size(), !tasks.isEmpty());
+        return ui.formatTaskDeleted(task, tasks.size(), !tasks.isEmpty());
     }
 
     /**
@@ -139,11 +173,11 @@ public class Rene {
      * @param command the find command containing the search keyword.
      * @throws ReneException if the command does not contain a keyword.
      */
-    private void findTasks(ParsedCommand command) throws ReneException {
+    private String findTasks(ParsedCommand command) throws ReneException {
         if (command.argument().isEmpty()) {
             throw new ReneException("A find command needs a keyword. Try: find book");
         }
-        ui.showMatchingTasks(tasks.find(command.argument()));
+        return ui.formatMatchingTasks(tasks.find(command.argument()));
     }
 
     /**
