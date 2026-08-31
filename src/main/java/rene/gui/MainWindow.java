@@ -1,5 +1,6 @@
 package rene.gui;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
@@ -56,5 +57,8 @@ public class MainWindow extends AnchorPane {
                 DialogBox.getUserDialog(input),
                 DialogBox.getReneDialog(rene.getResponse(input)));
         userInput.clear();
+        if (input.equals("bye")) {
+            Platform.exit();
+        }
     }
 }
