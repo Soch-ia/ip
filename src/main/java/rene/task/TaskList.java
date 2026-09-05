@@ -34,6 +34,8 @@ public class TaskList {
      * @param task the task to add.
      */
     public void add(Task task) {
+        // A task is fully constructed and validated before it enters the list.
+        assert task != null : "Task list entries must not be null";
         tasks.add(task);
     }
 
@@ -142,6 +144,9 @@ public class TaskList {
         if (taskIndex < 0 || taskIndex >= tasks.size()) {
             throw new ReneException("That task number is not in the list yet.");
         }
+
+        // The guard above establishes this postcondition for every caller.
+        assert taskIndex >= 0 && taskIndex < tasks.size() : "Validated task index must be in range";
         return taskIndex;
     }
 }
