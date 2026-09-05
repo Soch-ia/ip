@@ -99,7 +99,7 @@ public class Storage {
 
         return switch (task.getTaskType()) {
             case TODO -> basicFields;
-            case DEADLINE -> basicFields + FIELD_SEPARATOR + ((Deadline) task).getBy();
+            case DEADLINE -> basicFields + FIELD_SEPARATOR + ((Deadline) task).getDueDate();
             case EVENT -> basicFields
                     + FIELD_SEPARATOR + ((Event) task).getFrom()
                     + FIELD_SEPARATOR + ((Event) task).getTo();
