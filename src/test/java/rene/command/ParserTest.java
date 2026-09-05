@@ -71,7 +71,7 @@ class ParserTest {
 
         Deadline deadline = assertInstanceOf(Deadline.class, task);
         assertEquals("return book", deadline.getDescription());
-        assertEquals(LocalDate.of(2026, 8, 31), deadline.getBy());
+        assertEquals(LocalDate.of(2026, 8, 31), deadline.getDueDate());
     }
 
     @Test

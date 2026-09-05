@@ -119,6 +119,9 @@ public class Rene {
      * Applies a parsed command to the task list.
      */
     private String execute(ParsedCommand command) throws ReneException {
+        // Only successfully parsed commands reach the command dispatcher.
+        assert command != null : "Parsed command must not be null";
+
         return switch (command.type()) {
             case LIST -> ui.formatTasks(tasks.getTasks());
             case MARK -> markTask(command);
