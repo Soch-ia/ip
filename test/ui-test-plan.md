@@ -390,7 +390,7 @@ ____________________________________________________________
  Now you have 1 task in the list.
 ____________________________________________________________
 ____________________________________________________________
- Oops — I don't know that command yet. Try todo, deadline, event, list, mark, unmark, delete, find, or bye.
+ Oops — I don't know that command yet. Try todo, deadline, event, list, mark, unmark, delete, find, help, or bye.
 ____________________________________________________________
 ____________________________________________________________
  Oops — A deadline needs /by. Try: deadline submit report /by 2026-08-31
@@ -427,6 +427,66 @@ ____________________________________________________________
  1.[T][ ] read chapter 3
  2.[D][ ] return book (by: Aug 28 2026)
  3.[E][ ] group study (from: 2pm to: 4pm)
+____________________________________________________________
+____________________________________________________________
+Bye. Hope to see you again soon!
+____________________________________________________________
+```
+
+## Test case: Show command help
+
+### Aim
+
+Verify that the help command lists the syntax of every supported command without changing the task list.
+
+### Run command
+
+```sh
+./gradlew --quiet classes && rm -f _temp/ui-test-help.txt && java -cp build/classes/java/main rene.Rene _temp/ui-test-help.txt
+```
+
+### Inputs
+
+```text
+todo keep this task
+help
+list
+bye
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+ ____
+|  _ \ ___ _ __   ___
+| |_) / _ \ '_ \ / _ \
+|  _ <  __/ | | |  __/
+|_| \_\___|_| |_|\___|
+Hello! I'm Rene.
+What can I do for you?
+____________________________________________________________
+____________________________________________________________
+ Got it. I've added this task:
+   [T][ ] keep this task
+ Now you have 1 task in the list.
+____________________________________________________________
+____________________________________________________________
+ Here are Rene's commands:
+ todo DESCRIPTION
+ deadline DESCRIPTION /by yyyy-MM-dd
+ event DESCRIPTION /from START /to END
+ list
+ mark NUMBER
+ unmark NUMBER
+ delete NUMBER
+ find KEYWORD
+ help
+ bye
+____________________________________________________________
+____________________________________________________________
+ Here are the tasks in your list:
+ 1.[T][ ] keep this task
 ____________________________________________________________
 ____________________________________________________________
 Bye. Hope to see you again soon!

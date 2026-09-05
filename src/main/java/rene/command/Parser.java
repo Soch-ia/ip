@@ -14,7 +14,8 @@ import rene.task.Todo;
  */
 public class Parser {
     private static final String UNKNOWN_COMMAND_MESSAGE =
-            "I don't know that command yet. Try todo, deadline, event, list, mark, unmark, delete, find, or bye.";
+            "I don't know that command yet. Try todo, deadline, event, list, mark, unmark, "
+                    + "delete, find, help, or bye.";
 
     /**
      * Creates a parser for Rene's supported command syntax.

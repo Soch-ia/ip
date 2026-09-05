@@ -29,8 +29,27 @@ public class ReneTest {
 
         assertEquals(
                 " Oops — I don't know that command yet. "
-                        + "Try todo, deadline, event, list, mark, unmark, delete, find, or bye.",
+                        + "Try todo, deadline, event, list, mark, unmark, delete, find, help, or bye.",
                 rene.getResponse("unknown"));
+    }
+
+    @Test
+    public void getResponse_help_returnsEveryCommandSyntax() {
+        Rene rene = new Rene(temporaryDirectory.resolve("rene.txt"));
+
+        assertEquals(
+                " Here are Rene's commands:\n"
+                        + " todo DESCRIPTION\n"
+                        + " deadline DESCRIPTION /by yyyy-MM-dd\n"
+                        + " event DESCRIPTION /from START /to END\n"
+                        + " list\n"
+                        + " mark NUMBER\n"
+                        + " unmark NUMBER\n"
+                        + " delete NUMBER\n"
+                        + " find KEYWORD\n"
+                        + " help\n"
+                        + " bye",
+                rene.getResponse("help"));
     }
 
     @Test
