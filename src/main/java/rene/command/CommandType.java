@@ -16,6 +16,8 @@ public enum CommandType {
     DELETE("delete"),
     /** Finds tasks whose descriptions contain a keyword. */
     FIND("find"),
+    /** Displays guidance for all supported commands. */
+    HELP("help"),
     /** Adds a task without a date or time. */
     TODO("todo"),
     /** Adds a task with a due date. */

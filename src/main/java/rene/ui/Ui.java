@@ -12,6 +12,17 @@ public class Ui {
     private static final String DIVIDER = "____________________________________________________________";
     private static final String GREETING = "Hello! I'm Rene.\nWhat can I do for you?";
     private static final String GOODBYE = "Bye. Hope to see you again soon!";
+    private static final String HELP = " Here are Rene's commands:\n"
+            + " todo DESCRIPTION\n"
+            + " deadline DESCRIPTION /by yyyy-MM-dd\n"
+            + " event DESCRIPTION /from START /to END\n"
+            + " list\n"
+            + " mark NUMBER\n"
+            + " unmark NUMBER\n"
+            + " delete NUMBER\n"
+            + " find KEYWORD\n"
+            + " help\n"
+            + " bye";
     private static final String BANNER = " ____\n"
             + "|  _ \\ ___ _ __   ___\n"
             + "| |_) / _ \\ '_ \\ / _ \\\n"
@@ -106,6 +117,15 @@ public class Ui {
      */
     public String formatGoodbye() {
         return GOODBYE;
+    }
+
+    /**
+     * Formats guidance for every command supported by Rene.
+     *
+     * @return the command syntax reference.
+     */
+    public String formatHelp() {
+        return HELP;
     }
 
     /**

@@ -18,7 +18,7 @@ public class Rene {
     private static final Path DEFAULT_DATA_FILE = Path.of("data", "rene.txt");
     private static final String UNKNOWN_COMMAND_MESSAGE =
             "I don't know that command yet. Try todo, deadline, event, list, mark, unmark, "
-                    + "delete, find, or bye.";
+                    + "delete, find, help, or bye.";
 
     private final Parser parser;
     private final Storage storage;
@@ -125,6 +125,7 @@ public class Rene {
             case UNMARK -> unmarkTask(command);
             case DELETE -> deleteTask(command);
             case FIND -> findTasks(command);
+            case HELP -> ui.formatHelp();
             case TODO, DEADLINE, EVENT -> addTask(parser.parseTask(command));
             case BYE -> throw new ReneException(UNKNOWN_COMMAND_MESSAGE);
             default -> throw new ReneException(UNKNOWN_COMMAND_MESSAGE);

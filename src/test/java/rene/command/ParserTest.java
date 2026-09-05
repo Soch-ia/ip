@@ -36,8 +36,17 @@ class ParserTest {
         ReneException exception = assertThrows(ReneException.class, () -> parser.parse("remind me"));
 
         assertEquals(
-                "I don't know that command yet. Try todo, deadline, event, list, mark, unmark, delete, find, or bye.",
+                "I don't know that command yet. "
+                        + "Try todo, deadline, event, list, mark, unmark, delete, find, help, or bye.",
                 exception.getMessage());
+    }
+
+    @Test
+    void parse_helpCommand_returnsHelpType() throws ReneException {
+        ParsedCommand command = parser.parse("help");
+
+        assertEquals(CommandType.HELP, command.type());
+        assertEquals("", command.argument());
     }
 
     @Test
