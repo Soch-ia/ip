@@ -57,7 +57,7 @@ class StorageTest {
 
         Deadline loadedDeadline = assertInstanceOf(Deadline.class, loadedTasks.get(1));
         assertEquals("return book", loadedDeadline.getDescription());
-        assertEquals(LocalDate.of(2026, 8, 31), loadedDeadline.getBy());
+        assertEquals(LocalDate.of(2026, 8, 31), loadedDeadline.getDueDate());
         assertTrue(loadedDeadline.isDone());
 
         Event loadedEvent = assertInstanceOf(Event.class, loadedTasks.get(2));
