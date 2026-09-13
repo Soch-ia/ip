@@ -30,3 +30,9 @@ Prerequisites: JDK 25, update Intellij to the most recent version.
 - **Command line:** run `./gradlew run --args="path/to/rene.txt"` if you prefer the text UI (the path defaults to `data/rene.txt` next to the working directory).
 
 The app saves and reloads tasks from `data/rene.txt` automatically.
+
+## Building the JAR
+
+Run `./gradlew clean shadowJar` to produce the cross-platform fat JAR at
+`build/libs/rene.jar`. Distribute that single file; it bundles JavaFX and
+runs on any OS with a Java 25 installation.
