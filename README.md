@@ -23,3 +23,10 @@ Prerequisites: JDK 25, update Intellij to the most recent version.
    ```
 
 **Warning:** Keep the `src\main\java` folder as the root folder for Java files (i.e., don't rename those folders or move Java files to another folder outside of this folder path), as this is the default location some tools (e.g., Gradle) expect to find Java files.
+
+## Running the app
+
+- **GUI:** run `./gradlew run` from the project root, or press the play icon next to the `main` method of `src/main/java/rene/gui/Launcher.java` in IntelliJ.
+- **Command line:** run `./gradlew run --args="path/to/rene.txt"` if you prefer the text UI (the path defaults to `data/rene.txt` next to the working directory).
+
+The app saves and reloads tasks from `data/rene.txt` automatically.
