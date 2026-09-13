@@ -6,6 +6,12 @@ available the next time the application starts.
 
 ![Rene in action](Ui.png)
 
+## Getting started
+
+1. Download the latest `rene.jar` from the [releases page](https://github.com/Soch-ia/ip/releases) (a Java 25 installation is required).
+2. Run `java -jar rene.jar` from a terminal. Rene opens the GUI and creates `data/rene.txt` in the current folder on first save.
+3. Type a command (for example `todo review proposal`) and press Enter. Type `bye` or close the window to exit.
+
 ## Command summary
 
 Enter `help` to see the command reference inside Rene:
