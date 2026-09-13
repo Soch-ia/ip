@@ -13,6 +13,11 @@ import rene.Rene;
  * Controls the main JavaFX window and forwards user commands to Rene.
  */
 public class MainWindow extends AnchorPane {
+    /** The proportion of the window width that a Rene card may occupy. */
+    private static final double CARD_WIDTH_FRACTION = 0.72;
+    /** Keeps cards from getting wider than they need to be on large windows. */
+    private static final double CARD_MAX_WIDTH_PX = 560;
+
     @FXML
     private ScrollPane scrollPane;
     @FXML
@@ -25,11 +30,15 @@ public class MainWindow extends AnchorPane {
     private Rene rene;
 
     /**
-     * Keeps the conversation scrolled to its newest dialog.
+     * Keeps the conversation scrolled to its newest dialog and clamps card
+     * widths so the content responds when the window is resized. The clamp is
+     * bound to the conversation container's width, so it also runs on the
+     * initial layout.
      */
     @FXML
     public void initialize() {
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
+        dialogContainer.widthProperty().addListener((observable, oldWidth, newWidth) -> clampCardWidths());
     }
 
     /**
@@ -53,12 +62,35 @@ public class MainWindow extends AnchorPane {
             return;
         }
 
+        String response = rene.getResponse(input);
+        DialogBox responseBox = response.startsWith(" Apologies")
+                ? DialogBox.getErrorDialog(response)
+                : DialogBox.getReneDialog(response);
         dialogContainer.getChildren().addAll(
                 DialogBox.getUserDialog(input),
-                DialogBox.getReneDialog(rene.getResponse(input)));
+                responseBox);
+        clampCardWidths();
         userInput.clear();
-        if (input.equals("bye")) {
+        if (input.strip().equals("bye")) {
             Platform.exit();
+        }
+    }
+
+    /**
+     * Restricts each dialog card to a width relative to the window so long
+     * responses wrap gracefully instead of forcing the window wider. Skips
+     * clamping while the container width has not been laid out yet.
+     */
+    private void clampCardWidths() {
+        double containerWidth = dialogContainer.getWidth();
+        if (containerWidth <= 10) {
+            return;
+        }
+        double maxWidth = Math.min(containerWidth * CARD_WIDTH_FRACTION, CARD_MAX_WIDTH_PX);
+        for (var child : dialogContainer.getChildren()) {
+            if (child instanceof DialogBox dialogBox) {
+                dialogBox.setCardMaxWidth(maxWidth);
+            }
         }
     }
 }

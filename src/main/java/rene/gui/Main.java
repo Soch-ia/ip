@@ -28,9 +28,9 @@ public class Main extends Application {
         fxmlLoader.<MainWindow>getController().setRene(rene);
 
         stage.setScene(new Scene(mainWindow));
-        stage.setTitle("Rene");
-        stage.setMinWidth(480);
-        stage.setMinHeight(640);
+        stage.setTitle("Rene — Productivity Liaison");
+        stage.setMinWidth(420);
+        stage.setMinHeight(560);
         stage.show();
     }
 }
