@@ -839,3 +839,161 @@ ____________________________________________________________
 Bye. Hope to see you again soon!
 ____________________________________________________________
 ```
+
+## Test case: Tolerate surrounding spaces and blank lines
+
+### Aim
+
+Verify that commands with leading/trailing spaces are still recognized, extra spaces inside a description are collapsed, and blank lines are rejected without changing tasks.
+
+### Run command
+
+```sh
+./gradlew --quiet classes && rm -f _temp/ui-test-spaces.txt && java -cp build/classes/java/main rene.Rene _temp/ui-test-spaces.txt
+```
+
+### Inputs
+
+```text
+   list  
+  todo   read    chapter 3  
+deadline  submit  report  /by 2026-08-31  
+list
+
+bye
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+ ____
+|  _ \ ___ _ __   ___
+| |_) / _ \ '_ \ / _ \
+|  _ <  __/ | | |  __/
+|_| \_\___|_| |_|\___|
+Hello! I'm Rene.
+What can I do for you?
+____________________________________________________________
+____________________________________________________________
+ Here are the tasks in your list:
+____________________________________________________________
+____________________________________________________________
+ Got it. I've added this task:
+   [T][ ] read chapter 3
+ Now you have 1 task in the list.
+____________________________________________________________
+____________________________________________________________
+ Got it. I've added this task:
+   [D][ ] submit report (by: Aug 31 2026)
+ Now you have 2 tasks in the list.
+____________________________________________________________
+____________________________________________________________
+ Here are the tasks in your list:
+ 1.[T][ ] read chapter 3
+ 2.[D][ ] submit report (by: Aug 31 2026)
+____________________________________________________________
+____________________________________________________________
+ Oops — Please enter a command. Try: help
+____________________________________________________________
+____________________________________________________________
+Bye. Hope to see you again soon!
+____________________________________________________________
+```
+
+## Test case: Reject duplicated markers and missing task numbers
+
+### Aim
+
+Verify that a marker specified more than once, a marker in the wrong order, a missing task number, and an out-of-range task number are all rejected without changing tasks.
+
+### Run command
+
+```sh
+./gradlew --quiet classes && rm -f _temp/ui-test-markers.txt && java -cp build/classes/java/main rene.Rene _temp/ui-test-markers.txt
+```
+
+### Inputs
+
+```text
+todo first task
+deadline report /by 2026-08-31 /by 2026-09-01
+event study /from 2pm /from 3pm /to 4pm
+event study /to 4pm /from 2pm
+mark
+mark 99999999999999999999
+mark 1
+list
+bye
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+ ____
+|  _ \ ___ _ __   ___
+| |_) / _ \ '_ \ / _ \
+|  _ <  __/ | | |  __/
+|_| \_\___|_| |_|\___|
+Hello! I'm Rene.
+What can I do for you?
+____________________________________________________________
+____________________________________________________________
+ Got it. I've added this task:
+   [T][ ] first task
+ Now you have 1 task in the list.
+____________________________________________________________
+____________________________________________________________
+ Oops — A deadline can have only one /by. Try: deadline submit report /by 2026-08-31
+____________________________________________________________
+____________________________________________________________
+ Oops — An event can have one /from and one /to each. Try: event study group /from 2pm /to 4pm
+____________________________________________________________
+____________________________________________________________
+ Oops — An event needs /from before /to. Try: event study group /from 2pm /to 4pm
+____________________________________________________________
+____________________________________________________________
+ Oops — A mark command needs a task number. Try: mark 1
+____________________________________________________________
+____________________________________________________________
+ Oops — That task number is too large. Try: mark 1
+____________________________________________________________
+____________________________________________________________
+ Nice! I've marked this task as done:
+   [T][X] first task
+____________________________________________________________
+____________________________________________________________
+ Here are the tasks in your list:
+ 1.[T][X] first task
+____________________________________________________________
+____________________________________________________________
+Bye. Hope to see you again soon!
+____________________________________________________________
+```
+
+## Manual tests (A-MoreErrorHandling)
+
+Cases that cannot be automated in the console runner. Verify by hand before the final release.
+
+### Environment issue: data file path is a directory
+
+Start Rene with a directory as its data file:
+
+```sh
+rm -rf _temp/ui-test-dir && mkdir _temp/ui-test-dir && java -cp build/classes/java/main rene.Rene _temp/ui-test-dir
+```
+
+Expected: the welcome message shows `Oops — <path> is a folder, not a file, so I cannot read tasks from it.` and Rene continues with an empty list.
+
+### Environment issue: data file is not readable (macOS/Linux)
+
+```sh
+rm -f _temp/ui-test-locked.txt && touch _temp/ui-test-locked.txt && chmod 000 _temp/ui-test-locked.txt && java -cp build/classes/java/main rene.Rene _temp/ui-test-locked.txt
+```
+
+Expected: the welcome message shows `Oops — I do not have permission to read <path>. Check the file's permissions and try again.` (Skip this case when running as a user that bypasses file permissions.)
+
+### GUI: blank submission does nothing
+
+In the GUI, press Enter without typing anything: no dialog is added and the input field keeps focus.
