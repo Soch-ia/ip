@@ -31,7 +31,7 @@ class ParserErrorHandlingTest {
     void parse_blankInput_throwsException() {
         ReneException exception = assertThrows(ReneException.class, () -> parser.parse("   "));
 
-        assertEquals("Please enter a command. Try: help", exception.getMessage());
+        assertEquals("No directive detected. Try: help", exception.getMessage());
     }
 
     @Test
@@ -47,8 +47,8 @@ class ParserErrorHandlingTest {
         ReneException exception = assertThrows(ReneException.class, () -> parser.parse("blah   "));
 
         assertEquals(
-                "I don't know that command yet. "
-                        + "Try todo, deadline, event, list, mark, unmark, delete, find, help, or bye.",
+                "That falls outside my scope of operations. Standard procedures are: todo, deadline, "
+                        + "event, list, mark, unmark, delete, find, help, or bye.",
                 exception.getMessage());
     }
 
@@ -56,7 +56,7 @@ class ParserErrorHandlingTest {
     void parseTask_numberedCommandWithoutNumber_throwsCommandSpecificException() {
         ReneException exception = assertThrows(ReneException.class, () -> parser.parseTaskNumber(parser.parse("mark")));
 
-        assertEquals("A mark command needs a task number. Try: mark 1", exception.getMessage());
+        assertEquals("A mark directive requires a task number. Try: mark 1", exception.getMessage());
     }
 
     @Test
@@ -72,7 +72,7 @@ class ParserErrorHandlingTest {
 
         ReneException exception = assertThrows(ReneException.class, () -> parser.parseTaskNumber(command));
 
-        assertEquals("That task number is too large. Try: mark 1", exception.getMessage());
+        assertEquals("That task number exceeds my processing capacity. Try: mark 1", exception.getMessage());
     }
 
     @Test
@@ -90,7 +90,7 @@ class ParserErrorHandlingTest {
         ReneException exception = assertThrows(ReneException.class, () -> parser.parseTask(command));
 
         assertEquals(
-                "A deadline can have only one /by. Try: deadline submit report /by 2026-08-31",
+                "Only one /by is permitted per deadline. Try: deadline submit report /by 2026-08-31",
                 exception.getMessage());
     }
 
@@ -103,10 +103,10 @@ class ParserErrorHandlingTest {
         ReneException toException = assertThrows(ReneException.class, () -> parser.parseTask(toCommand));
 
         assertEquals(
-                "An event can have one /from and one /to each. Try: event study group /from 2pm /to 4pm",
+                "An event permits one /from and one /to each. Try: event study group /from 2pm /to 4pm",
                 fromException.getMessage());
         assertEquals(
-                "An event can have one /from and one /to each. Try: event study group /from 2pm /to 4pm",
+                "An event permits one /from and one /to each. Try: event study group /from 2pm /to 4pm",
                 toException.getMessage());
     }
 
@@ -117,7 +117,7 @@ class ParserErrorHandlingTest {
         ReneException exception = assertThrows(ReneException.class, () -> parser.parseTask(command));
 
         assertEquals(
-                "An event needs /from before /to. Try: event study group /from 2pm /to 4pm",
+                "An event requires /from before /to. Try: event study group /from 2pm /to 4pm",
                 exception.getMessage());
     }
 

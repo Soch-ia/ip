@@ -1,6 +1,6 @@
 # Rene User Guide
 
-Rene is a personal task chatbot. It keeps todos, deadlines, and events in
+Rene is a personal task chatbot with a no-nonsense, corporate register. It keeps your todos, deadlines, and events in
 `data/rene.txt` so they remain available the next time the application starts.
 
 ## Command summary
@@ -8,7 +8,7 @@ Rene is a personal task chatbot. It keeps todos, deadlines, and events in
 Enter `help` to see the command reference inside Rene:
 
 ```text
- Here are Rene's commands:
+ Per your request, here is the standard operating procedure for working with Rene:
  todo DESCRIPTION
  deadline DESCRIPTION /by yyyy-MM-dd
  event DESCRIPTION /from START /to END

@@ -7,12 +7,16 @@ import rene.task.Task;
 
 /**
  * Handles all console input and output for Rene.
+ * Rene speaks in a measured, corporate register: deliverables, action items,
+ * and touch bases, not chit-chat.
  */
 public class Ui {
     private static final String DIVIDER = "____________________________________________________________";
-    private static final String GREETING = "Hello! I'm Rene.\nWhat can I do for you?";
-    private static final String GOODBYE = "Bye. Hope to see you again soon!";
-    private static final String HELP = " Here are Rene's commands:\n"
+    private static final String GREETING = "Good day. Rene here, your personal productivity liaison.\n"
+            + "Let's align on your priorities for the day.";
+    private static final String GOODBYE = "Thank you for your time. Standing by — let's touch base again soon.";
+    private static final String HELP =
+            " Per your request, here is the standard operating procedure for working with Rene:\n"
             + " todo DESCRIPTION\n"
             + " deadline DESCRIPTION /by yyyy-MM-dd\n"
             + " event DESCRIPTION /from START /to END\n"
@@ -135,7 +139,7 @@ public class Ui {
      * @return the formatted error response.
      */
     public String formatError(String message) {
-        return " Oops — " + message;
+        return " Apologies — " + message;
     }
 
     /**
@@ -147,7 +151,7 @@ public class Ui {
      */
     public String formatTaskAdded(Task task, int taskCount) {
         return formatLines(
-                " Got it. I've added this task:",
+                " Noted. I've logged this deliverable on your action items:",
                 "   " + task,
                 formatTaskCount(taskCount));
     }
@@ -159,7 +163,7 @@ public class Ui {
      * @return the formatted task list.
      */
     public String formatTasks(List<Task> tasks) {
-        return formatNumberedTasks(" Here are the tasks in your list:", tasks);
+        return formatNumberedTasks(" Here is your current action-item backlog:", tasks);
     }
 
     /**
@@ -169,7 +173,7 @@ public class Ui {
      * @return the formatted matching task list.
      */
     public String formatMatchingTasks(List<Task> tasks) {
-        return formatNumberedTasks(" Here are the matching tasks in your list:", tasks);
+        return formatNumberedTasks(" Here are the action items matching your search criteria:", tasks);
     }
 
     /**
@@ -180,7 +184,7 @@ public class Ui {
      */
     public String formatTaskMarked(Task task) {
         return formatLines(
-                " Nice! I've marked this task as done:",
+                " Well received. I've marked this item as actioned:",
                 "   " + task);
     }
 
@@ -192,7 +196,7 @@ public class Ui {
      */
     public String formatTaskUnmarked(Task task) {
         return formatLines(
-                " OK, I've marked this task as not done yet:",
+                " Understood. This item has been reopened:",
                 "   " + task);
     }
 
@@ -206,11 +210,11 @@ public class Ui {
      */
     public String formatTaskDeleted(Task task, int taskCount, boolean tasksWereRenumbered) {
         String response = formatLines(
-                " Noted. I've removed this task:",
+                " Noted. This action item has been removed from the pipeline:",
                 "   " + task,
                 formatTaskCount(taskCount));
         if (tasksWereRenumbered) {
-            response = formatLines(response, " The remaining tasks have been renumbered.");
+            response = formatLines(response, " The remaining action items have been renumbered.");
         }
         return response;
     }
@@ -226,8 +230,8 @@ public class Ui {
      * Displays a task count with grammatically correct wording.
      */
     private String formatTaskCount(int taskCount) {
-        String taskWord = taskCount == 1 ? "task" : "tasks";
-        return " Now you have " + taskCount + " " + taskWord + " in the list.";
+        String taskWord = taskCount == 1 ? "action item" : "action items";
+        return " Your backlog now contains " + taskCount + " " + taskWord + ".";
     }
 
     /**

@@ -17,8 +17,8 @@ import rene.ui.Ui;
 public class Rene {
     private static final Path DEFAULT_DATA_FILE = Path.of("data", "rene.txt");
     private static final String UNKNOWN_COMMAND_MESSAGE =
-            "I don't know that command yet. Try todo, deadline, event, list, mark, unmark, "
-                    + "delete, find, help, or bye.";
+            "That falls outside my scope of operations. Standard procedures are: todo, deadline, "
+                    + "event, list, mark, unmark, delete, find, help, or bye.";
 
     private final Parser parser;
     private final Storage storage;
@@ -179,7 +179,7 @@ public class Rene {
      */
     private String findTasks(ParsedCommand command) throws ReneException {
         if (command.argument().isEmpty()) {
-            throw new ReneException("A find command needs a keyword. Try: find book");
+            throw new ReneException("A find directive requires a keyword. Try: find book");
         }
         return ui.formatMatchingTasks(tasks.find(command.argument()));
     }

@@ -29,11 +29,11 @@ ____________________________________________________________
 | |_) / _ \ '_ \ / _ \
 |  _ <  __/ | | |  __/
 |_| \_\___|_| |_|\___|
-Hello! I'm Rene.
-What can I do for you?
+Good day. Rene here, your personal productivity liaison.
+Let's align on your priorities for the day.
 ____________________________________________________________
 ____________________________________________________________
-Bye. Hope to see you again soon!
+Thank you for your time. Standing by — let's touch base again soon.
 ____________________________________________________________
 ```
 
@@ -71,44 +71,44 @@ ____________________________________________________________
 | |_) / _ \ '_ \ / _ \
 |  _ <  __/ | | |  __/
 |_| \_\___|_| |_|\___|
-Hello! I'm Rene.
-What can I do for you?
+Good day. Rene here, your personal productivity liaison.
+Let's align on your priorities for the day.
 ____________________________________________________________
 ____________________________________________________________
- Got it. I've added this task:
+ Noted. I've logged this deliverable on your action items:
    [T][ ] read book
- Now you have 1 task in the list.
+ Your backlog now contains 1 action item.
 ____________________________________________________________
 ____________________________________________________________
- Got it. I've added this task:
+ Noted. I've logged this deliverable on your action items:
    [D][ ] return book (by: Jun 6 2026)
- Now you have 2 tasks in the list.
+ Your backlog now contains 2 action items.
 ____________________________________________________________
 ____________________________________________________________
- Got it. I've added this task:
+ Noted. I've logged this deliverable on your action items:
    [E][ ] project meeting (from: Aug 6th 2pm to: 4pm)
- Now you have 3 tasks in the list.
+ Your backlog now contains 3 action items.
 ____________________________________________________________
 ____________________________________________________________
- Nice! I've marked this task as done:
+ Well received. I've marked this item as actioned:
    [D][X] return book (by: Jun 6 2026)
 ____________________________________________________________
 ____________________________________________________________
- OK, I've marked this task as not done yet:
+ Understood. This item has been reopened:
    [D][ ] return book (by: Jun 6 2026)
 ____________________________________________________________
 ____________________________________________________________
- Nice! I've marked this task as done:
+ Well received. I've marked this item as actioned:
    [E][X] project meeting (from: Aug 6th 2pm to: 4pm)
 ____________________________________________________________
 ____________________________________________________________
- Noted. I've removed this task:
+ Noted. This action item has been removed from the pipeline:
    [T][ ] read book
- Now you have 2 tasks in the list.
- The remaining tasks have been renumbered.
+ Your backlog now contains 2 action items.
+ The remaining action items have been renumbered.
 ____________________________________________________________
 ____________________________________________________________
-Bye. Hope to see you again soon!
+Thank you for your time. Standing by — let's touch base again soon.
 ____________________________________________________________
 ```
 
@@ -140,16 +140,16 @@ ____________________________________________________________
 | |_) / _ \ '_ \ / _ \
 |  _ <  __/ | | |  __/
 |_| \_\___|_| |_|\___|
-Hello! I'm Rene.
-What can I do for you?
+Good day. Rene here, your personal productivity liaison.
+Let's align on your priorities for the day.
 ____________________________________________________________
 ____________________________________________________________
- Here are the tasks in your list:
+ Here is your current action-item backlog:
  1.[D][ ] return book (by: Jun 6 2026)
  2.[E][X] project meeting (from: Aug 6th 2pm to: 4pm)
 ____________________________________________________________
 ____________________________________________________________
-Bye. Hope to see you again soon!
+Thank you for your time. Standing by — let's touch base again soon.
 ____________________________________________________________
 ```
 
@@ -187,37 +187,37 @@ ____________________________________________________________
 | |_) / _ \ '_ \ / _ \
 |  _ <  __/ | | |  __/
 |_| \_\___|_| |_|\___|
-Hello! I'm Rene.
-What can I do for you?
+Good day. Rene here, your personal productivity liaison.
+Let's align on your priorities for the day.
 ____________________________________________________________
 ____________________________________________________________
- Got it. I've added this task:
+ Noted. I've logged this deliverable on your action items:
    [T][ ] revise notes
- Now you have 1 task in the list.
+ Your backlog now contains 1 action item.
 ____________________________________________________________
 ____________________________________________________________
- Oops — That task is not done yet, so there is nothing to unmark.
+ Apologies — This action item has not yet been completed, so there is nothing to reopen.
 ____________________________________________________________
 ____________________________________________________________
- Nice! I've marked this task as done:
+ Well received. I've marked this item as actioned:
    [T][X] revise notes
 ____________________________________________________________
 ____________________________________________________________
- Oops — That task is already done — no need to mark it twice.
+ Apologies — This action item has already been completed — no action required.
 ____________________________________________________________
 ____________________________________________________________
- OK, I've marked this task as not done yet:
+ Understood. This item has been reopened:
    [T][ ] revise notes
 ____________________________________________________________
 ____________________________________________________________
- Oops — That task is not done yet, so there is nothing to unmark.
+ Apologies — This action item has not yet been completed, so there is nothing to reopen.
 ____________________________________________________________
 ____________________________________________________________
- Here are the tasks in your list:
+ Here is your current action-item backlog:
  1.[T][ ] revise notes
 ____________________________________________________________
 ____________________________________________________________
-Bye. Hope to see you again soon!
+Thank you for your time. Standing by — let's touch base again soon.
 ____________________________________________________________
 ```
 
@@ -253,38 +253,38 @@ ____________________________________________________________
 | |_) / _ \ '_ \ / _ \
 |  _ <  __/ | | |  __/
 |_| \_\___|_| |_|\___|
-Hello! I'm Rene.
-What can I do for you?
+Good day. Rene here, your personal productivity liaison.
+Let's align on your priorities for the day.
 ____________________________________________________________
 ____________________________________________________________
- Got it. I've added this task:
+ Noted. I've logged this deliverable on your action items:
    [T][ ] borrow book
- Now you have 1 task in the list.
+ Your backlog now contains 1 action item.
 ____________________________________________________________
 ____________________________________________________________
- Got it. I've added this task:
+ Noted. I've logged this deliverable on your action items:
    [D][ ] return book (by: Aug 30 2026)
- Now you have 2 tasks in the list.
+ Your backlog now contains 2 action items.
 ____________________________________________________________
 ____________________________________________________________
- Got it. I've added this task:
+ Noted. I've logged this deliverable on your action items:
    [E][ ] project meeting (from: Mon 2pm to: 4pm)
- Now you have 3 tasks in the list.
+ Your backlog now contains 3 action items.
 ____________________________________________________________
 ____________________________________________________________
- Got it. I've added this task:
+ Noted. I've logged this deliverable on your action items:
    [D][ ] do homework (by: Sep 1 2026)
- Now you have 4 tasks in the list.
+ Your backlog now contains 4 action items.
 ____________________________________________________________
 ____________________________________________________________
- Here are the tasks in your list:
+ Here is your current action-item backlog:
  1.[T][ ] borrow book
  2.[D][ ] return book (by: Aug 30 2026)
  3.[E][ ] project meeting (from: Mon 2pm to: 4pm)
  4.[D][ ] do homework (by: Sep 1 2026)
 ____________________________________________________________
 ____________________________________________________________
-Bye. Hope to see you again soon!
+Thank you for your time. Standing by — let's touch base again soon.
 ____________________________________________________________
 ```
 
@@ -318,24 +318,24 @@ ____________________________________________________________
 | |_) / _ \ '_ \ / _ \
 |  _ <  __/ | | |  __/
 |_| \_\___|_| |_|\___|
-Hello! I'm Rene.
-What can I do for you?
+Good day. Rene here, your personal productivity liaison.
+Let's align on your priorities for the day.
 ____________________________________________________________
 ____________________________________________________________
- Got it. I've added this task:
+ Noted. I've logged this deliverable on your action items:
    [T][ ] submit assignment
- Now you have 1 task in the list.
+ Your backlog now contains 1 action item.
 ____________________________________________________________
 ____________________________________________________________
- Nice! I've marked this task as done:
+ Well received. I've marked this item as actioned:
    [T][X] submit assignment
 ____________________________________________________________
 ____________________________________________________________
- OK, I've marked this task as not done yet:
+ Understood. This item has been reopened:
    [T][ ] submit assignment
 ____________________________________________________________
 ____________________________________________________________
-Bye. Hope to see you again soon!
+Thank you for your time. Standing by — let's touch base again soon.
 ____________________________________________________________
 ```
 
@@ -378,58 +378,58 @@ ____________________________________________________________
 | |_) / _ \ '_ \ / _ \
 |  _ <  __/ | | |  __/
 |_| \_\___|_| |_|\___|
-Hello! I'm Rene.
-What can I do for you?
+Good day. Rene here, your personal productivity liaison.
+Let's align on your priorities for the day.
 ____________________________________________________________
 ____________________________________________________________
- Oops — A todo needs a description. Try: todo read chapter 3
+ Apologies — A todo requires a description. Try: todo read chapter 3
 ____________________________________________________________
 ____________________________________________________________
- Got it. I've added this task:
+ Noted. I've logged this deliverable on your action items:
    [T][ ] read chapter 3
- Now you have 1 task in the list.
+ Your backlog now contains 1 action item.
 ____________________________________________________________
 ____________________________________________________________
- Oops — I don't know that command yet. Try todo, deadline, event, list, mark, unmark, delete, find, help, or bye.
+ Apologies — That falls outside my scope of operations. Standard procedures are: todo, deadline, event, list, mark, unmark, delete, find, help, or bye.
 ____________________________________________________________
 ____________________________________________________________
- Oops — A deadline needs /by. Try: deadline submit report /by 2026-08-31
+ Apologies — A deadline requires /by. Try: deadline submit report /by 2026-08-31
 ____________________________________________________________
 ____________________________________________________________
- Got it. I've added this task:
+ Noted. I've logged this deliverable on your action items:
    [D][ ] return book (by: Aug 28 2026)
- Now you have 2 tasks in the list.
+ Your backlog now contains 2 action items.
 ____________________________________________________________
 ____________________________________________________________
- Got it. I've added this task:
+ Noted. I've logged this deliverable on your action items:
    [E][ ] group study (from: 2pm to: 4pm)
- Now you have 3 tasks in the list.
+ Your backlog now contains 3 action items.
 ____________________________________________________________
 ____________________________________________________________
- Oops — An event needs /from and /to. Try: event study group /from 2pm /to 4pm
+ Apologies — An event requires /from and /to. Try: event study group /from 2pm /to 4pm
 ____________________________________________________________
 ____________________________________________________________
- Oops — Please give me a whole-number task position, like: mark 1
+ Apologies — A task position must be a whole number, e.g.: mark 1
 ____________________________________________________________
 ____________________________________________________________
- Oops — That task number is not in the list yet.
+ Apologies — No action item with that position was found.
 ____________________________________________________________
 ____________________________________________________________
- Nice! I've marked this task as done:
+ Well received. I've marked this item as actioned:
    [T][X] read chapter 3
 ____________________________________________________________
 ____________________________________________________________
- OK, I've marked this task as not done yet:
+ Understood. This item has been reopened:
    [T][ ] read chapter 3
 ____________________________________________________________
 ____________________________________________________________
- Here are the tasks in your list:
+ Here is your current action-item backlog:
  1.[T][ ] read chapter 3
  2.[D][ ] return book (by: Aug 28 2026)
  3.[E][ ] group study (from: 2pm to: 4pm)
 ____________________________________________________________
 ____________________________________________________________
-Bye. Hope to see you again soon!
+Thank you for your time. Standing by — let's touch base again soon.
 ____________________________________________________________
 ```
 
@@ -463,16 +463,16 @@ ____________________________________________________________
 | |_) / _ \ '_ \ / _ \
 |  _ <  __/ | | |  __/
 |_| \_\___|_| |_|\___|
-Hello! I'm Rene.
-What can I do for you?
+Good day. Rene here, your personal productivity liaison.
+Let's align on your priorities for the day.
 ____________________________________________________________
 ____________________________________________________________
- Got it. I've added this task:
+ Noted. I've logged this deliverable on your action items:
    [T][ ] keep this task
- Now you have 1 task in the list.
+ Your backlog now contains 1 action item.
 ____________________________________________________________
 ____________________________________________________________
- Here are Rene's commands:
+ Per your request, here is the standard operating procedure for working with Rene:
  todo DESCRIPTION
  deadline DESCRIPTION /by yyyy-MM-dd
  event DESCRIPTION /from START /to END
@@ -485,11 +485,11 @@ ____________________________________________________________
  bye
 ____________________________________________________________
 ____________________________________________________________
- Here are the tasks in your list:
+ Here is your current action-item backlog:
  1.[T][ ] keep this task
 ____________________________________________________________
 ____________________________________________________________
-Bye. Hope to see you again soon!
+Thank you for your time. Standing by — let's touch base again soon.
 ____________________________________________________________
 ```
 
@@ -530,48 +530,48 @@ ____________________________________________________________
 | |_) / _ \ '_ \ / _ \
 |  _ <  __/ | | |  __/
 |_| \_\___|_| |_|\___|
-Hello! I'm Rene.
-What can I do for you?
+Good day. Rene here, your personal productivity liaison.
+Let's align on your priorities for the day.
 ____________________________________________________________
 ____________________________________________________________
- Got it. I've added this task:
+ Noted. I've logged this deliverable on your action items:
    [T][ ] read book
- Now you have 1 task in the list.
+ Your backlog now contains 1 action item.
 ____________________________________________________________
 ____________________________________________________________
- Got it. I've added this task:
+ Noted. I've logged this deliverable on your action items:
    [D][ ] return BOOK (by: Jun 6 2026)
- Now you have 2 tasks in the list.
+ Your backlog now contains 2 action items.
 ____________________________________________________________
 ____________________________________________________________
- Got it. I've added this task:
+ Noted. I've logged this deliverable on your action items:
    [E][ ] project meeting (from: library to: home)
- Now you have 3 tasks in the list.
+ Your backlog now contains 3 action items.
 ____________________________________________________________
 ____________________________________________________________
- Nice! I've marked this task as done:
+ Well received. I've marked this item as actioned:
    [T][X] read book
 ____________________________________________________________
 ____________________________________________________________
- Here are the matching tasks in your list:
+ Here are the action items matching your search criteria:
  1.[T][X] read book
  2.[D][ ] return BOOK (by: Jun 6 2026)
 ____________________________________________________________
 ____________________________________________________________
- Here are the matching tasks in your list:
+ Here are the action items matching your search criteria:
  1.[E][ ] project meeting (from: library to: home)
 ____________________________________________________________
 ____________________________________________________________
- Here are the matching tasks in your list:
+ Here are the action items matching your search criteria:
 ____________________________________________________________
 ____________________________________________________________
- Here are the matching tasks in your list:
+ Here are the action items matching your search criteria:
 ____________________________________________________________
 ____________________________________________________________
- Oops — A find command needs a keyword. Try: find book
+ Apologies — A find directive requires a keyword. Try: find book
 ____________________________________________________________
 ____________________________________________________________
-Bye. Hope to see you again soon!
+Thank you for your time. Standing by — let's touch base again soon.
 ____________________________________________________________
 ```
 
@@ -608,41 +608,41 @@ ____________________________________________________________
 | |_) / _ \ '_ \ / _ \
 |  _ <  __/ | | |  __/
 |_| \_\___|_| |_|\___|
-Hello! I'm Rene.
-What can I do for you?
+Good day. Rene here, your personal productivity liaison.
+Let's align on your priorities for the day.
 ____________________________________________________________
 ____________________________________________________________
- Got it. I've added this task:
+ Noted. I've logged this deliverable on your action items:
    [T][ ] read book
- Now you have 1 task in the list.
+ Your backlog now contains 1 action item.
 ____________________________________________________________
 ____________________________________________________________
- Got it. I've added this task:
+ Noted. I've logged this deliverable on your action items:
    [D][ ] return book (by: Jun 6 2026)
- Now you have 2 tasks in the list.
+ Your backlog now contains 2 action items.
 ____________________________________________________________
 ____________________________________________________________
- Got it. I've added this task:
+ Noted. I've logged this deliverable on your action items:
    [E][ ] project meeting (from: Aug 6th 2pm to: 4pm)
- Now you have 3 tasks in the list.
+ Your backlog now contains 3 action items.
 ____________________________________________________________
 ____________________________________________________________
- Noted. I've removed this task:
+ Noted. This action item has been removed from the pipeline:
    [T][ ] read book
- Now you have 2 tasks in the list.
- The remaining tasks have been renumbered.
+ Your backlog now contains 2 action items.
+ The remaining action items have been renumbered.
 ____________________________________________________________
 ____________________________________________________________
- Nice! I've marked this task as done:
+ Well received. I've marked this item as actioned:
    [D][X] return book (by: Jun 6 2026)
 ____________________________________________________________
 ____________________________________________________________
- Here are the tasks in your list:
+ Here is your current action-item backlog:
  1.[D][X] return book (by: Jun 6 2026)
  2.[E][ ] project meeting (from: Aug 6th 2pm to: 4pm)
 ____________________________________________________________
 ____________________________________________________________
-Bye. Hope to see you again soon!
+Thank you for your time. Standing by — let's touch base again soon.
 ____________________________________________________________
 ```
 
@@ -679,33 +679,33 @@ ____________________________________________________________
 | |_) / _ \ '_ \ / _ \
 |  _ <  __/ | | |  __/
 |_| \_\___|_| |_|\___|
-Hello! I'm Rene.
-What can I do for you?
+Good day. Rene here, your personal productivity liaison.
+Let's align on your priorities for the day.
 ____________________________________________________________
 ____________________________________________________________
- Got it. I've added this task:
+ Noted. I've logged this deliverable on your action items:
    [T][ ] only task
- Now you have 1 task in the list.
+ Your backlog now contains 1 action item.
 ____________________________________________________________
 ____________________________________________________________
- Noted. I've removed this task:
+ Noted. This action item has been removed from the pipeline:
    [T][ ] only task
- Now you have 0 tasks in the list.
+ Your backlog now contains 0 action items.
 ____________________________________________________________
 ____________________________________________________________
- Oops — That task number is not in the list yet.
+ Apologies — No action item with that position was found.
 ____________________________________________________________
 ____________________________________________________________
- Oops — That task number is not in the list yet.
+ Apologies — No action item with that position was found.
 ____________________________________________________________
 ____________________________________________________________
- Oops — That task number is not in the list yet.
+ Apologies — No action item with that position was found.
 ____________________________________________________________
 ____________________________________________________________
- Here are the tasks in your list:
+ Here is your current action-item backlog:
 ____________________________________________________________
 ____________________________________________________________
-Bye. Hope to see you again soon!
+Thank you for your time. Standing by — let's touch base again soon.
 ____________________________________________________________
 ```
 
@@ -742,32 +742,32 @@ ____________________________________________________________
 | |_) / _ \ '_ \ / _ \
 |  _ <  __/ | | |  __/
 |_| \_\___|_| |_|\___|
-Hello! I'm Rene.
-What can I do for you?
+Good day. Rene here, your personal productivity liaison.
+Let's align on your priorities for the day.
 ____________________________________________________________
 ____________________________________________________________
- Got it. I've added this task:
+ Noted. I've logged this deliverable on your action items:
    [T][ ] keep this task
- Now you have 1 task in the list.
+ Your backlog now contains 1 action item.
 ____________________________________________________________
 ____________________________________________________________
- Oops — Please give me a whole-number task position, like: delete 1
+ Apologies — A task position must be a whole number, e.g.: delete 1
 ____________________________________________________________
 ____________________________________________________________
- Oops — That task number is not in the list yet.
+ Apologies — No action item with that position was found.
 ____________________________________________________________
 ____________________________________________________________
- Oops — That task number is not in the list yet.
+ Apologies — No action item with that position was found.
 ____________________________________________________________
 ____________________________________________________________
- Oops — That task number is not in the list yet.
+ Apologies — No action item with that position was found.
 ____________________________________________________________
 ____________________________________________________________
- Here are the tasks in your list:
+ Here is your current action-item backlog:
  1.[T][ ] keep this task
 ____________________________________________________________
 ____________________________________________________________
-Bye. Hope to see you again soon!
+Thank you for your time. Standing by — let's touch base again soon.
 ____________________________________________________________
 ```
 
@@ -805,38 +805,38 @@ ____________________________________________________________
 | |_) / _ \ '_ \ / _ \
 |  _ <  __/ | | |  __/
 |_| \_\___|_| |_|\___|
-Hello! I'm Rene.
-What can I do for you?
+Good day. Rene here, your personal productivity liaison.
+Let's align on your priorities for the day.
 ____________________________________________________________
 ____________________________________________________________
- Got it. I've added this task:
+ Noted. I've logged this deliverable on your action items:
    [D][ ] leap day (by: Feb 29 2024)
- Now you have 1 task in the list.
+ Your backlog now contains 1 action item.
 ____________________________________________________________
 ____________________________________________________________
- Got it. I've added this task:
+ Noted. I've logged this deliverable on your action items:
    [D][ ] year end (by: Dec 31 2026)
- Now you have 2 tasks in the list.
+ Your backlog now contains 2 action items.
 ____________________________________________________________
 ____________________________________________________________
- Oops — A deadline needs a valid date in yyyy-MM-dd format. Try: deadline submit report /by 2026-08-31
+ Apologies — The due date must be a valid date in yyyy-MM-dd format. Try: deadline submit report /by 2026-08-31
 ____________________________________________________________
 ____________________________________________________________
- Oops — A deadline needs a valid date in yyyy-MM-dd format. Try: deadline submit report /by 2026-08-31
+ Apologies — The due date must be a valid date in yyyy-MM-dd format. Try: deadline submit report /by 2026-08-31
 ____________________________________________________________
 ____________________________________________________________
- Oops — A deadline needs a valid date in yyyy-MM-dd format. Try: deadline submit report /by 2026-08-31
+ Apologies — The due date must be a valid date in yyyy-MM-dd format. Try: deadline submit report /by 2026-08-31
 ____________________________________________________________
 ____________________________________________________________
- Oops — A deadline needs a valid date in yyyy-MM-dd format. Try: deadline submit report /by 2026-08-31
+ Apologies — The due date must be a valid date in yyyy-MM-dd format. Try: deadline submit report /by 2026-08-31
 ____________________________________________________________
 ____________________________________________________________
- Here are the tasks in your list:
+ Here is your current action-item backlog:
  1.[D][ ] leap day (by: Feb 29 2024)
  2.[D][ ] year end (by: Dec 31 2026)
 ____________________________________________________________
 ____________________________________________________________
-Bye. Hope to see you again soon!
+Thank you for your time. Standing by — let's touch base again soon.
 ____________________________________________________________
 ```
 
@@ -872,32 +872,32 @@ ____________________________________________________________
 | |_) / _ \ '_ \ / _ \
 |  _ <  __/ | | |  __/
 |_| \_\___|_| |_|\___|
-Hello! I'm Rene.
-What can I do for you?
+Good day. Rene here, your personal productivity liaison.
+Let's align on your priorities for the day.
 ____________________________________________________________
 ____________________________________________________________
- Here are the tasks in your list:
+ Here is your current action-item backlog:
 ____________________________________________________________
 ____________________________________________________________
- Got it. I've added this task:
+ Noted. I've logged this deliverable on your action items:
    [T][ ] read chapter 3
- Now you have 1 task in the list.
+ Your backlog now contains 1 action item.
 ____________________________________________________________
 ____________________________________________________________
- Got it. I've added this task:
+ Noted. I've logged this deliverable on your action items:
    [D][ ] submit report (by: Aug 31 2026)
- Now you have 2 tasks in the list.
+ Your backlog now contains 2 action items.
 ____________________________________________________________
 ____________________________________________________________
- Here are the tasks in your list:
+ Here is your current action-item backlog:
  1.[T][ ] read chapter 3
  2.[D][ ] submit report (by: Aug 31 2026)
 ____________________________________________________________
 ____________________________________________________________
- Oops — Please enter a command. Try: help
+ Apologies — No directive detected. Try: help
 ____________________________________________________________
 ____________________________________________________________
-Bye. Hope to see you again soon!
+Thank you for your time. Standing by — let's touch base again soon.
 ____________________________________________________________
 ```
 
@@ -936,39 +936,39 @@ ____________________________________________________________
 | |_) / _ \ '_ \ / _ \
 |  _ <  __/ | | |  __/
 |_| \_\___|_| |_|\___|
-Hello! I'm Rene.
-What can I do for you?
+Good day. Rene here, your personal productivity liaison.
+Let's align on your priorities for the day.
 ____________________________________________________________
 ____________________________________________________________
- Got it. I've added this task:
+ Noted. I've logged this deliverable on your action items:
    [T][ ] first task
- Now you have 1 task in the list.
+ Your backlog now contains 1 action item.
 ____________________________________________________________
 ____________________________________________________________
- Oops — A deadline can have only one /by. Try: deadline submit report /by 2026-08-31
+ Apologies — Only one /by is permitted per deadline. Try: deadline submit report /by 2026-08-31
 ____________________________________________________________
 ____________________________________________________________
- Oops — An event can have one /from and one /to each. Try: event study group /from 2pm /to 4pm
+ Apologies — An event permits one /from and one /to each. Try: event study group /from 2pm /to 4pm
 ____________________________________________________________
 ____________________________________________________________
- Oops — An event needs /from before /to. Try: event study group /from 2pm /to 4pm
+ Apologies — An event requires /from before /to. Try: event study group /from 2pm /to 4pm
 ____________________________________________________________
 ____________________________________________________________
- Oops — A mark command needs a task number. Try: mark 1
+ Apologies — A mark directive requires a task number. Try: mark 1
 ____________________________________________________________
 ____________________________________________________________
- Oops — That task number is too large. Try: mark 1
+ Apologies — That task number exceeds my processing capacity. Try: mark 1
 ____________________________________________________________
 ____________________________________________________________
- Nice! I've marked this task as done:
+ Well received. I've marked this item as actioned:
    [T][X] first task
 ____________________________________________________________
 ____________________________________________________________
- Here are the tasks in your list:
+ Here is your current action-item backlog:
  1.[T][X] first task
 ____________________________________________________________
 ____________________________________________________________
-Bye. Hope to see you again soon!
+Thank you for your time. Standing by — let's touch base again soon.
 ____________________________________________________________
 ```
 
@@ -984,7 +984,7 @@ Start Rene with a directory as its data file:
 rm -rf _temp/ui-test-dir && mkdir _temp/ui-test-dir && java -cp build/classes/java/main rene.Rene _temp/ui-test-dir
 ```
 
-Expected: the welcome message shows `Oops — <path> is a folder, not a file, so I cannot read tasks from it.` and Rene continues with an empty list.
+Expected: the welcome message shows `Apologies — <path> is a folder, not a file, so I cannot read tasks from it.` and Rene continues with an empty list.
 
 ### Environment issue: data file is not readable (macOS/Linux)
 
@@ -992,7 +992,7 @@ Expected: the welcome message shows `Oops — <path> is a folder, not a file, so
 rm -f _temp/ui-test-locked.txt && touch _temp/ui-test-locked.txt && chmod 000 _temp/ui-test-locked.txt && java -cp build/classes/java/main rene.Rene _temp/ui-test-locked.txt
 ```
 
-Expected: the welcome message shows `Oops — I do not have permission to read <path>. Check the file's permissions and try again.` (Skip this case when running as a user that bypasses file permissions.)
+Expected: the welcome message shows `Apologies — I do not have permission to read <path>. Check the file's permissions and try again.` (Skip this case when running as a user that bypasses file permissions.)
 
 ### GUI: blank submission does nothing
 

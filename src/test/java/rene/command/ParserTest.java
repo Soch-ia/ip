@@ -36,8 +36,8 @@ class ParserTest {
         ReneException exception = assertThrows(ReneException.class, () -> parser.parse("remind me"));
 
         assertEquals(
-                "I don't know that command yet. "
-                        + "Try todo, deadline, event, list, mark, unmark, delete, find, help, or bye.",
+                "That falls outside my scope of operations. Standard procedures are: todo, deadline, "
+                        + "event, list, mark, unmark, delete, find, help, or bye.",
                 exception.getMessage());
     }
 
@@ -90,7 +90,7 @@ class ParserTest {
 
         ReneException exception = assertThrows(ReneException.class, () -> parser.parseTask(command));
         assertEquals(
-                "A deadline needs a valid date in yyyy-MM-dd format. "
+                "The due date must be a valid date in yyyy-MM-dd format. "
                         + "Try: deadline submit report /by 2026-08-31",
                 exception.getMessage());
     }
@@ -101,7 +101,7 @@ class ParserTest {
 
         ReneException exception = assertThrows(ReneException.class, () -> parser.parseTask(command));
         assertEquals(
-                "An event needs /from and /to. Try: event study group /from 2pm /to 4pm",
+                "An event requires /from and /to. Try: event study group /from 2pm /to 4pm",
                 exception.getMessage());
     }
 
@@ -115,6 +115,6 @@ class ParserTest {
         ParsedCommand command = parser.parse("delete first");
 
         ReneException exception = assertThrows(ReneException.class, () -> parser.parseTaskNumber(command));
-        assertEquals("Please give me a whole-number task position, like: delete 1", exception.getMessage());
+        assertEquals("A task position must be a whole number, e.g.: delete 1", exception.getMessage());
     }
 }
