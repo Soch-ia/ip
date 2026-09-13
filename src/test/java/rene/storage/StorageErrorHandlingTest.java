@@ -2,12 +2,13 @@ package rene.storage;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 
+import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
@@ -48,7 +49,7 @@ class StorageErrorHandlingTest {
         }
         Storage storage = new Storage(folderAsFile);
 
-        ReneException exception = assertThrows(ReneException.class, () -> storage.saveTasks(java.util.List.of()));
+        ReneException exception = assertThrows(ReneException.class, () -> storage.saveTasks(List.of()));
 
         assertEquals(
                 folderAsFile + " is a folder, not a file, so I cannot save tasks there.",
@@ -60,13 +61,16 @@ class StorageErrorHandlingTest {
         Path dataFile = temporaryDirectory.resolve("locked.txt");
         Files.writeString(dataFile, "T | 0 | hidden task\n");
         try {
-            assertTrue(dataFile.toFile().setReadable(false));
+            if (!dataFile.toFile().setReadable(false) || Files.isReadable(dataFile)) {
+                // Platforms such as Windows ignore these permission bits.
+                Assumptions.abort("Permission bits are not enforced on this platform.");
+            }
             Storage storage = new Storage(dataFile);
 
             ReneException exception = assertThrows(ReneException.class, storage::loadTasks);
 
-            assertTrue(exception.getMessage().contains("permission to read " + dataFile),
-                    "Unexpected message: " + exception.getMessage());
+            assertEquals("I do not have permission to read " + dataFile + ". "
+                    + "Check the file's permissions and try again.", exception.getMessage());
         } finally {
             dataFile.toFile().setReadable(true);
         }
@@ -77,14 +81,17 @@ class StorageErrorHandlingTest {
         Path dataFile = temporaryDirectory.resolve("locked-save.txt");
         Files.writeString(dataFile, "");
         try {
-            assertTrue(dataFile.toFile().setWritable(false));
+            if (!dataFile.toFile().setWritable(false) || Files.isWritable(dataFile)) {
+                // Platforms such as Windows ignore these permission bits.
+                Assumptions.abort("Permission bits are not enforced on this platform.");
+            }
             Storage storage = new Storage(dataFile);
 
             ReneException exception = assertThrows(
-                    ReneException.class, () -> storage.saveTasks(java.util.List.of()));
+                    ReneException.class, () -> storage.saveTasks(List.of()));
 
-            assertTrue(exception.getMessage().contains("permission to save tasks to " + dataFile),
-                    "Unexpected message: " + exception.getMessage());
+            assertEquals("I do not have permission to save tasks to " + dataFile + ". "
+                    + "Check the file's permissions and try again.", exception.getMessage());
         } finally {
             dataFile.toFile().setWritable(true);
         }
