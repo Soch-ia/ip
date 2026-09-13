@@ -1010,3 +1010,12 @@ clipping), and the composer stays fully visible.
 In the GUI, send a command that fails, e.g. `mark 99`. Expected: the error
 reply renders in a warm/red-tinted card (instead of the plain white Rene
 card) so it catches the eye, while normal replies keep the white card.
+
+### Cross-OS smoke tests (A-MoreTesting)
+
+On each OS (macOS, Windows, Linux), before the final release:
+
+1. Run the fat JAR from an empty folder: `java -jar rene.jar` — the window opens, the greeting appears, and `data/rene.txt` is created next to the JAR (not in some other location).
+2. Add one todo, exit with `bye`, restart, and verify the todo is back.
+3. Verify fonts and window rendering at the minimum (420x560) and a large size (e.g. 1200x800): no clipping, cards wrap.
+4. Check a system with a non-English locale: the date format in deadline replies stays `MMM d yyyy` (English month names) and nothing crashes.

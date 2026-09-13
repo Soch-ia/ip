@@ -25,6 +25,10 @@ import rene.task.Todo;
  */
 public class Storage {
     private static final String FIELD_SEPARATOR = " | ";
+    /** The escape character (a backslash, character code 92) used to protect field separators. */
+    private static final String ESCAPE = String.valueOf((char) 92);
+    /** The field-separator character that must be escaped in stored values. */
+    private static final String PIPE = "|";
 
     private final Path filePath;
 
@@ -126,21 +130,44 @@ public class Storage {
     }
 
     /**
-     * Converts a task to Rene's human-readable storage format.
+     * Converts a task to Rene's storage format.
+     * User-controlled fields are escaped so a description containing the
+     * field separator cannot corrupt the file on a later load.
      */
     private String formatTask(Task task) {
         String status = task.isDone() ? "1" : "0";
         String basicFields = task.getTaskType().getIcon()
                 + FIELD_SEPARATOR + status
-                + FIELD_SEPARATOR + task.getDescription();
+                + FIELD_SEPARATOR + escapeField(task.getDescription());
 
         return switch (task.getTaskType()) {
             case TODO -> basicFields;
             case DEADLINE -> basicFields + FIELD_SEPARATOR + ((Deadline) task).getDueDate();
             case EVENT -> basicFields
-                    + FIELD_SEPARATOR + ((Event) task).getFrom()
-                    + FIELD_SEPARATOR + ((Event) task).getTo();
+                    + FIELD_SEPARATOR + escapeField(((Event) task).getFrom())
+                    + FIELD_SEPARATOR + escapeField(((Event) task).getTo());
         };
+    }
+
+    /**
+     * Escapes the field separator (and the escape character itself) in a
+     * user-controlled value before it is written to the data file.
+     * The backslash is written as its character code so the source stays
+     * free of escape sequences.
+     */
+    private String escapeField(String value) {
+        String escaped = value.replace(ESCAPE, ESCAPE + ESCAPE)
+                .replace(PIPE, ESCAPE + PIPE);
+        return escaped;
+    }
+
+    /**
+     * Reverses {@link #escapeField} for a value read back from the data file.
+     */
+    private String unescapeField(String value) {
+        String unescaped = value.replace(ESCAPE + PIPE, PIPE)
+                .replace(ESCAPE + ESCAPE, ESCAPE);
+        return unescaped;
     }
 
     /**
@@ -173,7 +200,7 @@ public class Storage {
     private Task parseTodo(String[] fields, int lineNumber) throws ReneException {
         requireFieldCount(fields, 3, lineNumber);
         requireNonBlank(fields[2], lineNumber);
-        return new Todo(fields[2]);
+        return new Todo(unescapeField(fields[2]));
     }
 
     /**
@@ -184,7 +211,7 @@ public class Storage {
         requireNonBlank(fields[2], lineNumber);
         requireNonBlank(fields[3], lineNumber);
         try {
-            return new Deadline(fields[2], LocalDate.parse(fields[3]));
+            return new Deadline(unescapeField(fields[2]), LocalDate.parse(fields[3]));
         } catch (DateTimeParseException exception) {
             throw invalidData(lineNumber);
         }
@@ -198,7 +225,7 @@ public class Storage {
         requireNonBlank(fields[2], lineNumber);
         requireNonBlank(fields[3], lineNumber);
         requireNonBlank(fields[4], lineNumber);
-        return new Event(fields[2], fields[3], fields[4]);
+        return new Event(unescapeField(fields[2]), unescapeField(fields[3]), unescapeField(fields[4]));
     }
 
     /**
