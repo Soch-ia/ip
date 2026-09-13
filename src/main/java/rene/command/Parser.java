@@ -16,6 +16,7 @@ public class Parser {
     private static final String UNKNOWN_COMMAND_MESSAGE =
             "I don't know that command yet. Try todo, deadline, event, list, mark, unmark, "
                     + "delete, find, help, or bye.";
+    private static final String BLANK_INPUT_MESSAGE = "Please enter a command. Try: help";
 
     /**
      * Creates a parser for Rene's supported command syntax.
@@ -25,33 +26,42 @@ public class Parser {
 
     /**
      * Identifies the command type and separates its argument from its keyword.
+     * Surrounding spaces are ignored so an accidental leading or trailing space
+     * does not break an otherwise correct command.
      *
      * @param input the complete line entered by the user.
      * @return the parsed command.
-     * @throws ReneException if the command keyword is not recognized.
+     * @throws ReneException if the line is blank or the command keyword is not recognized.
      */
     public ParsedCommand parse(String input) throws ReneException {
-        CommandType commandType = CommandType.fromInput(input);
+        String line = input.strip();
+        if (line.isEmpty()) {
+            throw new ReneException(BLANK_INPUT_MESSAGE);
+        }
+
+        CommandType commandType = CommandType.fromInput(line);
         if (commandType == null) {
             throw new ReneException(UNKNOWN_COMMAND_MESSAGE);
         }
 
-        String argument = input.substring(commandType.getKeyword().length()).trim();
+        String argument = line.substring(commandType.getKeyword().length()).trim();
         return new ParsedCommand(commandType, argument);
     }
 
     /**
      * Creates a task from a parsed task-creation command.
+     * Extra spaces inside the argument are collapsed so they do not alter the stored details.
      *
      * @param command a todo, deadline, or event command.
      * @return the task described by the command.
-     * @throws ReneException if a required task detail is absent or invalid.
+     * @throws ReneException if a required task detail is absent, duplicated, or invalid.
      */
     public Task parseTask(ParsedCommand command) throws ReneException {
+        String details = normalizeSpaces(command.argument());
         return switch (command.type()) {
-            case TODO -> parseTodo(command.argument());
-            case DEADLINE -> parseDeadline(command.argument());
-            case EVENT -> parseEvent(command.argument());
+            case TODO -> parseTodo(details);
+            case DEADLINE -> parseDeadline(details);
+            case EVENT -> parseEvent(details);
             default -> throw new ReneException(UNKNOWN_COMMAND_MESSAGE);
         };
     }
@@ -61,13 +71,22 @@ public class Parser {
      *
      * @param command a mark, unmark, or delete command.
      * @return the supplied task number.
-     * @throws ReneException if the argument is not a whole number.
+     * @throws ReneException if the argument is missing or not a whole number.
      */
     public int parseTaskNumber(ParsedCommand command) throws ReneException {
-        try {
-            return Integer.parseInt(command.argument());
-        } catch (NumberFormatException exception) {
+        String argument = command.argument();
+        if (argument.isEmpty()) {
+            throw new ReneException("A " + command.type().getKeyword() + " command needs a task number. "
+                    + "Try: " + command.type().getKeyword() + " 1");
+        }
+        if (!argument.matches("-?\\d+")) {
             throw new ReneException("Please give me a whole-number task position, like: "
+                    + command.type().getKeyword() + " 1");
+        }
+        try {
+            return Integer.parseInt(argument);
+        } catch (NumberFormatException exception) {
+            throw new ReneException("That task number is too large. Try: "
                     + command.type().getKeyword() + " 1");
         }
     }
@@ -85,13 +104,17 @@ public class Parser {
      */
     private Task parseDeadline(String details) throws ReneException {
         String byMarker = ArgumentMarker.BY.getText();
-        int byIndex = details.indexOf(byMarker);
-        if (byIndex < 0) {
+        int firstBy = details.indexOf(byMarker);
+        if (firstBy < 0) {
             throw new ReneException("A deadline needs /by. Try: deadline submit report /by 2026-08-31");
         }
+        if (firstBy != details.lastIndexOf(byMarker)) {
+            throw new ReneException("A deadline can have only one /by. "
+                    + "Try: deadline submit report /by 2026-08-31");
+        }
 
-        String description = details.substring(0, byIndex).trim();
-        String byText = details.substring(byIndex + byMarker.length()).trim();
+        String description = details.substring(0, firstBy).trim();
+        String byText = details.substring(firstBy + byMarker.length()).trim();
         requireText(description, "A deadline needs a description before /by.");
         requireText(byText, "A deadline needs a due date after /by.");
         try {
@@ -108,19 +131,34 @@ public class Parser {
     private Task parseEvent(String details) throws ReneException {
         String fromMarker = ArgumentMarker.FROM.getText();
         String toMarker = ArgumentMarker.TO.getText();
-        int fromIndex = details.indexOf(fromMarker);
-        int toIndex = details.indexOf(toMarker);
-        if (fromIndex < 0 || toIndex < 0 || toIndex < fromIndex) {
+        int firstFrom = details.indexOf(fromMarker);
+        int firstTo = details.indexOf(toMarker);
+        if (firstFrom < 0 || firstTo < 0) {
             throw new ReneException("An event needs /from and /to. Try: event study group /from 2pm /to 4pm");
         }
+        if (firstFrom != details.lastIndexOf(fromMarker) || firstTo != details.lastIndexOf(toMarker)) {
+            throw new ReneException("An event can have one /from and one /to each. "
+                    + "Try: event study group /from 2pm /to 4pm");
+        }
+        if (firstTo < firstFrom) {
+            throw new ReneException("An event needs /from before /to. "
+                    + "Try: event study group /from 2pm /to 4pm");
+        }
 
-        String description = details.substring(0, fromIndex).trim();
-        String from = details.substring(fromIndex + fromMarker.length(), toIndex).trim();
-        String to = details.substring(toIndex + toMarker.length()).trim();
+        String description = details.substring(0, firstFrom).trim();
+        String from = details.substring(firstFrom + fromMarker.length(), firstTo).trim();
+        String to = details.substring(firstTo + toMarker.length()).trim();
         requireText(description, "An event needs a description before /from.");
         requireText(from, "An event needs a start time after /from.");
         requireText(to, "An event needs an end time after /to.");
         return new Event(description, from, to);
+    }
+
+    /**
+     * Collapses runs of two or more spaces into single spaces and trims the ends.
+     */
+    private String normalizeSpaces(String text) {
+        return text.trim().replaceAll("\\s{2,}", " ");
     }
 
     /**

@@ -2,7 +2,10 @@ package rene.storage;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.AccessDeniedException;
+import java.nio.file.DirectoryNotEmptyException;
 import java.nio.file.Files;
+import java.nio.file.NotDirectoryException;
 import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
@@ -17,6 +20,8 @@ import rene.task.Todo;
 
 /**
  * Loads tasks from a text file and saves task-list changes to that file.
+ * Environment problems (missing permissions, an existing directory in the file's
+ * place, ...) are reported as ReneException with a message that names the cause.
  */
 public class Storage {
     private static final String FIELD_SEPARATOR = " | ";
@@ -51,7 +56,7 @@ public class Storage {
             }
             return tasks;
         } catch (IOException exception) {
-            throw new ReneException("I couldn't load tasks from " + filePath + ".", exception);
+            throw new ReneException(loadingMessage(exception), exception);
         }
     }
 
@@ -71,7 +76,7 @@ public class Storage {
             ensureDataFileExists();
             Files.write(filePath, lines, StandardCharsets.UTF_8);
         } catch (IOException exception) {
-            throw new ReneException("I couldn't save tasks to " + filePath + ".", exception);
+            throw new ReneException(savingMessage(exception), exception);
         }
     }
 
@@ -83,9 +88,41 @@ public class Storage {
         if (parentDirectory != null) {
             Files.createDirectories(parentDirectory);
         }
-        if (Files.notExists(filePath)) {
-            Files.createFile(filePath);
+        if (Files.exists(filePath)) {
+            if (!Files.isRegularFile(filePath)) {
+                throw new NotDirectoryException(filePath.toString());
+            }
+            return;
         }
+        Files.createFile(filePath);
+    }
+
+    /**
+     * Explains a loading failure in terms the user can act on.
+     */
+    private String loadingMessage(IOException exception) {
+        if (exception instanceof AccessDeniedException) {
+            return "I do not have permission to read " + filePath + ". "
+                    + "Check the file's permissions and try again.";
+        }
+        if (exception instanceof NotDirectoryException) {
+            return filePath + " is a folder, not a file, so I cannot read tasks from it.";
+        }
+        return "I couldn't load tasks from " + filePath + ".";
+    }
+
+    /**
+     * Explains a saving failure in terms the user can act on.
+     */
+    private String savingMessage(IOException exception) {
+        if (exception instanceof AccessDeniedException) {
+            return "I do not have permission to save tasks to " + filePath + ". "
+                    + "Check the file's permissions and try again.";
+        }
+        if (exception instanceof NotDirectoryException || exception instanceof DirectoryNotEmptyException) {
+            return filePath + " is a folder, not a file, so I cannot save tasks there.";
+        }
+        return "I couldn't save tasks to " + filePath + ".";
     }
 
     /**
