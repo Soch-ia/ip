@@ -997,3 +997,16 @@ Expected: the welcome message shows `Apologies — I do not have permission to r
 ### GUI: blank submission does nothing
 
 In the GUI, press Enter without typing anything: no dialog is added and the input field keeps focus.
+
+### GUI: resize the window (A-BetterGui)
+
+Open the GUI, then drag the window from its default 480x640 to roughly twice
+as wide and then back to the minimum (420x560). Expected: the conversation
+area and cards reflow (long responses wrap, no horizontal scroll appears, no
+clipping), and the composer stays fully visible.
+
+### GUI: error responses are visually distinct (A-BetterGui)
+
+In the GUI, send a command that fails, e.g. `mark 99`. Expected: the error
+reply renders in a warm/red-tinted card (instead of the plain white Rene
+card) so it catches the eye, while normal replies keep the white card.
