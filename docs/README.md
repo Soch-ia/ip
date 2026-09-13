@@ -71,3 +71,9 @@ Rene copes with the mistakes people actually make:
   understand and continues with the tasks it could read.
 - **JavaFX error when running the JAR on some systems.** Make sure the JAR is
   run with `java -jar rene.jar` from a terminal, on a Java 25 installation.
+
+## Task data
+
+Rene stores tasks in `data/rene.txt`, one task per line, in the folder from
+which it was started. The file is created automatically on the first save.
+You can open it in any text editor, but it is safer to let Rene manage it.
