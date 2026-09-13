@@ -1,7 +1,10 @@
 # Rene User Guide
 
-Rene is a personal task chatbot with a no-nonsense, corporate register. It keeps your todos, deadlines, and events in
-`data/rene.txt` so they remain available the next time the application starts.
+**Rene** is a personal task chatbot with a no-nonsense, corporate register. It
+keeps your todos, deadlines, and events in `data/rene.txt` so they remain
+available the next time the application starts.
+
+![Rene in action](Ui.png)
 
 ## Command summary
 
@@ -39,3 +42,26 @@ Enter `help` to see the command reference inside Rene:
 Task numbers are the one-based positions shown by `list`. Deadline dates use
 the ISO `yyyy-MM-dd` format. Searches ignore letter case and match task
 descriptions only.
+
+## Error handling
+
+Rene copes with the mistakes people actually make:
+
+- Commands tolerate leading/trailing spaces, and extra spaces inside a task
+  description are collapsed. A blank line simply asks you to enter a command.
+- A marker given more than once (`/by`, `/from`, `/to`) or in the wrong order
+  is rejected with an explanation.
+- In the GUI, error replies are shown in a highlighted card so a wrong command
+  stands out from a normal reply.
+- If the data file cannot be read or written (permissions, or a folder where
+  the file is expected), Rene tells you what happened and continues with an
+  empty list instead of crashing.
+
+## Troubleshooting
+
+- **The data file is missing.** Nothing to do: Rene creates `data/rene.txt`
+  automatically the first time it saves.
+- **The data file looks corrupted.** Rene reports which line it could not
+  understand and continues with the tasks it could read.
+- **JavaFX error when running the JAR on some systems.** Make sure the JAR is
+  run with `java -jar rene.jar` from a terminal, on a Java 25 installation.
