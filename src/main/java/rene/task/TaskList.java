@@ -49,7 +49,7 @@ public class TaskList {
     public Task mark(int taskNumber) throws ReneException {
         Task task = getByTaskNumber(taskNumber);
         if (task.isDone()) {
-            throw new ReneException("That task is already done — no need to mark it twice.");
+            throw new ReneException("This action item has already been completed — no action required.");
         }
 
         task.markAsDone();
@@ -66,7 +66,7 @@ public class TaskList {
     public Task unmark(int taskNumber) throws ReneException {
         Task task = getByTaskNumber(taskNumber);
         if (!task.isDone()) {
-            throw new ReneException("That task is not done yet, so there is nothing to unmark.");
+            throw new ReneException("This action item has not yet been completed, so there is nothing to reopen.");
         }
 
         task.unmarkAsDone();
@@ -138,7 +138,7 @@ public class TaskList {
     private int getTaskIndex(int taskNumber) throws ReneException {
         int taskIndex = taskNumber - 1;
         if (taskIndex < 0 || taskIndex >= tasks.size()) {
-            throw new ReneException("That task number is not in the list yet.");
+            throw new ReneException("No action item with that position was found.");
         }
 
         // The guard above establishes this postcondition for every caller.

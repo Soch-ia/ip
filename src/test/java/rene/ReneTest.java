@@ -20,7 +20,7 @@ public class ReneTest {
         String listResponse = rene.getResponse("list");
 
         assertTrue(addResponse.contains("[T][ ] read book"));
-        assertEquals(" Here are the tasks in your list:\n 1.[T][ ] read book", listResponse);
+        assertEquals(" Here is your current action-item backlog:\n 1.[T][ ] read book", listResponse);
     }
 
     @Test
@@ -28,8 +28,8 @@ public class ReneTest {
         Rene rene = new Rene(temporaryDirectory.resolve("rene.txt"));
 
         assertEquals(
-                " Oops — I don't know that command yet. "
-                        + "Try todo, deadline, event, list, mark, unmark, delete, find, help, or bye.",
+                " Apologies — That falls outside my scope of operations. Standard procedures are: todo, "
+                        + "deadline, event, list, mark, unmark, delete, find, help, or bye.",
                 rene.getResponse("unknown"));
     }
 
@@ -38,7 +38,7 @@ public class ReneTest {
         Rene rene = new Rene(temporaryDirectory.resolve("rene.txt"));
 
         assertEquals(
-                " Here are Rene's commands:\n"
+                " Per your request, here is the standard operating procedure for working with Rene:\n"
                         + " todo DESCRIPTION\n"
                         + " deadline DESCRIPTION /by yyyy-MM-dd\n"
                         + " event DESCRIPTION /from START /to END\n"
@@ -56,6 +56,6 @@ public class ReneTest {
     public void getResponse_bye_returnsFarewell() {
         Rene rene = new Rene(temporaryDirectory.resolve("rene.txt"));
 
-        assertEquals("Bye. Hope to see you again soon!", rene.getResponse("bye"));
+        assertEquals("Thank you for your time. Standing by — let's touch base again soon.", rene.getResponse("bye"));
     }
 }

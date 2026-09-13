@@ -38,7 +38,7 @@ class TaskListTest {
 
         ReneException exception = assertThrows(ReneException.class, () -> tasks.mark(1));
 
-        assertEquals("That task is already done — no need to mark it twice.", exception.getMessage());
+        assertEquals("This action item has already been completed — no action required.", exception.getMessage());
         assertFalse(tasks.getTasks().get(1).isDone());
     }
 

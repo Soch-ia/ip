@@ -14,9 +14,9 @@ import rene.task.Todo;
  */
 public class Parser {
     private static final String UNKNOWN_COMMAND_MESSAGE =
-            "I don't know that command yet. Try todo, deadline, event, list, mark, unmark, "
-                    + "delete, find, help, or bye.";
-    private static final String BLANK_INPUT_MESSAGE = "Please enter a command. Try: help";
+            "That falls outside my scope of operations. Standard procedures are: todo, deadline, "
+                    + "event, list, mark, unmark, delete, find, help, or bye.";
+    private static final String BLANK_INPUT_MESSAGE = "No directive detected. Try: help";
 
     /**
      * Creates a parser for Rene's supported command syntax.
@@ -76,17 +76,17 @@ public class Parser {
     public int parseTaskNumber(ParsedCommand command) throws ReneException {
         String argument = command.argument();
         if (argument.isEmpty()) {
-            throw new ReneException("A " + command.type().getKeyword() + " command needs a task number. "
+            throw new ReneException("A " + command.type().getKeyword() + " directive requires a task number. "
                     + "Try: " + command.type().getKeyword() + " 1");
         }
         if (!argument.matches("-?\\d+")) {
-            throw new ReneException("Please give me a whole-number task position, like: "
+            throw new ReneException("A task position must be a whole number, e.g.: "
                     + command.type().getKeyword() + " 1");
         }
         try {
             return Integer.parseInt(argument);
         } catch (NumberFormatException exception) {
-            throw new ReneException("That task number is too large. Try: "
+            throw new ReneException("That task number exceeds my processing capacity. Try: "
                     + command.type().getKeyword() + " 1");
         }
     }
@@ -95,7 +95,7 @@ public class Parser {
      * Creates a todo after validating its description.
      */
     private Task parseTodo(String description) throws ReneException {
-        requireText(description, "A todo needs a description. Try: todo read chapter 3");
+        requireText(description, "A todo requires a description. Try: todo read chapter 3");
         return new Todo(description);
     }
 
@@ -106,21 +106,21 @@ public class Parser {
         String byMarker = ArgumentMarker.BY.getText();
         int firstBy = details.indexOf(byMarker);
         if (firstBy < 0) {
-            throw new ReneException("A deadline needs /by. Try: deadline submit report /by 2026-08-31");
+            throw new ReneException("A deadline requires /by. Try: deadline submit report /by 2026-08-31");
         }
         if (firstBy != details.lastIndexOf(byMarker)) {
-            throw new ReneException("A deadline can have only one /by. "
+            throw new ReneException("Only one /by is permitted per deadline. "
                     + "Try: deadline submit report /by 2026-08-31");
         }
 
         String description = details.substring(0, firstBy).trim();
         String byText = details.substring(firstBy + byMarker.length()).trim();
-        requireText(description, "A deadline needs a description before /by.");
-        requireText(byText, "A deadline needs a due date after /by.");
+        requireText(description, "A deadline requires a description before /by.");
+        requireText(byText, "A deadline requires a due date after /by.");
         try {
             return new Deadline(description, LocalDate.parse(byText));
         } catch (DateTimeParseException exception) {
-            throw new ReneException("A deadline needs a valid date in yyyy-MM-dd format. "
+            throw new ReneException("The due date must be a valid date in yyyy-MM-dd format. "
                     + "Try: deadline submit report /by 2026-08-31");
         }
     }
@@ -134,23 +134,23 @@ public class Parser {
         int firstFrom = details.indexOf(fromMarker);
         int firstTo = details.indexOf(toMarker);
         if (firstFrom < 0 || firstTo < 0) {
-            throw new ReneException("An event needs /from and /to. Try: event study group /from 2pm /to 4pm");
+            throw new ReneException("An event requires /from and /to. Try: event study group /from 2pm /to 4pm");
         }
         if (firstFrom != details.lastIndexOf(fromMarker) || firstTo != details.lastIndexOf(toMarker)) {
-            throw new ReneException("An event can have one /from and one /to each. "
+            throw new ReneException("An event permits one /from and one /to each. "
                     + "Try: event study group /from 2pm /to 4pm");
         }
         if (firstTo < firstFrom) {
-            throw new ReneException("An event needs /from before /to. "
+            throw new ReneException("An event requires /from before /to. "
                     + "Try: event study group /from 2pm /to 4pm");
         }
 
         String description = details.substring(0, firstFrom).trim();
         String from = details.substring(firstFrom + fromMarker.length(), firstTo).trim();
         String to = details.substring(firstTo + toMarker.length()).trim();
-        requireText(description, "An event needs a description before /from.");
-        requireText(from, "An event needs a start time after /from.");
-        requireText(to, "An event needs an end time after /to.");
+        requireText(description, "An event requires a description before /from.");
+        requireText(from, "An event requires a start time after /from.");
+        requireText(to, "An event requires an end time after /to.");
         return new Event(description, from, to);
     }
 
