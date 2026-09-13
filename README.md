@@ -1,6 +1,6 @@
-# Rene project template
+# Rene
 
-This is a project template for a greenfield Java project. Its chatbot is named _Rene_. Given below are instructions on how to use it.
+**Rene** is a personal task chatbot with a no-nonsense, corporate register. It keeps your todos, deadlines, and events so they remain available the next time the application starts. Given below are instructions on how to set up and run the project.
 
 ## Setting up in Intellij
 
