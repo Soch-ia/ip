@@ -66,6 +66,13 @@ public abstract class Task {
     public abstract TaskType getTaskType();
 
     /**
+     * Creates an independent copy of this task, including its completion status.
+     *
+     * @return a copy that can be changed without affecting this task.
+     */
+    abstract Task copy();
+
+    /**
      * Returns this task in the chatbot's display format.
      *
      * @return the task type, completion status, and description.

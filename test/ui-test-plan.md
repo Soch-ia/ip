@@ -972,6 +972,61 @@ Thank you for your time. Standing by — let's touch base again soon.
 ____________________________________________________________
 ```
 
+## Test case: Recover valid tasks from a corrupt data file
+
+### Aim
+
+Verify that Rene reports a malformed stored line, keeps valid tasks available,
+and blocks changes that could overwrite the original data file.
+
+### Run command
+
+```sh
+./gradlew --quiet classes && mkdir -p _temp && printf 'T | 0 | keep first\nmalformed line\nT | 1 | keep last\n' > _temp/ui-test-corrupt.txt && java -cp build/classes/java/main rene.Rene _temp/ui-test-corrupt.txt; ui_status=$?; rm -f _temp/ui-test-corrupt.txt; exit $ui_status
+```
+
+### Inputs
+
+```text
+list
+todo do not save
+list
+bye
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+ ____
+|  _ \ ___ _ __   ___
+| |_) / _ \ '_ \ / _ \
+|  _ <  __/ | | |  __/
+|_| \_\___|_| |_|\___|
+Good day. Rene here, your personal productivity liaison.
+Let's align on your priorities for the day.
+____________________________________________________________
+ Apologies — I couldn't understand line 2 in _temp/ui-test-corrupt.txt.
+Changes are disabled to protect the original data file. Fix or move the file, then restart Rene.
+____________________________________________________________
+____________________________________________________________
+ Here is your current action-item backlog:
+ 1.[T][ ] keep first
+ 2.[T][X] keep last
+____________________________________________________________
+____________________________________________________________
+ Apologies — Changes are disabled because the data file did not load completely. Fix or move it, then restart Rene.
+____________________________________________________________
+____________________________________________________________
+ Here is your current action-item backlog:
+ 1.[T][ ] keep first
+ 2.[T][X] keep last
+____________________________________________________________
+____________________________________________________________
+Thank you for your time. Standing by — let's touch base again soon.
+____________________________________________________________
+```
+
 ## Manual tests (A-MoreErrorHandling)
 
 Cases that cannot be automated in the console runner. Verify by hand before the final release.
@@ -984,7 +1039,7 @@ Start Rene with a directory as its data file:
 rm -rf _temp/ui-test-dir && mkdir _temp/ui-test-dir && java -cp build/classes/java/main rene.Rene _temp/ui-test-dir
 ```
 
-Expected: the welcome message shows `Apologies — <path> is a folder, not a file, so I cannot read tasks from it.` and Rene continues with an empty list.
+Expected: the welcome message shows `Apologies — <path> is a folder, not a file, so I cannot read tasks from it.` Rene continues with an empty list in read-only mode and rejects commands that would change it.
 
 ### Environment issue: data file is not readable (macOS/Linux)
 
@@ -992,7 +1047,7 @@ Expected: the welcome message shows `Apologies — <path> is a folder, not a fil
 rm -f _temp/ui-test-locked.txt && touch _temp/ui-test-locked.txt && chmod 000 _temp/ui-test-locked.txt && java -cp build/classes/java/main rene.Rene _temp/ui-test-locked.txt
 ```
 
-Expected: the welcome message shows `Apologies — I do not have permission to read <path>. Check the file's permissions and try again.` (Skip this case when running as a user that bypasses file permissions.)
+Expected: the welcome message shows `Apologies — I do not have permission to read <path>. Check the file's permissions and try again.` Rene opens in read-only mode. (Skip this case when running as a user that bypasses file permissions.)
 
 ### GUI: blank submission does nothing
 
@@ -1000,7 +1055,7 @@ In the GUI, press Enter without typing anything: no dialog is added and the inpu
 
 ### GUI: resize the window (A-BetterGui)
 
-Open the GUI, then drag the window from its default 480x640 to roughly twice
+Open the GUI, then drag the window from its default 520x640 to roughly twice
 as wide and then back to the minimum (420x560). Expected: the conversation
 area and cards reflow (long responses wrap, no horizontal scroll appears, no
 clipping), and the composer stays fully visible.
@@ -1013,7 +1068,9 @@ card) so it catches the eye, while normal replies keep the white card.
 
 ### Cross-OS smoke tests (A-MoreTesting)
 
-On each OS (macOS, Windows, Linux), before the final release:
+The GitHub Actions workflow automates the fat-JAR launch, data-file creation,
+and save/reload checks on macOS, Windows, and Linux. Before the final release,
+manually complete the visual checks on each available OS too:
 
 1. Run the fat JAR from an empty folder: `java -jar rene.jar` — the window opens, the greeting appears, and `data/rene.txt` is created next to the JAR (not in some other location).
 2. Add one todo, exit with `bye`, restart, and verify the todo is back.

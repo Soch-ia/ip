@@ -3,7 +3,6 @@ package rene.storage;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
@@ -31,7 +30,7 @@ class StorageTest {
         Path dataFile = temporaryDirectory.resolve("nested/tasks.txt");
         Storage storage = new Storage(dataFile);
 
-        List<Task> tasks = storage.loadTasks();
+        List<Task> tasks = storage.loadTasks().tasks();
 
         assertTrue(tasks.isEmpty());
         assertTrue(Files.exists(dataFile));
@@ -48,7 +47,7 @@ class StorageTest {
         event.markAsDone();
 
         storage.saveTasks(List.of(todo, deadline, event));
-        List<Task> loadedTasks = storage.loadTasks();
+        List<Task> loadedTasks = storage.loadTasks().tasks();
 
         assertEquals(3, loadedTasks.size());
         Todo loadedTodo = assertInstanceOf(Todo.class, loadedTasks.get(0));
@@ -68,16 +67,18 @@ class StorageTest {
     }
 
     @Test
-    void loadTasks_malformedSecondLine_reportsItsLineNumber() throws IOException {
+    void loadTasks_malformedSecondLine_keepsValidTasksAndReportsItsLineNumber() throws IOException, ReneException {
         Path dataFile = temporaryDirectory.resolve("tasks.txt");
         Files.writeString(
                 dataFile,
-                "T | 0 | valid task\nD | 0 | invalid deadline | tomorrow\n",
+                "T | 0 | first valid task\nD | 0 | invalid deadline | tomorrow\nT | 0 | last valid task\n",
                 StandardCharsets.UTF_8);
         Storage storage = new Storage(dataFile);
 
-        ReneException exception = assertThrows(ReneException.class, storage::loadTasks);
+        Storage.LoadResult result = storage.loadTasks();
 
-        assertEquals("I couldn't understand line 2 in " + dataFile + ".", exception.getMessage());
+        assertEquals(List.of("first valid task", "last valid task"),
+                result.tasks().stream().map(Task::getDescription).toList());
+        assertEquals(List.of("I couldn't understand line 2 in " + dataFile + "."), result.warnings());
     }
 }

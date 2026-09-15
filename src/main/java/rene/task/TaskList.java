@@ -95,6 +95,15 @@ public class TaskList {
     }
 
     /**
+     * Creates an independent copy of this task list and all its tasks.
+     *
+     * @return a copy that can be changed without affecting this list.
+     */
+    public TaskList copy() {
+        return new TaskList(tasks.stream().map(Task::copy).toList());
+    }
+
+    /**
      * Returns tasks whose descriptions contain a keyword, ignoring letter case.
      *
      * @param keyword the text to search for in task descriptions.

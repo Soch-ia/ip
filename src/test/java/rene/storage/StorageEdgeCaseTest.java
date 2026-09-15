@@ -3,7 +3,6 @@ package rene.storage;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
@@ -35,48 +34,58 @@ class StorageEdgeCaseTest {
         Files.writeString(dataFile, "\nT | 0 | real task\n   \n", StandardCharsets.UTF_8);
         Storage storage = new Storage(dataFile);
 
-        List<Task> tasks = storage.loadTasks();
+        List<Task> tasks = storage.loadTasks().tasks();
 
         assertEquals(1, tasks.size());
         assertEquals("real task", tasks.get(0).getDescription());
     }
 
     @Test
-    void loadTasks_unknownTaskTypeCharacter_reportsLineNumber() throws IOException {
+    void loadTasks_unknownTaskTypeCharacter_reportsLineNumber() throws IOException, ReneException {
         Path dataFile = temporaryDirectory.resolve("tasks.txt");
         Files.writeString(dataFile, "T | 0 | ok\nQ | 0 | mystery\n", StandardCharsets.UTF_8);
         Storage storage = new Storage(dataFile);
 
-        ReneException exception = assertThrows(ReneException.class, storage::loadTasks);
+        Storage.LoadResult result = storage.loadTasks();
 
-        assertEquals("I couldn't understand line 2 in " + dataFile + ".", exception.getMessage());
+        assertEquals(1, result.tasks().size());
+        assertEquals("I couldn't understand line 2 in " + dataFile + ".", result.warnings().get(0));
     }
 
     @Test
-    void loadTasks_unknownStatusValue_reportsLineNumber() throws IOException {
+    void loadTasks_unknownStatusValue_reportsLineNumber() throws IOException, ReneException {
         Path dataFile = temporaryDirectory.resolve("tasks.txt");
         Files.writeString(dataFile, "T | 2 | wrong status\n", StandardCharsets.UTF_8);
         Storage storage = new Storage(dataFile);
 
-        assertThrows(ReneException.class, storage::loadTasks);
+        Storage.LoadResult result = storage.loadTasks();
+
+        assertTrue(result.tasks().isEmpty());
+        assertEquals(1, result.warnings().size());
     }
 
     @Test
-    void loadTasks_deadlineWithUnparseableStoredDate_reportsLineNumber() throws IOException {
+    void loadTasks_deadlineWithUnparseableStoredDate_reportsLineNumber() throws IOException, ReneException {
         Path dataFile = temporaryDirectory.resolve("tasks.txt");
         Files.writeString(dataFile, "D | 0 | report | not-a-date\n", StandardCharsets.UTF_8);
         Storage storage = new Storage(dataFile);
 
-        assertThrows(ReneException.class, storage::loadTasks);
+        Storage.LoadResult result = storage.loadTasks();
+
+        assertTrue(result.tasks().isEmpty());
+        assertEquals(1, result.warnings().size());
     }
 
     @Test
-    void loadTasks_tooManyFields_reportsLineNumber() throws IOException {
+    void loadTasks_tooManyFields_reportsLineNumber() throws IOException, ReneException {
         Path dataFile = temporaryDirectory.resolve("tasks.txt");
         Files.writeString(dataFile, "T | 0 | task | extra\n", StandardCharsets.UTF_8);
         Storage storage = new Storage(dataFile);
 
-        assertThrows(ReneException.class, storage::loadTasks);
+        Storage.LoadResult result = storage.loadTasks();
+
+        assertTrue(result.tasks().isEmpty());
+        assertEquals(1, result.warnings().size());
     }
 
     @Test
@@ -86,7 +95,7 @@ class StorageEdgeCaseTest {
         String trickyDescription = "fix bug | in module";
         storage.saveTasks(List.of(new Todo(trickyDescription)));
 
-        List<Task> loaded = storage.loadTasks();
+        List<Task> loaded = storage.loadTasks().tasks();
 
         assertEquals(1, loaded.size());
         assertEquals(trickyDescription, loaded.get(0).getDescription());
@@ -102,7 +111,7 @@ class StorageEdgeCaseTest {
         deadline.markAsDone();
         storage.saveTasks(List.of(todo, deadline, event));
 
-        List<Task> loaded = storage.loadTasks();
+        List<Task> loaded = storage.loadTasks().tasks();
 
         assertEquals(3, loaded.size());
         assertInstanceOf(Todo.class, loaded.get(0));
@@ -119,6 +128,6 @@ class StorageEdgeCaseTest {
         Files.writeString(dataFile, "\n\n", StandardCharsets.UTF_8);
         Storage storage = new Storage(dataFile);
 
-        assertTrue(storage.loadTasks().isEmpty());
+        assertTrue(storage.loadTasks().tasks().isEmpty());
     }
 }

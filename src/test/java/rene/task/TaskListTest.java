@@ -76,6 +76,19 @@ class TaskListTest {
     }
 
     @Test
+    void copy_changesDoNotAffectOriginalTaskList() throws ReneException {
+        TaskList copy = tasks.copy();
+
+        copy.mark(1);
+        copy.remove(2);
+
+        assertFalse(tasks.getTasks().get(0).isDone());
+        assertEquals(2, tasks.size());
+        assertTrue(copy.getTasks().get(0).isDone());
+        assertEquals(1, copy.size());
+    }
+
+    @Test
     void find_mixedCaseKeyword_returnsDescriptionMatchesInOriginalOrder() {
         tasks.add(new Todo("read BOOK"));
         tasks.add(new Deadline("return Book", LocalDate.of(2026, 8, 31)));

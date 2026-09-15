@@ -3,6 +3,9 @@ package rene;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.nio.file.Path;
 
 import org.junit.jupiter.api.Test;
@@ -57,5 +60,51 @@ public class ReneTest {
         Rene rene = new Rene(temporaryDirectory.resolve("rene.txt"));
 
         assertEquals("Thank you for your time. Standing by — let's touch base again soon.", rene.getResponse("bye"));
+    }
+
+    @Test
+    public void getResponse_addCannotBeSaved_doesNotChangeInMemoryTasks() throws IOException {
+        Path dataFile = temporaryDirectory.resolve("rene.txt");
+        Rene rene = new Rene(dataFile);
+        Files.delete(dataFile);
+        Files.createDirectory(dataFile);
+
+        String response = rene.getResponse("todo unsaved task");
+
+        assertTrue(response.contains("is a folder, not a file"));
+        assertEquals(" Here is your current action-item backlog:", rene.getResponse("list"));
+    }
+
+    @Test
+    public void getResponse_existingTaskCannotBeSaved_preservesOriginalState() throws IOException {
+        Path dataFile = temporaryDirectory.resolve("rene.txt");
+        Rene rene = new Rene(dataFile);
+        rene.getResponse("todo keep this task");
+        Files.delete(dataFile);
+        Files.createDirectory(dataFile);
+
+        assertTrue(rene.getResponse("mark 1").contains("is a folder, not a file"));
+        assertTrue(rene.getResponse("delete 1").contains("is a folder, not a file"));
+
+        assertEquals(" Here is your current action-item backlog:\n 1.[T][ ] keep this task",
+                rene.getResponse("list"));
+    }
+
+    @Test
+    public void startup_corruptData_keepsValidTasksAndBlocksDestructiveChanges() throws IOException {
+        Path dataFile = temporaryDirectory.resolve("rene.txt");
+        String originalData = "T | 0 | keep first\nmalformed line\nT | 1 | keep last\n";
+        Files.writeString(dataFile, originalData, StandardCharsets.UTF_8);
+
+        Rene rene = new Rene(dataFile);
+
+        assertTrue(rene.getWelcomeMessage().contains("I couldn't understand line 2"));
+        assertTrue(rene.getWelcomeMessage().contains("Changes are disabled to protect the original data file"));
+        assertEquals(" Here is your current action-item backlog:\n"
+                        + " 1.[T][ ] keep first\n"
+                        + " 2.[T][X] keep last",
+                rene.getResponse("list"));
+        assertTrue(rene.getResponse("todo do not save").contains("Changes are disabled"));
+        assertEquals(originalData, Files.readString(dataFile, StandardCharsets.UTF_8));
     }
 }

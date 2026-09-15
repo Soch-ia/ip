@@ -38,6 +38,15 @@ public class Deadline extends Task {
         return dueDate;
     }
 
+    @Override
+    Task copy() {
+        Deadline copy = new Deadline(getDescription(), dueDate);
+        if (isDone()) {
+            copy.markAsDone();
+        }
+        return copy;
+    }
+
     /**
      * Returns the deadline in the chatbot's display format.
      *

@@ -3,10 +3,12 @@ package rene.storage;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.AccessDeniedException;
+import java.nio.file.AtomicMoveNotSupportedException;
 import java.nio.file.DirectoryNotEmptyException;
 import java.nio.file.Files;
 import java.nio.file.NotDirectoryException;
 import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
@@ -33,6 +35,22 @@ public class Storage {
     private final Path filePath;
 
     /**
+     * Contains the usable tasks and any malformed-line warnings found while loading.
+     *
+     * @param tasks the valid tasks reconstructed from the data file.
+     * @param warnings messages describing lines that could not be reconstructed.
+     */
+    public record LoadResult(List<Task> tasks, List<String> warnings) {
+        /**
+         * Creates an immutable loading result.
+         */
+        public LoadResult {
+            tasks = List.copyOf(tasks);
+            warnings = List.copyOf(warnings);
+        }
+    }
+
+    /**
      * Creates storage that reads from and writes to the given file.
      *
      * @param filePath the path of the task data file.
@@ -44,21 +62,28 @@ public class Storage {
     /**
      * Loads all saved tasks, creating an empty data file first when necessary.
      *
-     * @return the tasks reconstructed from the data file.
-     * @throws ReneException if the file cannot be read or contains invalid data.
+     * Malformed lines are reported separately so valid records remain available.
+     *
+     * @return the valid tasks and warnings about malformed lines.
+     * @throws ReneException if the file itself cannot be read.
      */
-    public List<Task> loadTasks() throws ReneException {
+    public LoadResult loadTasks() throws ReneException {
         try {
             ensureDataFileExists();
             List<String> lines = Files.readAllLines(filePath, StandardCharsets.UTF_8);
             List<Task> tasks = new ArrayList<>();
+            List<String> warnings = new ArrayList<>();
             for (int index = 0; index < lines.size(); index++) {
                 String line = lines.get(index);
                 if (!line.isBlank()) {
-                    tasks.add(parseTask(line, index + 1));
+                    try {
+                        tasks.add(parseTask(line, index + 1));
+                    } catch (ReneException exception) {
+                        warnings.add(exception.getMessage());
+                    }
                 }
             }
-            return tasks;
+            return new LoadResult(tasks, warnings);
         } catch (IOException exception) {
             throw new ReneException(loadingMessage(exception), exception);
         }
@@ -78,9 +103,41 @@ public class Storage {
 
         try {
             ensureDataFileExists();
-            Files.write(filePath, lines, StandardCharsets.UTF_8);
+            if (!Files.isWritable(filePath)) {
+                throw new AccessDeniedException(filePath.toString());
+            }
+            writeAtomically(lines);
         } catch (IOException exception) {
             throw new ReneException(savingMessage(exception), exception);
+        }
+    }
+
+    /**
+     * Writes to a temporary sibling before replacing the data file, preventing
+     * an interrupted or failed write from leaving a partially written file.
+     */
+    private void writeAtomically(List<String> lines) throws IOException {
+        Path absoluteFilePath = filePath.toAbsolutePath();
+        Path parentDirectory = absoluteFilePath.getParent();
+        Path temporaryFile = Files.createTempFile(parentDirectory, ".rene-", ".tmp");
+        try {
+            Files.write(temporaryFile, lines, StandardCharsets.UTF_8);
+            try {
+                Files.move(
+                        temporaryFile,
+                        absoluteFilePath,
+                        StandardCopyOption.ATOMIC_MOVE,
+                        StandardCopyOption.REPLACE_EXISTING);
+            } catch (AtomicMoveNotSupportedException exception) {
+                Files.move(temporaryFile, absoluteFilePath, StandardCopyOption.REPLACE_EXISTING);
+            }
+        } catch (IOException exception) {
+            try {
+                Files.deleteIfExists(temporaryFile);
+            } catch (IOException cleanupException) {
+                exception.addSuppressed(cleanupException);
+            }
+            throw exception;
         }
     }
 

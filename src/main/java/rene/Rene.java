@@ -22,9 +22,10 @@ public class Rene {
 
     private final Parser parser;
     private final Storage storage;
-    private final TaskList tasks;
+    private TaskList tasks;
     private final Ui ui;
     private final String loadingError;
+    private final boolean isStorageWriteBlocked;
 
     /**
      * Creates a Rene application backed by the default task data file.
@@ -45,14 +46,24 @@ public class Rene {
 
         TaskList loadedTasks;
         String encounteredLoadingError = null;
+        boolean shouldBlockStorageWrites = false;
         try {
-            loadedTasks = new TaskList(storage.loadTasks());
+            Storage.LoadResult loadResult = storage.loadTasks();
+            loadedTasks = new TaskList(loadResult.tasks());
+            if (!loadResult.warnings().isEmpty()) {
+                encounteredLoadingError = String.join("\n Apologies — ", loadResult.warnings())
+                        + "\nChanges are disabled to protect the original data file. Fix or move the file, "
+                        + "then restart Rene.";
+                shouldBlockStorageWrites = true;
+            }
         } catch (ReneException exception) {
             encounteredLoadingError = exception.getMessage();
             loadedTasks = new TaskList();
+            shouldBlockStorageWrites = true;
         }
         tasks = loadedTasks;
         loadingError = encounteredLoadingError;
+        isStorageWriteBlocked = shouldBlockStorageWrites;
     }
 
     /**
@@ -139,17 +150,21 @@ public class Rene {
      * Adds and persists a task before displaying confirmation.
      */
     private String addTask(Task task) throws ReneException {
-        tasks.add(task);
-        saveTasks();
-        return ui.formatTaskAdded(task, tasks.size());
+        TaskList updatedTasks = tasks.copy();
+        updatedTasks.add(task);
+        saveTasks(updatedTasks);
+        tasks = updatedTasks;
+        return ui.formatTaskAdded(task, updatedTasks.size());
     }
 
     /**
      * Marks and persists a task before displaying confirmation.
      */
     private String markTask(ParsedCommand command) throws ReneException {
-        Task task = tasks.mark(parser.parseTaskNumber(command));
-        saveTasks();
+        TaskList updatedTasks = tasks.copy();
+        Task task = updatedTasks.mark(parser.parseTaskNumber(command));
+        saveTasks(updatedTasks);
+        tasks = updatedTasks;
         return ui.formatTaskMarked(task);
     }
 
@@ -157,8 +172,10 @@ public class Rene {
      * Unmarks and persists a task before displaying confirmation.
      */
     private String unmarkTask(ParsedCommand command) throws ReneException {
-        Task task = tasks.unmark(parser.parseTaskNumber(command));
-        saveTasks();
+        TaskList updatedTasks = tasks.copy();
+        Task task = updatedTasks.unmark(parser.parseTaskNumber(command));
+        saveTasks(updatedTasks);
+        tasks = updatedTasks;
         return ui.formatTaskUnmarked(task);
     }
 
@@ -166,9 +183,11 @@ public class Rene {
      * Deletes and persists a task before displaying confirmation.
      */
     private String deleteTask(ParsedCommand command) throws ReneException {
-        Task task = tasks.remove(parser.parseTaskNumber(command));
-        saveTasks();
-        return ui.formatTaskDeleted(task, tasks.size(), !tasks.isEmpty());
+        TaskList updatedTasks = tasks.copy();
+        Task task = updatedTasks.remove(parser.parseTaskNumber(command));
+        saveTasks(updatedTasks);
+        tasks = updatedTasks;
+        return ui.formatTaskDeleted(task, updatedTasks.size(), !updatedTasks.isEmpty());
     }
 
     /**
@@ -187,7 +206,11 @@ public class Rene {
     /**
      * Saves a snapshot of the current task list.
      */
-    private void saveTasks() throws ReneException {
-        storage.saveTasks(tasks.getTasks());
+    private void saveTasks(TaskList updatedTasks) throws ReneException {
+        if (isStorageWriteBlocked) {
+            throw new ReneException("Changes are disabled because the data file did not load completely. "
+                    + "Fix or move it, then restart Rene.");
+        }
+        storage.saveTasks(updatedTasks.getTasks());
     }
 }

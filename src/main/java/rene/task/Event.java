@@ -43,6 +43,15 @@ public class Event extends Task {
         return to;
     }
 
+    @Override
+    Task copy() {
+        Event copy = new Event(getDescription(), from, to);
+        if (isDone()) {
+            copy.markAsDone();
+        }
+        return copy;
+    }
+
     /**
      * Returns the event in the chatbot's display format.
      *

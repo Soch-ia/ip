@@ -17,4 +17,13 @@ public class Todo extends Task {
     public TaskType getTaskType() {
         return TaskType.TODO;
     }
+
+    @Override
+    Task copy() {
+        Todo copy = new Todo(getDescription());
+        if (isDone()) {
+            copy.markAsDone();
+        }
+        return copy;
+    }
 }

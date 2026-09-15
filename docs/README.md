@@ -9,7 +9,7 @@ available the next time the application starts.
 ## Getting started
 
 1. Download the latest `rene.jar` from the [releases page](https://github.com/Soch-ia/ip/releases) (a Java 25 installation is required).
-2. Run `java -jar rene.jar` from a terminal. Rene opens the GUI and creates `data/rene.txt` in the current folder on first save.
+2. Run `java -jar rene.jar` from a terminal. Rene opens the GUI and creates `data/rene.txt` in the current folder when it starts.
 3. Type a command (for example `todo review proposal`) and press Enter. Type `bye` or close the window to exit.
 
 ## Command summary
@@ -59,21 +59,23 @@ Rene copes with the mistakes people actually make:
   is rejected with an explanation.
 - In the GUI, error replies are shown in a highlighted card so a wrong command
   stands out from a normal reply.
-- If the data file cannot be read or written (permissions, or a folder where
-  the file is expected), Rene tells you what happened and continues with an
-  empty list instead of crashing.
+- If the data file cannot be read, Rene explains the problem and opens in
+  read-only mode so it cannot overwrite data that was not loaded.
+- If a change cannot be saved, Rene rejects that change and keeps the task list
+  at its last successfully saved state.
 
 ## Troubleshooting
 
 - **The data file is missing.** Nothing to do: Rene creates `data/rene.txt`
-  automatically the first time it saves.
-- **The data file looks corrupted.** Rene reports which line it could not
-  understand and continues with the tasks it could read.
+  automatically when it starts.
+- **The data file looks corrupted.** Rene reports each line it could not
+  understand and displays the valid tasks it could read. Changes remain disabled
+  to protect the original file; fix or move the file, then restart Rene.
 - **JavaFX error when running the JAR on some systems.** Make sure the JAR is
   run with `java -jar rene.jar` from a terminal, on a Java 25 installation.
 
 ## Task data
 
 Rene stores tasks in `data/rene.txt`, one task per line, in the folder from
-which it was started. The file is created automatically on the first save.
+which it was started. The file is created automatically when Rene starts.
 You can open it in any text editor, but it is safer to let Rene manage it.
